@@ -1,0 +1,25 @@
+<span layout="row" layout-align="start start">
+    <!--<img style="width: 16px; height: 16px;" src="app/images/loader_16.gif" ng-if="feedback.model.isWorking" />-->
+    <md-progress-circular md-mode="indeterminate" md-diameter="20" ng-if="feedback.model.isWorking"></md-progress-circular>
+
+        <!--<span class="text-danger" ng-if="feedback.model.type === feedback.feedbackType.Error" layout="row">
+            <md-icon class="md-18">clear</md-icon>
+            <md-tooltip ng-if="feedback.showErrorAsTooltip">{{feedback.model.text}}</md-tooltip>
+            <span ng-if="feedback.showError">&nbsp;{{feedback.model.text}}</span>
+        </span>-->
+
+    <span ng-if="feedback.model.isWorking && feedback.model.text">&nbsp;</span>
+
+    <span>
+        <md-icon class="material-icons md-18 text-success" ng-if="feedback.model.type === feedback.feedbackType.Success">check</md-icon>
+        <md-icon class="material-icons md-18 text-danger" ng-if="feedback.model.type === feedback.feedbackType.Error">clear</md-icon>
+    </span>
+
+    <span ng-class="{
+        'text-info': feedback.model.type === feedback.feedbackType.Info,
+        'text-success': feedback.model.type === feedback.feedbackType.Success,
+        'text-danger': feedback.model.type === feedback.feedbackType.Error
+        }"
+        ng-if="feedback.model.text"
+        >{{feedback.model.text}}</span>
+</span>

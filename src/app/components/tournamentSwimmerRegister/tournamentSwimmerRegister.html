@@ -1,0 +1,33 @@
+<md-dialog aria-label="Registrar Nadadores" flex="80">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Registrar Nadadores</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
+                    <md-icon aria-label="Close dialog">close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <p ng-if="$ctrl.swimmerItems.length == 0">No se encontraron datos</p>
+            <md-list ng-if="$ctrl.swimmerItems.length > 0">
+                <md-divider></md-divider>
+                <md-list-item ng-repeat="swimmerItem in $ctrl.swimmerItems">
+                    <md-checkbox ng-model="swimmerItem.selected"></md-checkbox>
+                    <p>{{swimmerItem.model.fullName}}</p>
+                    <p>{{swimmerItem.model.birthDate | date: 'shortDate'}}</p>
+                    <p>{{swimmerItem.model.age}}</p>
+                    <p>{{swimmerItem.model.genderDescription}}</p>
+                    <p>{{swimmerItem.model.nid ? swimmerItem.model.nid : '-'}}</p>
+                    <md-divider></md-divider>
+                </md-list-item>
+            </md-list>
+        </md-dialog-content>
+        <div class="md-actions" layout="row">
+            <span flex></span>
+            <md-button ng-click="$ctrl.cancel()" class="md-primary">Cancelar</md-button>
+            <md-button ng-click="$ctrl.accept()" class="md-primary" ng-disabled="!$ctrl.anySelected()">Registrar</md-button>
+        </div>
+    </form>
+</md-dialog>

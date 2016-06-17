@@ -1,0 +1,9 @@
+import 'bootstrap/css/bootstrap.css!';
+import 'angular-material/angular-material.css!';
+import 'app/styles/material-design-custom.css!';
+import 'app/styles/styles.css!';
+import 'zone.js';
+import 'reflect-metadata';
+import 'jquery';
+import 'bootstrap';
+import 'app/components/app/app';

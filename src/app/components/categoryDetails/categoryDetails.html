@@ -1,0 +1,35 @@
+<div class="page-header page-header-custom" layout="row" layout-align="start center">
+    <md-button class="md-icon-button" aria-label="Volver" ng-click="$ctrl.goBack()">
+        <md-icon class="material-icons">arrow_back</md-icon>
+        <md-tooltip>Volver</md-tooltip>
+    </md-button>
+    <h1>{{$ctrl.category.name}}</h1>
+    <span flex></span>
+    <md-button class="md-icon-button" aria-label="Editar" ng-link="['CategoryEdit', { tournamentId: $ctrl.tournament.id, categoryId: $ctrl.category.id}]">
+        <md-icon class="material-icons">edit</md-icon>
+        <md-tooltip>Editar</md-tooltip>
+    </md-button>
+    <md-button class="md-icon-button" aria-label="Eliminar" ng-click="$ctrl.delete($event)">
+        <md-icon class="material-icons">delete</md-icon>
+        <md-tooltip>Eliminar</md-tooltip>
+    </md-button>
+</div>
+<md-divider></md-divider>
+<md-content>
+    <div layout="row" layout-padding>
+        <div class="md-body-2" flex="35" flex-gt-lg="20">Nombre</div>
+        <div class="md-body-1" flex>{{$ctrl.category.name}}</div>
+    </div>
+    <div layout="row" layout-padding>
+        <div class="md-body-2" flex="35" flex-gt-lg="20">Tipo</div>
+        <div class="md-body-1" flex>{{$ctrl.category.typeDescription}}</div>
+    </div>
+    <div layout="row" layout-padding>
+        <div class="md-body-2" flex="35" flex-gt-lg="20">Desde</div>
+        <div class="md-body-1" flex>{{$ctrl.category.from}}</div>
+    </div>
+    <div layout="row" layout-padding>
+        <div class="md-body-2" flex="35" flex-gt-lg="20">Hasta</div>
+        <div class="md-body-1" flex>{{$ctrl.category.to}}</div>
+    </div>
+</md-content>

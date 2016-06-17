@@ -1,0 +1,30 @@
+<h1>Torneos</h1>
+<md-button class="md-fab md-primary md-fab-bottom-right" aria-label="Crear Torneo" ng-link="['TournamentCreate']">
+    <md-icon>add</md-icon>
+    <md-tooltip>Crear Torneo</md-tooltip>
+</md-button>
+<br />
+<p ng-if="$ctrl.tournaments.length == 0">No se encontraron datos</p>
+<md-list ng-if="$ctrl.tournaments.length > 0">
+    <md-divider></md-divider>
+    <md-list-item class="md-body-1" 
+    ng-repeat="tournament in $ctrl.tournaments" 
+    ng-click="$ctrl.navigateTo(['/TournamentDetails', {id: tournament.id}])">
+        <p>{{tournament.startDateTime | date: 'shortDate'}}</p>
+        <p>{{tournament.name}}</p>
+        <!--<md-menu class="md-secondary" md-position-mode="target-right target">
+            <md-button aria-label="Menu" class="md-icon-button" ng-click="$mdOpenMenu()">
+                <md-icon md-menu-origin>more_vert</md-icon>
+            </md-button>
+            <md-menu-content width="4">
+                <md-menu-item>
+                    <md-button ng-click="">
+                        <p>Detalles</p>
+                        <md-icon md-menu-align-target>check</md-icon>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>-->
+        <md-divider></md-divider>
+    </md-list-item>
+</md-list>

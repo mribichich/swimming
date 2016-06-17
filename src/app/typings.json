@@ -1,0 +1,16 @@
+{
+  "version": false,
+  "ambientDependencies": {
+    "URIjs": "github:DefinitelyTyped/DefinitelyTyped/urijs/URIjs.d.ts#98d3168c2c570352a3a7393788e2ec9fbb08ade6",
+    "angular": "registry:dt/angular#1.5.0+20160412133217",
+    "angular-mocks": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular-mocks.d.ts#98d3168c2c570352a3a7393788e2ec9fbb08ade6",
+    "es6-promise": "github:DefinitelyTyped/DefinitelyTyped/es6-promise/es6-promise.d.ts#98d3168c2c570352a3a7393788e2ec9fbb08ade6",
+    "jdataview": "github:DefinitelyTyped/DefinitelyTyped/jdataview/jdataview.d.ts#98d3168c2c570352a3a7393788e2ec9fbb08ade6",
+    "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#98d3168c2c570352a3a7393788e2ec9fbb08ade6",
+    "lokijs": "registry:dt/lokijs#0.0.0+20160316155526",
+    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#98d3168c2c570352a3a7393788e2ec9fbb08ade6",
+    "node-uuid": "github:DefinitelyTyped/DefinitelyTyped/node-uuid/node-uuid.d.ts#98d3168c2c570352a3a7393788e2ec9fbb08ade6",
+    "underscore": "github:DefinitelyTyped/DefinitelyTyped/underscore/underscore.d.ts#98d3168c2c570352a3a7393788e2ec9fbb08ade6"
+  },
+  "ambientDevDependencies": {}
+}

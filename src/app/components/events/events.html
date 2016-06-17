@@ -1,0 +1,49 @@
+<div class="page-header page-header-custom" layout="row" layout-align="start center">
+    <md-button class="md-icon-button" aria-label="Volver" ng-click="$ctrl.goBack()">
+        <md-icon>arrow_back</md-icon>
+        <md-tooltip>Volver</md-tooltip>
+    </md-button>
+    <h1>{{$ctrl.tournament.name}} > Pruebas</h1>
+    <span flex></span>
+    <md-button class="md-icon-button" aria-label="Asignar Nadadores Automaticamente" ng-click="$ctrl.autoAssignSwimmers()">
+        <md-icon>swap_vertical_circle</md-icon>
+        <md-tooltip>Asignar Nadadores Automaticamente</md-tooltip>
+    </md-button>
+</div>
+<md-button class="md-fab md-primary md-fab-bottom-right" aria-label="Crear Prueba" ng-link="['EventCreate', {tournamentId:$ctrl.tournament.id}]">
+    <md-icon>add</md-icon>
+    <md-tooltip>Crear Prueba</md-tooltip>
+</md-button>
+
+<div class="layout layout-row layout-align-center-center" layout="row" layout-align="center center">
+    <feedback ng-model="$ctrl.feedbacks.autoAssignSwimmers"></feedback>
+</div>
+
+<p ng-if="$ctrl.tournament.events.length == 0">No se encontraron datos</p>
+<div ng-if="$ctrl.tournament.events.length > 0">
+    <div class="layout layout-row layout-align-space-between-center" style="font-weight: bold;">
+        <p flex>Num</p>
+        <p flex>Distancia</p>
+        <p flex>Estilo</p>
+        <p flex>Categoria</p>
+        <p flex>Genero</p>
+    </div>
+    <md-list>
+        <md-divider></md-divider>
+        <md-list-item ng-repeat="event in $ctrl.tournament.events" ng-click="$ctrl.navigateTo(['EventDetails', {tournamentId: $ctrl.tournament.id, eventId: event.id}])">
+            <p>{{event.number}}</p>
+            <p>{{event.distance}}</p>
+            <p>{{event.style}}</p>
+            <p>{{event.category.name}}</p>
+            <p>{{event.genderDescription}}</p>
+
+            <md-icon class="material-icons md-secondary" 
+                ng-click="$ctrl.removeEvent($event, event)" 
+                aria-label="Quitar">delete
+                <md-tooltip>Quitar Nadador</md-tooltip>
+            </md-icon>
+            
+            <md-divider></md-divider>
+        </md-list-item>
+    </md-list>
+</div>

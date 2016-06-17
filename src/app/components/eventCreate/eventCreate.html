@@ -1,0 +1,64 @@
+<div class="page-header page-header-custom" layout="row" layout-align="start center">
+	<md-button class="md-icon-button" aria-label="Volver" ng-click="$ctrl.goBack()">
+		<md-icon>arrow_back</md-icon>
+		<md-tooltip>Volver</md-tooltip>
+	</md-button>
+	<h1>{{$ctrl.tournament.name}} > {{$ctrl.viewAction === 'Create' ? 'Crear Prueba' : 'Editar Prueba'}}</h1>
+</div>
+<form name="eventForm" ng-submit="$ctrl.saveEvent(eventForm.$invalid)" novalidate 
+rc-disabled="$ctrl.feedbacks.save.isWorking || $ctrl.feedbacks.save.isSuccess()">
+	<div class="alert alert-danger" ng-if="$ctrl.modelErrors">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		<ul>
+			<li ng-repeat="modelError in $ctrl.modelErrors">{{modelError}}</li>
+		</ul>
+	</div>
+	<md-input-container>
+		<label>Numero</label>
+		<input type="number" name="eventNumber" ng-model="$ctrl.event.number" autofocus required>
+		<div ng-messages="eventForm.eventNumber.$error" ng-if="eventForm.eventNumber.$invalid && ($ctrl.submitted || eventForm.eventNumber.$dirty)">
+			<div ng-message="required">Debe ingresar el numero</div>
+		</div>
+	</md-input-container>
+	<md-input-container>
+		<label>Distancia</label>
+		<input name="eventDistance" ng-model="$ctrl.event.distance" required>
+		<div ng-messages="eventForm.eventDistance.$error" ng-if="eventForm.eventDistance.$invalid && ($ctrl.submitted || eventForm.eventDistance.$dirty)">
+			<div ng-message="required">Debe ingresar la distancia</div>
+		</div>
+	</md-input-container>
+	<md-input-container>
+		<label>Estilo</label>
+		<input name="eventStyle" ng-model="$ctrl.event.style" required>
+		<div ng-messages="eventForm.eventStyle.$error" ng-if="eventForm.eventStyle.$invalid && ($ctrl.submitted || eventForm.eventStyle.$dirty)">
+			<div ng-message="required">Debe ingresar el estilo</div>
+		</div>
+	</md-input-container>
+		<md-autocomplete flex md-input-name="eventCategory" md-selected-item="$ctrl.selectedCategory" md-search-text="$ctrl.searchText"
+		md-items="item in $ctrl.tournament.categories" md-item-text="item.name"
+		md-min-length="0" md-floating-label="Categoria" required aria-required="true" ng-required="true">
+			<md-item-template>
+				<span md-highlight-text="$ctrl.searchText" md-highlight-flags="^i">{{item.name}}</span>
+			</md-item-template>
+			<md-not-found>No se ha encontrado nada con "{{$ctrl.searchText}}"</md-not-found>
+		<div ng-messages="eventForm.eventCategory.$error" ng-if="eventForm.eventCategory.$invalid && ($ctrl.submitted || eventForm.eventCategory.$dirty)">
+			<div ng-message="required">Debe ingresar la categoria</div>
+		</div>
+		</md-autocomplete>
+	<div>
+		<label>Sexo</label>
+		<md-radio-group name="eventGender" ng-model="$ctrl.event.genderType" required>
+			<md-radio-button value="males">Hombres</md-radio-button>
+			<md-radio-button value="females">Mujeres</md-radio-button>
+			<md-radio-button value="mixed">Mixto</md-radio-button>
+		</md-radio-group>
+		<div class="text-danger" ng-messages="eventForm.eventGender.$error" ng-if="eventForm.eventGender.$invalid && ($ctrl.submitted || eventForm.eventGender.$dirty)">
+			<div ng-message="required">Debe ingresar el sexo</div>
+		</div>
+	</div>
+	<br />
+	<div layout="row" layout-align="start center">
+		<md-button type="submit" class="md-raised md-primary">Guardar Prueba</md-button>&nbsp;
+		<feedback ng-model="$ctrl.feedbacks.save"></feedback>
+	</div>
+</form>

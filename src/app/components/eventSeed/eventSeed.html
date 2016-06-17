@@ -1,0 +1,53 @@
+<div class="page-header page-header-custom" layout="row" layout-align="start center">
+    <md-button class="md-icon-button" aria-label="Volver" ng-click="$ctrl.goBack()">
+        <md-icon>arrow_back</md-icon>
+        <md-tooltip>Volver</md-tooltip>
+    </md-button>
+    <h1>Prueba: {{$ctrl.event.number}} - Cancheo</h1>
+    <span flex></span>
+</div>
+
+<md-content layout-padding>
+    <p ng-if="$ctrl.event.seedTimes.length == 0">No se encontraron datos</p>
+    <form name="seedTimesForm" ng-submit="$ctrl.generateHeats(seedTimesForm.$invalid)">
+        <md-list ng-if="$ctrl.event.seedTimes.length > 0">
+            <md-divider></md-divider>
+            <md-list-item ng-repeat="seedTime in $ctrl.event.seedTimes">
+                <p>{{seedTime.swimmer.fullName}}</p>
+                <p>{{seedTime.swimmer.birthDate | date: 'shortDate'}}</p>
+                <p>{{seedTime.swimmer.age}}</p>
+                <p>{{seedTime.swimmer.genderDescription}}</p>
+                <p>
+                    <input class="form-control" type="text" name="seedTime{{$index}}" ng-model="seedTime.time" ng-pattern="/^S\/T$|^(\d{1,2}):(\d{2}):(\d{2})$/gim" required>
+                </p>
+                <md-divider></md-divider>
+            </md-list-item>
+        </md-list>
+
+        <div layout="row" layout-align="end center">
+            <span class="text-warning" ng-if="seedTimesForm.$invalid && $ctrl.submitted">
+            Debe completar todos los campos
+            </span>
+            <feedback ng-model="$ctrl.feedbacks.save"></feedback>
+            <md-button type="submit" class="md-raised md-primary">Hacer Cancheo</md-button>&nbsp;
+        </div>
+    </form>
+
+    <br>
+
+    <h2>Cancheo Final</h2>
+
+    <div ng-if="$ctrl.event.heats.length">
+        <md-list ng-repeat="heat in $ctrl.event.heats">
+            <md-divider></md-divider>
+            <md-list-item ng-repeat="lane in heat.lanes">
+                <p>{{heat.seriesNumber}}</p>
+                <p>{{lane.number}}</p>
+                <p>{{lane.swimmer.fullName}}</p>
+                <p>{{lane.seedTime.time}}</p>
+                <md-divider></md-divider>
+            </md-list-item>
+        </md-list>
+    </div>
+
+</md-content>

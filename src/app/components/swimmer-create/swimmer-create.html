@@ -1,0 +1,64 @@
+<div class="page-header page-header-custom" layout="row" layout-align="start center">
+    <md-button class="md-icon-button" aria-label="Volver" ng-click="$ctrl.goBack()">
+        <md-icon>arrow_back</md-icon>
+        <md-tooltip>Volver</md-tooltip>
+    </md-button>
+    <h1>{{$ctrl.viewAction === 'Create' ? 'Crear Nadador' : 'Editar Nadador'}}</h1>
+</div>
+<form name="swimmerForm" ng-submit="$ctrl.saveSwimmer(swimmerForm.$invalid)" novalidate rc-disabled="$ctrl.feedbacks.save.isWorking || $ctrl.feedbacks.save.isSuccess()">
+    <div class="alert alert-danger" ng-if="$ctrl.modelErrors">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <ul>
+            <li ng-repeat="modelError in $ctrl.modelErrors">{{modelError}}</li>
+        </ul>
+    </div>
+    <md-input-container>
+        <label>Nombre</label>
+        <input name="swimmerFirstName" ng-model="$ctrl.swimmer.firstName" autofocus="autofocus" required>
+        <div ng-messages="swimmerForm.swimmerFirstName.$error" ng-if="swimmerForm.swimmerFirstName.$invalid && ($ctrl.submitted || swimmerForm.swimmerFirstName.$dirty)">
+            <div ng-message="required">Debe ingresar el nombre</div>
+        </div>
+    </md-input-container>
+    <md-input-container>
+        <label>Apellido</label>
+        <input name="swimmerLastName" ng-model="$ctrl.swimmer.lastName" required>
+        <div ng-messages="swimmerForm.swimmerLastName.$error" ng-if="swimmerForm.swimmerLastName.$invalid && ($ctrl.submitted || swimmerForm.swimmerLastName.$dirty)">
+            <div ng-message="required">Debe ingresar el apellido</div>
+        </div>
+    </md-input-container>
+         <br /> 
+        <label>Fecha de Nacimiento</label>
+        <!--<input type="date" name="swimmerBirthDate" ng-model="$ctrl.swimmer.birthDate" required>-->
+    <md-datepicker name="swimmerBirthDate" ng-model="$ctrl.swimmer.birthDate" md-placeholder="Fecha" required></md-datepicker>
+        <div ng-messages="swimmerForm.swimmerBirthDate.$error" ng-if="swimmerForm.swimmerBirthDate.$invalid && ($ctrl.submitted || swimmerForm.swimmerBirthDate.$dirty)">
+            <div ng-message="required">Debe ingresar la fecha de nacimiento</div>
+        </div>
+    
+    <div>
+        <label>Edad</label>
+        <p ng-if="!$ctrl.swimmer.birthDate">Sin edad</p>
+        <p ng-if="$ctrl.swimmer.birthDate">{{$ctrl.swimmer.age}}</p>
+    </div>
+    <div>
+        <label>Sexo</label>
+        <md-radio-group name="swimmerGender" ng-model="$ctrl.swimmer.gender" required>
+            <md-radio-button value="male">Hombre</md-radio-button>
+            <md-radio-button value="female">Mujer</md-radio-button>
+        </md-radio-group>
+        <div ng-messages="swimmerForm.swimmerGender.$error" ng-if="swimmerForm.swimmerGender.$invalid && ($ctrl.submitted || swimmerForm.swimmerGender.$dirty)">
+            <div ng-message="required">Debe ingresar el sexo</div>
+        </div>
+    </div>
+    <md-input-container>
+        <label>Documento</label>
+        <input name="swimmerNid" ng-model="$ctrl.swimmer.nid">
+        <div ng-messages="swimmerForm.swimmerNid.$error" ng-if="swimmerForm.swimmerNid.$invalid && ($ctrl.submitted || swimmerForm.swimmerNid.$dirty)">
+            <div ng-message="required">Debe ingresar el documento</div>
+        </div>
+    </md-input-container>
+    <br />
+   <div layout="row" layout-align="start center">
+        <md-button class="md-raised md-primary" type="submit">Guardar Nadador</md-button>&nbsp;
+    <feedback ng-model="$ctrl.feedbacks.save"></feedback>
+   </div>
+</form>
