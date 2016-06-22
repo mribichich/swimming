@@ -22,7 +22,7 @@
             <p>{{swimmer.age}}</p>
             <p>{{swimmer.genderDescription}}</p>
 
-            <md-icon class="material-icons md-secondary" ng-click="$ctrl.removeSwimmer($event, swimmer)" aria-label="Quitar">
+            <md-icon class="material-icons md-secondary" ng-click="$ctrl.onRemove({ $event: $event, swimmer: swimmer })" aria-label="Quitar">
                 delete
                 <md-tooltip>Quitar Nadador</md-tooltip>
             </md-icon>

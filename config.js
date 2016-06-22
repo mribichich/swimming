@@ -29,6 +29,7 @@ System.config({
     "humanize-duration": "github:EvanHahn/HumanizeDuration.js@3.8.0",
     "jquery": "github:components/jquery@2.1.4",
     "lokijs": "npm:lokijs@1.3.16",
+    "material-design-lite": "github:google/material-design-lite@1.1.3",
     "moment": "github:moment/moment@2.13.0",
     "ngcomponentrouter": "npm:ngcomponentrouter@2.1.0",
     "node-uuid": "npm:node-uuid@1.4.7",

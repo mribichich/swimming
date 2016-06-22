@@ -10,6 +10,7 @@ import { IHistoryService, ISwimmerService } from 'app/services';
 import { Tournament, TournamentEvent, Swimmer } from 'app/entities';
 import { SwimmerFactory } from 'app/factories';
 import { EventState } from 'app/enums';
+import { SwimmersSelectionDialogComponent } from 'app/components/swimmers-selection-dialog/swimmers-selection-dialog';
 
 /*@ngInject*/
 class EventDetails {
@@ -28,6 +29,8 @@ class EventDetails {
         results: 2
     }
 
+    routeParams;
+
     tournament: Tournament;
     tournament2: Tournament;
 
@@ -39,8 +42,9 @@ class EventDetails {
         this.tournament2 = this.tournamentService.tournaments$
             .map(tournaments => tournaments.find(item => item.id === toRoute.params.tournamentId));
 
-        this.getTournament(toRoute.params.tournamentId)
-            .then(() => this.getEvent(toRoute.params.eventId));
+        this.routeParams = toRoute.params;
+
+        this.refresh();
     }
 
     goBack() {
@@ -49,6 +53,11 @@ class EventDetails {
         //    this.$window.history.back(); 
 
         this.$rootRouter.navigate(['Events', { tournamentId: this.tournament.id }]);
+    }
+
+    refresh() {
+        return this.getTournament(this.routeParams.tournamentId)
+            .then(() => this.getEvent(this.routeParams.eventId));
     }
 
     getTournament(id: string) {
@@ -166,7 +175,7 @@ class EventDetails {
         this.tournamentService.getEvent2(this.tournament.id, this.event.id)
             .then((tournamentEvent: TournamentEvent) => {
                 this.event = tournamentEvent;
-                
+
                 this.selectedTabIndex = this.tabs.results;
             });
     }
@@ -194,7 +203,7 @@ class EventDetails {
     //     this.tournamentService.getEvent2(this.tournament.id, this.event.id)
     //         .then((tournamentEvent: TournamentEvent) => {
     //             this.event = tournamentEvent;
-                
+
     //             this.selectedTabIndex = this.tabs.results;
     //         });
     // }
@@ -209,7 +218,8 @@ class EventDetails {
             .cancel('Cancelar');
         this.$mdDialog.show(confirm).then(() => {
             this.tournamentService.stopEvent(this.tournament.id, this.event.id)
-                .then(() => this.processStopEvent())
+                .then(() => this.refresh())
+                .then(() => this.selectedTabIndex = this.tabs.results);
             // .catch((error) => )
             // .finally(() => {
             //     this.feedbacks.save.isWorking = false;
@@ -218,13 +228,53 @@ class EventDetails {
         });
     }
 
-    processStopEvent() {
-        this.tournamentService.getEvent2(this.tournament.id, this.event.id)
-            .then((tournamentEvent: TournamentEvent) => {
-                this.event = tournamentEvent;
-                
-                this.selectedTabIndex = this.tabs.results;
-            });
+    showSwimmersSelectionDialog(ev) {
+const swimmerSelection = this.tournament.swimmers;
+
+this.event.swimmers.forEach((excludeSwimmer) => {
+                    let index = swimmerSelection.findIndex(swimmer => swimmer.id === excludeSwimmer.id);
+
+                    swimmerSelection.splice(index, 1);
+                });
+
+        this.$mdDialog.show({
+            controller: SwimmersSelectionDialogComponent,
+            controllerAs: '$ctrl',
+            templateUrl: 'app/components/swimmers-selection-dialog/swimmers-selection-dialog.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            bindToController: true,
+            clickOutsideToClose: true,
+            escapeToClose: true,
+            locals: {
+                swimmers: swimmerSelection
+            }
+        }).then((selectedSwimmers: Array<Swimmer>) => {
+            const selectedSwimmerIds = selectedSwimmers.map(m => m.id);
+
+            this.tournamentService.addSwimmersToEvent(this.tournament.id, this.event.id, selectedSwimmerIds)
+                .then(() => {
+                    this.refresh();
+                });
+        }, () => {
+            //
+        });
+    }
+
+    removeSwimmer(ev, swimmerToRemove) {
+        var confirm = this.$mdDialog.confirm()
+            .title(`Quitado de Nadador: ${swimmerToRemove.fullName}`)
+            .textContent('Esta apunto de quitar el nadador de la prueba. Esta seguro que desea continuar?')
+            .ariaLabel('Quitado de Nadador')
+            .targetEvent(ev)
+            .ok('Quitar Nadador')
+            .cancel('Cancelar');
+        this.$mdDialog.show(confirm).then(() => {
+            this.tournamentService.removeSwimmerFromEvent(this.tournament.id, this.event.id, swimmerToRemove.id)
+                .then(() => this.refresh());
+        }, () => {
+            //
+        });
     }
 }
 

@@ -6,7 +6,7 @@ import { Tournament, TournamentEvent, Category } from 'app/entities';
 
 export interface ITournamentService {
     tournaments$: Observable<Tournament[]>;
-    
+
     get(id: string, withEntities?: string[]): ng.IPromise<Tournament>;
 
     getAll(filter?: TournamentGetAllFilter, max?: number, skip?: number, sort?: string, order?: string)
@@ -30,13 +30,21 @@ export interface ITournamentService {
 
     getEvent(tournament: Tournament, id: string, withEntities?: string[]): ng.IPromise<TournamentEvent>;
 
-    getEvent2(tournamentId: string, eventId: string, withEntities?: string[]): ng.IPromise<TournamentEvent> ;
+    getEvent2(tournamentId: string, eventId: string, withEntities?: string[]): ng.IPromise<TournamentEvent>;
 
     saveHeats(tournamentId, eventId, heats): ng.IPromise<void>;
 
     updateSwimmers(tournamentId, swimmerIds): ng.IPromise<void>;
 
     startEvent(tournamentId: string, eventId: string): ng.IPromise<void>;
-    
-      stopEvent(tournamentId: string, eventId: string): ng.IPromise<void> ;
+
+    stopEvent(tournamentId: string, eventId: string): ng.IPromise<void>;
+
+    addSwimmersToEvent(tournamentId: string, eventId: string, selectedSwimmerIds: string[]): ng.IPromise<void>;
+
+    registerSwimmers(tournamentId: string, newSwimmerIds: string[]): ng.IPromise<void>;
+
+    removeSwimmerFromEvent(tournamentId: string, eventId: string, swimmerToRemoveId: string): ng.IPromise<void>;
+
+    removeSwimmer(tournamentId: string, swimmerToRemoveId: string): ng.IPromise<void>;
 }

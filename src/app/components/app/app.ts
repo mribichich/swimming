@@ -1,3 +1,9 @@
+// import 'material-design-lite/material.css!';
+
+import 'app/styles/roboto-font.css!';
+// import 'app/styles/demo-site.css!';
+
+// import 'material-design-lite/material';
 import * as angular from 'angular';
 import 'angular-i18n/angular-locale_es-ar';
 import 'angular-material';
@@ -128,6 +134,7 @@ angular.module('swimming',
     .component('eventSeed', components.eventSeed)
 
     .component('tournamentSwimmers', components.tournamentSwimmers)
+    .component('tournamentSwimmers2', components.tournamentSwimmers2)
     .component('tournamentSwimmerDetails', components.tournamentSwimmerDetails)
 
     .directive('heroDetail', upgradeAdapter.downgradeNg2Component(HeroDetailComponent));

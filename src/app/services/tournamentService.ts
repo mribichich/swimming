@@ -418,25 +418,120 @@ export class TournamentService implements ITournamentService {
             });
     }
 
+    addSwimmersToEvent(tournamentId: string, eventId: string, selectedSwimmerIds: string[]): ng.IPromise<void> {
+        return this.tournamentRepository.get(tournamentId)
+            .then((tournamentDb: TournamentDb) => {
+                let tournamentEventDb = tournamentDb.events.find(m => m.id === eventId);
+
+                selectedSwimmerIds.forEach(selectedSwimmerId => {
+                    if (tournamentEventDb.swimmerIds.every(m => m !== selectedSwimmerId)) {
+                        tournamentEventDb.swimmerIds.push(selectedSwimmerId);
+                    }
+                });
+
+                return tournamentDb;
+            })
+            .then((tournamentDb) => this.tournamentRepository.update(tournamentDb))
+            .then(() => this.tournamentRepository.save());
+    }
+
+    registerSwimmers(tournamentId: string, newSwimmerIds: string[]): ng.IPromise<void> {
+        return this.tournamentRepository.get(tournamentId)
+            .then((tournamentDb: TournamentDb) => {
+                newSwimmerIds.forEach(newSwimmerId => {
+                    if (tournamentDb.swimmerIds.every(m => m !== newSwimmerId)) {
+                        tournamentDb.swimmerIds.push(newSwimmerId);
+                    }
+                });
+
+                return tournamentDb;
+            })
+            .then((tournamentDb) => this.tournamentRepository.update(tournamentDb))
+            .then(() => this.tournamentRepository.save());
+    }
+
+    removeSwimmerFromEvent(tournamentId: string, eventId: string, swimmerToRemoveId: string): ng.IPromise<void> {
+        return this.tournamentRepository.get(tournamentId)
+            .then((tournamentDb: TournamentDb) => {
+                let tournamentEventDb = tournamentDb.events.find(m => m.id === eventId);
+
+                const swimmerToRemoveIndex = tournamentEventDb.swimmerIds.findIndex(m => m === swimmerToRemoveId);
+
+                tournamentEventDb.swimmerIds.splice(swimmerToRemoveIndex, 1);
+
+                return tournamentDb;
+            })
+            .then((tournamentDb) => this.tournamentRepository.update(tournamentDb))
+            .then(() => this.tournamentRepository.save());
+    }
+
+    removeSwimmer(tournamentId: string, swimmerToRemoveId: string): ng.IPromise<void> {
+        return this.tournamentRepository.get(tournamentId)
+            .then((tournamentDb: TournamentDb) => {
+                const swimmerToRemoveIndex = tournamentDb.swimmerIds.findIndex(m => m === swimmerToRemoveId);
+
+                tournamentDb.swimmerIds.splice(swimmerToRemoveIndex, 1);
+
+                tournamentDb.events.forEach(tournamentEventDb => {
+                    const swimmerToRemoveIndex = tournamentEventDb.swimmerIds.findIndex(m => m === swimmerToRemoveId);
+
+                    if (swimmerToRemoveIndex === -1) {
+                        return;
+                    }
+
+                    tournamentEventDb.swimmerIds.splice(swimmerToRemoveIndex, 1);
+
+                    if (tournamentEventDb.heats) {
+                        for (var i = 0; i < tournamentEventDb.heats.length; i++) {
+                            var heat = tournamentEventDb.heats[i];
+
+                            const laneIndex = heat.lanes.findIndex(m => m.swimmerId === swimmerToRemoveId);
+
+                            if (laneIndex === -1) {
+                                continue;
+                            }
+
+                            heat.lanes.splice(laneIndex, 1);
+                            break;
+                        }
+                    }
+
+                    if (tournamentEventDb.seedTimes) {
+                        const seedTimeIndex = tournamentEventDb.seedTimes.findIndex(m => m.swimmerId === swimmerToRemoveId);
+
+                        if (seedTimeIndex === -1) {
+                            return;
+                        }
+
+                        tournamentEventDb.seedTimes.splice(seedTimeIndex, 1);
+                    }
+                });
+
+                return tournamentDb;
+            })
+            .then((tournamentDb) => this.tournamentRepository.update(tournamentDb))
+            .then(() => this.tournamentRepository.save());
+    }
+
     // load(id: any) {
-        // this.get(id)
-        // .then((tournament))
-        
-        // .subscribe(data => {
-        //     let notFound = true;
+    // this.get(id)
+    // .then((tournament))
 
-        //     this._dataStore.todos.forEach((item, index) => {
-        //         if (item.id === data.id) {
-        //             this._dataStore.todos[index] = data;
-        //             notFound = false;
-        //         }
-        //     });
+    // .subscribe(data => {
+    //     let notFound = true;
 
-        //     if (notFound) {
-        //         this._dataStore.todos.push(data);
-        //     }
+    //     this._dataStore.todos.forEach((item, index) => {
+    //         if (item.id === data.id) {
+    //             this._dataStore.todos[index] = data;
+    //             notFound = false;
+    //         }
+    //     });
 
-        //     this._todosObserver.next(this._dataStore.todos);
-        // }, error => console.log('Could not load todo.'));
+    //     if (notFound) {
+    //         this._dataStore.todos.push(data);
+    //     }
+
+    //     this._todosObserver.next(this._dataStore.todos);
+    // }, error => console.log('Could not load todo.'));
     // }
 }

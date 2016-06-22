@@ -5,31 +5,22 @@
     </md-button>
     <h1>{{$ctrl.tournament.name}}</h1>
     <span flex></span>
+        <md-button class="md-icon-button" aria-label="Editar" ng-link="['/TournamentEdit', {id: $ctrl.tournament.id}]">
+            <md-icon>edit</md-icon>
+            <md-tooltip>Editar</md-tooltip>
+        </md-button>
     <md-button class="md-icon-button" aria-label="Eliminar" ng-click="$ctrl.delete($event)">
         <md-icon>delete</md-icon>
         <md-tooltip>Eliminar</md-tooltip>
     </md-button>
 </div>
 
-<md-content layout-padding>
-    <div layout="row">
-        <h2>Detalles</h2>
-        <span flex></span>
-        <md-button class="md-icon-button" aria-label="Editar" ng-link="['/TournamentEdit', {id: $ctrl.tournament.id}]">
-            <md-icon>edit</md-icon>
-            <md-tooltip>Editar</md-tooltip>
-        </md-button>
-    </div>
-    <div layout="row">
-        <div class="md-body-2" flex="35" flex-gt-lg="20">Nombre</div>
-        <div flex>{{$ctrl.tournament.name}}</div>
-    </div>
     <div layout="row">
         <div class="md-body-2" flex="35" flex-gt-lg="20">Fecha Comienzo</div>
         <div flex>{{$ctrl.tournament.startDateTime | date: 'longDate'}}</div>
     </div>
-</md-content>
 <br>
+
 <md-list>
     <md-list-item ng-click="$ctrl.navigate(['/Categories', {tournamentId: $ctrl.tournament.id}])">
         <strong>Categorias</strong>
@@ -39,11 +30,19 @@
         <strong>Pruebas</strong>
         <span>&nbsp;({{$ctrl.tournament.events.length}})</span>
     </md-list-item>
-    <md-list-item ng-click="$ctrl.navigate(['/TournamentSwimmers', {tournamentId: $ctrl.tournament.id}])">
+    <!--<md-list-item ng-click="$ctrl.navigate(['/TournamentSwimmers', {tournamentId: $ctrl.tournament.id}])">
         <strong>Nadadores</strong>
         <span>&nbsp;({{$ctrl.tournament.swimmerIds.length}})</span>
-    </md-list-item>
+    </md-list-item>-->
 </md-list>
+
+<md-tabs md-dynamic-height md-border-bottom md-selected="$ctrl.selectedTabIndex">
+    <md-tab label="Nadadores">
+       <md-content>
+            <tournament-swimmers2 tournament="$ctrl.tournament" on-update="$ctrl.refresh()"  on-delete="$ctrl.removeSwimmer($event, swimmer)"></tournament-swimmers2>
+       </md-content>
+    </md-tab>
+</md-tabs>
 
 <!--<md-content layout-padding>
     <div layout="row" layout-align="center center">

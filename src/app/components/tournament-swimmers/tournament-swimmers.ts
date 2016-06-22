@@ -11,12 +11,10 @@ import { SwimmersSelectionDialogComponent } from 'app/components/swimmers-select
 import { ISwimmerService } from 'app/services/swimmerService';
 
 /*@ngInject*/
-class TournamentSwimmers {
+class TournamentSwimmers2 {
     constructor(
-        private $rootRouter,
         private tournamentService: ITournamentService,
         private $mdDialog,
-        private historyService: IHistoryService,
         private $location: ng.ILocationService,
         private swimmerService: ISwimmerService,
         private $window: ng.IWindowService,
@@ -28,15 +26,15 @@ class TournamentSwimmers {
 
     tournament: Tournament;
 
-    $routerOnActivate(toRoute, fromRoute) {
-        this.routeParams = toRoute.params;
+    // $routerOnActivate(toRoute, fromRoute) {
+    //     this.routeParams = toRoute.params;
 
-        this.refresh();
-    }
+    //     this.refresh();
+    // }
 
-    goBack() {
-        this.$window.history.back();
-    }
+    // goBack() {
+    //     this.$window.history.back();
+    // }
 
     navigateTo(path) {
         this.historyService.go(path);
@@ -46,18 +44,18 @@ class TournamentSwimmers {
         this.historyService.go('/swimmers/create');
     }
 
-    refresh() {
-        this.getTournament(this.routeParams.tournamentId)
-            .then(() => this.registerNewSwimmer());
-    }
+    // refresh() {
+    //     this.getTournament(this.routeParams.tournamentId)
+    //         .then(() => this.registerNewSwimmer());
+    // }
 
-    getTournament(id: string) {
-        return this.tournamentService.get(id, ['swimmers'])
-            .then((tournament) => this.tournament = tournament)
-            .catch((error) => {
-                console.log(error);
-            });
-    }
+    // getTournament(id: string) {
+    //     return this.tournamentService.get(id, ['swimmers'])
+    //         .then((tournament) => this.tournament = tournament)
+    //         .catch((error) => {
+    //             console.log(error);
+    //         });
+    // }
 
     // getSwimmers() {
     //     return this.tournamentService.getTournamentSwimmers(this.tournament);
@@ -115,37 +113,20 @@ class TournamentSwimmers {
                     const selectedSwimmerIds = selectedSwimmers.map(m => m.id);
 
                     this.tournamentService.registerSwimmers(this.tournament.id, selectedSwimmerIds)
-                        .then(() => this.refresh());
+                        .then(() => this.onUpdate());
                 }, () => {
                     //
                 });
             });
     }
-
-    removeSwimmer($event, swimmer: Swimmer) {
-        // var confirm = this.$mdDialog.confirm()
-        //     .parent(angular.element(document.body))
-        //     .title('Quitar Nadador')
-        //     .content('Esta seguro que desea quitar el nadador: ' + swimmer.fullName)
-        //     .ariaLabel('Quitar Nadador')
-        //     .ok('Quitar Nadador')
-        //     .cancel('Cancelar')
-        //     .targetEvent($event);
-        // this.$mdDialog.show(confirm).then(() => {
-        //     var index = _.findIndex(this.tournament.swimmers, (item) => {
-        //         return item.id === swimmer.id;
-        //     });
-
-        //     this.tournament.swimmers.splice(index, 1);
-
-        //     this.tournamentService.removeSwimmer(this.tournament.id, );
-        // }, () => {
-        //     //
-        // });
-    }
 }
 
-export let tournamentSwimmers = {
-    templateUrl: 'app/components/tournamentSwimmers/tournamentSwimmers.html',
-    controller: TournamentSwimmers
+export let tournamentSwimmers2 = {
+    templateUrl: 'app/components/tournament-swimmers/tournament-swimmers.html',
+    controller: TournamentSwimmers2,
+    bindings: {
+        tournament: '=',
+        onUpdate: '&',
+        onDelete: '&'
+    }
 };

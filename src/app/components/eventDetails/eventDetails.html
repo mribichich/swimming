@@ -5,6 +5,12 @@
     </md-button>
     <h1>Prueba: {{$ctrl.event.number}}</h1>
     <span flex></span>
+
+    <md-button class="md-icon-button" aria-label="Agregar Nadadores" ng-click="$ctrl.showSwimmersSelectionDialog($event)">
+        <md-icon>add</md-icon>
+        <md-tooltip>Agregar Nadadores</md-tooltip>
+    </md-button>
+
     <md-button class="md-icon-button" aria-label="Cancheo" ng-link="['EventSeed', { tournamentId:$ctrl.tournament.id, eventId: $ctrl.event.id }]">
         <md-icon>alarm_add</md-icon>
         <md-tooltip>Cancheo</md-tooltip>
@@ -103,15 +109,15 @@
     <md-tabs md-dynamic-height md-border-bottom md-selected="$ctrl.selectedTabIndex">
         <md-tab label="Nadadores">
             <md-content>
-                <event-swimmers event="$ctrl.event"></event-swimmers>
+                <event-swimmers event="$ctrl.event" on-remove="$ctrl.removeSwimmer($event, swimmer)"></event-swimmers>
             </md-content>
         </md-tab>
         <md-tab label="Cancheo">
             <md-content>
                 <!--<h2>Posiciones</h2>-->
 
-                <div ng-if="!$ctrl.event.seedTimes.length">Sin Cancheo</div>
-                <div ng-if="$ctrl.event.seedTimes.length">
+                <div ng-if="!$ctrl.event.heats.length">Sin Cancheo</div>
+                <div ng-if="$ctrl.event.heats.length">
                     <md-list ng-repeat="heat in $ctrl.event.heats">
                         <md-list-item>
                             <p>Serie</p>
@@ -159,21 +165,21 @@
         </md-tab>
         <md-tab label="Posiciones">
             <span ng-if="$ctrl.event.state !== 2">
-        La Prueba no ha finalizado aun
-        </span>
+                 La Prueba no ha finalizado aun
+            </span>
             <span ng-if="$ctrl.event.state === 2">
-        <md-list>
-                        <md-list-item>
-                            <p>Nadador</p>
-                            <p>Tiempo</p>
-                        </md-list-item>
-                        <md-divider></md-divider>
-                        <md-list-item ng-repeat="result in $ctrl.event.getResults()">
-                            <p>{{ result.swimmer.firstName }} {{ result.swimmer.lastName }}</p>
-                            <p>{{ result.time }}</p>
-                        </md-list-item>
-                    </md-list>
-        </span>
+                <md-list>
+                    <md-list-item>
+                        <p>Nadador</p>
+                        <p>Tiempo</p>
+                    </md-list-item>
+                    <md-divider></md-divider>
+                    <md-list-item ng-repeat="result in $ctrl.event.getResults()">
+                        <p>{{ result.swimmer.firstName }} {{ result.swimmer.lastName }}</p>
+                        <p>{{ result.time }}</p>
+                    </md-list-item>
+                </md-list>
+            </span>
         </md-tab>
     </md-tabs>
 </md-content>

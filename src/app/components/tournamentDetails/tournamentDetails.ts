@@ -4,7 +4,7 @@ import * as _ from 'underscore';
 
 import { ITournamentService } from 'app/services';
 import { IHistoryService } from 'app/services/historyService';
-import { Tournament } from 'app/entities/tournament';
+import { Tournament, Swimmer } from 'app/entities';
 
 /*@ngInject*/
 class TournamentDetails {
@@ -17,14 +17,16 @@ class TournamentDetails {
     ) {
     }
 
+    routeParams;
     fromRoute;
     tournament: Tournament;
+    selectedTabIndex: number = 0;
 
     $routerOnActivate(toRoute, fromRoute) {
+        this.routeParams = toRoute.params;
         this.fromRoute = fromRoute;
 
-        this.getTournament(toRoute.params.id)
-            .then(() => this.getEventsCategories());
+        this.refresh();
     }
 
     navigate(to) {
@@ -36,8 +38,13 @@ class TournamentDetails {
         this.$rootRouter.navigate(['/Tournaments']);
     }
 
+    refresh() {
+        this.getTournament(this.routeParams.id)
+            .then(() => this.getEventsCategories());
+    }
+
     getTournament(id: string) {
-        return this.tournamentService.get(id)
+        return this.tournamentService.get(id, ['swimmers'])
             .then((tournament) => {
                 this.tournament = tournament;
             })
@@ -71,6 +78,29 @@ class TournamentDetails {
                 .catch((error) => {
                     console.log(error);
                 });
+        }, () => {
+            //
+        });
+    }
+
+    removeSwimmer($event, swimmer: Swimmer) {
+        var confirm = this.$mdDialog.confirm()
+            .parent(angular.element(document.body))
+            .title('Quitado de Nadador del Torneo')
+            .content('Esta seguro que desea quitar el nadador: ' + swimmer.fullName)
+            .ariaLabel('Quitar Nadador')
+            .ok('Quitar Nadador')
+            .cancel('Cancelar')
+            .targetEvent($event);
+        this.$mdDialog.show(confirm).then(() => {
+            // var index = _.findIndex(this.tournament.swimmers, (item) => {
+            //     return item.id === swimmer.id;
+            // });
+
+            // this.tournament.swimmers.splice(index, 1);
+
+            this.tournamentService.removeSwimmer(this.tournament.id, swimmer.id)
+            .then(()=> this.refresh());
         }, () => {
             //
         });
