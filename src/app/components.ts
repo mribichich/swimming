@@ -17,6 +17,7 @@ export * from 'app/components/eventCreate/eventCreate';
 export * from 'app/components/eventDetails/eventDetails';
 export * from 'app/components/event-swimmers/event-swimmers';
 export * from 'app/components/eventSeed/eventSeed';
+export * from 'app/components/tournament-events/index';
 
 export * from 'app/components/tournamentSwimmers/tournamentSwimmers';
 export * from 'app/components/tournament-swimmers/tournament-swimmers';

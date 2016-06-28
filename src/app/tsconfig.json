@@ -6,6 +6,7 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true
     },
+
     "exclude":[
         "bower_components",
         "jspm_packages",

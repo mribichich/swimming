@@ -3,10 +3,21 @@
 import * as angular from 'angular';
 import * as _ from 'underscore';
 
-import { ITournamentService } from 'app/services';
-import { IHistoryService, ISwimmerService } from 'app/services';
-import { Tournament, TournamentEvent, Swimmer } from 'app/entities';
-import { SwimmerFactory } from 'app/factories';
+import {
+    ITournamentService
+} from 'app/services';
+import {
+    IHistoryService,
+    ISwimmerService
+} from 'app/services';
+import {
+    Tournament,
+    TournamentEvent,
+    Swimmer
+} from 'app/entities';
+import {
+    SwimmerFactory
+} from 'app/factories';
 
 /*@ngInject*/
 class EventSwimmers {
@@ -17,8 +28,7 @@ class EventSwimmers {
         private swimmerService: ISwimmerService,
         private $window,
         private $q: ng.IQService
-    ) {
-    }
+    ) {}
 
     // tournament: Tournament;
 
@@ -30,9 +40,6 @@ export let eventSwimmers = {
     controller: EventSwimmers,
     bindings: {
         event: '<',
-         onRemove: '&'
+        onRemove: '&'
     }
-    // ,    $routeConfig: [
-    //     { path: '/swimmers', name: 'EventSwimmers', component: 'eventSwimmers', useAsDefault: true }
-    // ]
 };

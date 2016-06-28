@@ -132,6 +132,8 @@ angular.module('swimming',
     .component('eventDetails', components.eventDetails)
     .component('eventSwimmers', components.eventSwimmers)
     .component('eventSeed', components.eventSeed)
+    .component('eventResults', components.eventResults)
+    .component('eventTimes', components.eventTimes)
 
     .component('tournamentSwimmers', components.tournamentSwimmers)
     .component('tournamentSwimmers2', components.tournamentSwimmers2)

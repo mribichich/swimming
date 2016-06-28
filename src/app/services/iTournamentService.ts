@@ -2,7 +2,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { IGetAllInfo } from 'app/services';
 import { TournamentGetAllFilter } from 'app/serviceFilters';
-import { Tournament, TournamentEvent, Category } from 'app/entities';
+import { Tournament, TournamentEvent, Category, Heat } from 'app/entities';
 
 export interface ITournamentService {
     tournaments$: Observable<Tournament[]>;
@@ -38,7 +38,9 @@ export interface ITournamentService {
 
     startEvent(tournamentId: string, eventId: string): ng.IPromise<void>;
 
-    stopEvent(tournamentId: string, eventId: string): ng.IPromise<void>;
+    stopEvent(tournamentId: string, eventId: string, eventHeats: Heat[]): ng.IPromise<void>;
+
+    changeEventTimes(tournamentId: string, eventId: string,  eventHeats: Heat[]): ng.IPromise<void>;
 
     addSwimmersToEvent(tournamentId: string, eventId: string, selectedSwimmerIds: string[]): ng.IPromise<void>;
 

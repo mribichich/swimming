@@ -1,0 +1,80 @@
+<div ng-if="!$ctrl.event.heats.length">
+    El cancheo no se ha realizado aun
+</div>
+<div ng-if="$ctrl.event.heats.length">
+    <div layout="row"
+        layout-align="start center">
+        <span flex></span>
+
+        <md-button class="md-icon-button"
+            aria-label="Empezar Prueba"
+            ng-click="$ctrl.showStartEventDialog($event)"
+            ng-if="$ctrl.event.state === 0">
+            <md-icon>timer</md-icon>
+            <md-tooltip>Empezar Prueba</md-tooltip>
+        </md-button>
+
+        <!--<md-button class="md-icon-button" aria-label="Empezar Prueba" ng-click="$ctrl.showPauseEventDialog($event)" ng-if="$ctrl.event.state === 1">
+<md-icon>pause</md-icon>
+<md-tooltip>Pausar Prueba</md-tooltip>
+</md-button>-->
+ 
+        <md-button class="md-icon-button"
+            aria-label="Empezar Prueba"
+            ng-click="$ctrl.showStopEventDialog($event)"
+            ng-if="$ctrl.event.state === 1">
+            <md-icon>stop</md-icon>
+            <md-tooltip>Terminar Prueba</md-tooltip>
+        </md-button>
+
+    <md-button class="md-icon-button"
+        aria-label="Editar Tiempos"
+        ng-click="$ctrl.editTimes()"
+            ng-if="$ctrl.event.state === 2 && !$ctrl.editMode">
+        <md-icon>edit</md-icon>
+        <md-tooltip>Editar Tiempos</md-tooltip>
+    </md-button>
+
+    <md-button class="md-icon-button"
+        aria-label="Guardar Tiempos"
+        ng-click="$ctrl.saveTimes($event)"
+            ng-if="$ctrl.editMode">
+        <md-icon>check_circle</md-icon>
+        <md-tooltip>Guardar Tiempos</md-tooltip>
+    </md-button>
+
+    <md-button class="md-icon-button"
+        aria-label="Cancelar"
+        ng-click="$ctrl.cancelSaveTimes($event)"
+            ng-if="$ctrl.editMode">
+        <md-icon>cancel</md-icon>
+        <md-tooltip>Cancelar</md-tooltip>
+    </md-button>
+    </div>
+
+    <md-list ng-repeat="heat in $ctrl.event.heats">
+        <md-list-item>
+            <p>Serie</p>
+            <p>Numero</p>
+            <p>Nadador</p>
+            <p>Tiempo</p>
+        </md-list-item>
+        <md-divider></md-divider>
+        <md-list-item ng-repeat="lane in heat.lanes">
+            <p>{{ heat.seriesNumber }}</p>
+            <p>{{ lane.number }}</p>
+            <p>{{ lane.swimmer.fullName }}</p>
+            <p>
+                <span ng-if="$ctrl.event.state === 0">-</span>
+                <input ng-if="$ctrl.event.state === 1 || $ctrl.editMode"
+                    class="form-control"
+                    type="text"
+                    name="seedTime{{$index}}"
+                    ng-model="lane.raceTime"
+                    ng-pattern="/^S\/T$|^(\d{1,2}):(\d{2}):(\d{2})$/gim"
+                    required>
+                <span ng-if="$ctrl.event.state === 2 && !$ctrl.editMode">{{ lane.raceTime }}</span>
+            </p>
+        </md-list-item>
+    </md-list>
+</div>

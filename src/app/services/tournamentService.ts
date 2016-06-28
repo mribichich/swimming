@@ -5,7 +5,7 @@ import 'rxjs/add/operator/share';
 
 import { ITournamentService, ISwimmerService, IGetAllInfo } from 'app/services';
 import { TournamentGetAllFilter } from 'app/serviceFilters';
-import { Tournament, Swimmer, TournamentEvent, Category } from 'app/entities';
+import { Tournament, Swimmer, TournamentEvent, Category, Heat } from 'app/entities';
 import { TournamentFactory, CategoryFactory, SeedTimeFactory } from 'app/factories';
 import { CategorySwimmerAssigner } from 'app/core/categorySwimmerAssigner';
 import { EventGenderAssigner } from 'app/core/eventGenderAssigner';
@@ -395,10 +395,10 @@ export class TournamentService implements ITournamentService {
             });
     }
 
-    stopEvent(tournamentId: string, eventId: string): ng.IPromise<void> {
+    stopEvent(tournamentId: string, eventId: string, eventHeats: Heat[]): ng.IPromise<void> {
         return this.getEvent2(tournamentId, eventId)
             .then((tournamentEvent: TournamentEvent) => {
-                tournamentEvent.stopEvent();
+                tournamentEvent.stopEvent(eventHeats);
 
                 return tournamentEvent;
             })
@@ -409,7 +409,44 @@ export class TournamentService implements ITournamentService {
 
                         eventDb.finishedDateTime = tournamentEvent.finishedDateTime;
                         eventDb.state = tournamentEvent.state;
-                        eventDb.results = tournamentEvent.results;
+
+                        tournamentEvent.heats.forEach(heat => {
+                            const heatDb = eventDb.heats.find(f => f.seriesNumber === heat.seriesNumber);
+                            heat.lanes.forEach(lane => {
+                                const laneDb = heatDb.lanes.find(f => f.number === lane.number);
+                                laneDb.raceTime = lane.raceTime;
+                            });
+                        });
+
+                        return tournamentDb;
+                    })
+                    .then((tournamentDb) => this.tournamentRepository.update(tournamentDb))
+                    .then(() => this.tournamentRepository.save());
+            });
+    }
+
+    changeEventTimes(tournamentId: string, eventId: string,  eventHeats: Heat[]): ng.IPromise<void>{
+        return this.getEvent2(tournamentId, eventId)
+            .then((tournamentEvent: TournamentEvent) => {
+                tournamentEvent.changeTimes(eventHeats);
+
+                return tournamentEvent;
+            })
+            .then((tournamentEvent: TournamentEvent) => {
+                this.tournamentRepository.get(tournamentId)
+                    .then((tournamentDb: TournamentDb) => {
+                        let eventDb = tournamentDb.events.find(evt => evt.id === eventId);
+
+                        eventDb.finishedDateTime = tournamentEvent.finishedDateTime;
+                        eventDb.state = tournamentEvent.state;
+
+                        tournamentEvent.heats.forEach(heat => {
+                            const heatDb = eventDb.heats.find(f => f.seriesNumber === heat.seriesNumber);
+                            heat.lanes.forEach(lane => {
+                                const laneDb = heatDb.lanes.find(f => f.number === lane.number);
+                                laneDb.raceTime = lane.raceTime;
+                            });
+                        });
 
                         return tournamentDb;
                     })

@@ -1,0 +1,18 @@
+<span ng-if="$ctrl.event.state !== 2">
+    La Prueba no ha finalizado aun
+</span>
+<span ng-if="$ctrl.event.state === 2">
+    <md-list>
+        <md-list-item>
+            <p>Pos</p>
+            <p>Nadador</p>
+            <p>Tiempo</p>
+        </md-list-item>
+        <md-divider></md-divider>
+        <md-list-item ng-repeat="result in $ctrl.event.getResults()">
+            <p>{{ $index + 1 }}</p>
+            <p>{{ result.swimmer.firstName }} {{ result.swimmer.lastName }}</p>
+            <p>{{ result.time }}</p>
+        </md-list-item>
+    </md-list>
+</span>

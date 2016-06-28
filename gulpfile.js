@@ -58,7 +58,7 @@ var paths = {
 
     src: {
         app: {
-            tds: 'src/app/typings/main/**/*.d.ts'
+            tds:                 'src/app/typings/main/**/*.d.ts'
         },
         tests: {
             js: 'src/tests/**/*.ts',
@@ -89,7 +89,7 @@ gulp.task('ts-lint', function () {
 });
 
 gulp.task('build.js', function () {
-    let tsFiles = [paths.src.app.tds, paths.ts.app.src];
+    let tsFiles = [paths.src.app.tds, paths.ts.app.src, 'src/app-dts/**/*.d.ts'];
 
     let tsResult = gulp.src(tsFiles)
         .pipe(sourcemaps.init())

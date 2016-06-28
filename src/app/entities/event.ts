@@ -83,30 +83,52 @@ export class TournamentEvent {
 		this.state = EventState.InProgress;
 	}
 
-	stopEvent() {
+	stopEvent(newHeats: Heat[]) {
 		if (this.state !== EventState.InProgress) {
 			throw 'Event not in progress';
 		}
 
 		this.finishedDateTime = new Date();
 		this.state = EventState.Finished;
+
+		this.heats.forEach(heat => {
+			const heatDb = newHeats.find(f => f.seriesNumber === heat.seriesNumber);
+			heat.lanes.forEach(lane => {
+				const laneDb = heatDb.lanes.find(f => f.number === lane.number);
+				laneDb.raceTime = lane.raceTime;
+			});
+		});
 	}
 
-	getResults(){
-if (this._results){
-	return this._results;
-}
+	changeTimes(newHeats: Heat[]) {
+		if (this.state !== EventState.Finished) {
+			throw 'Event not finished';
+		}
 
-this._results = this.heats.map(m => m.lanes)
+		this.heats.forEach(heat => {
+			const heatDb = newHeats.find(f => f.seriesNumber === heat.seriesNumber);
+			heat.lanes.forEach(lane => {
+				const laneDb = heatDb.lanes.find(f => f.number === lane.number);
+				laneDb.raceTime = lane.raceTime;
+			});
+		});
+	}
+
+	getResults() {
+		if (this._results) {
+			return this._results;
+		}
+
+		this._results = this.heats.map(m => m.lanes)
 			.reduce((a, b) => a.concat(b), [])
-			.map(m=> {
+			.map(m => {
 				return {
-				swimmer: m.swimmer,
-				time: m.raceTime 
-			};
+					swimmer: m.swimmer,
+					time: m.raceTime
+				};
 			})
-			.sort((a, b)=> {
-				return a.time.localeCompare(b.time) ;
+			.sort((a, b) => {
+				return a.time.localeCompare(b.time);
 			});
 	}
 }

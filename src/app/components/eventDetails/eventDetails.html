@@ -1,38 +1,38 @@
-<div class="page-header page-header-custom" layout="row" layout-align="start center">
-    <md-button class="md-icon-button" aria-label="Volver" ng-click="$ctrl.goBack()">
+<div class="page-header page-header-custom"
+    layout="row"
+    layout-align="start center">
+    <md-button class="md-icon-button"
+        aria-label="Volver"
+        ng-click="$ctrl.goBack()">
         <md-icon>arrow_back</md-icon>
         <md-tooltip>Volver</md-tooltip>
     </md-button>
     <h1>Prueba: {{$ctrl.event.number}}</h1>
     <span flex></span>
 
-    <md-button class="md-icon-button" aria-label="Agregar Nadadores" ng-click="$ctrl.showSwimmersSelectionDialog($event)">
+    <md-button class="md-icon-button"
+        aria-label="Agregar Nadadores"
+        ng-click="$ctrl.showSwimmersSelectionDialog($event)">
         <md-icon>add</md-icon>
         <md-tooltip>Agregar Nadadores</md-tooltip>
     </md-button>
 
-    <md-button class="md-icon-button" aria-label="Cancheo" ng-link="['EventSeed', { tournamentId:$ctrl.tournament.id, eventId: $ctrl.event.id }]">
+    <md-button class="md-icon-button"
+        aria-label="Cancheo"
+        ng-link="['EventSeed', { tournamentId:$ctrl.tournament.id, eventId: $ctrl.event.id }]">
         <md-icon>alarm_add</md-icon>
         <md-tooltip>Cancheo</md-tooltip>
     </md-button>
     <!--ng-link="['EventStart', {tournamentId:$ctrl.tournament.id, eventId: $ctrl.event.id}]"-->
-    <md-button class="md-icon-button" aria-label="Empezar Prueba" ng-click="$ctrl.showStartEventDialog($event)" ng-if="$ctrl.event.state === 0">
-        <md-icon>timer</md-icon>
-        <md-tooltip>Empezar Prueba</md-tooltip>
-    </md-button>
-    <!--<md-button class="md-icon-button" aria-label="Empezar Prueba" ng-click="$ctrl.showPauseEventDialog($event)" ng-if="$ctrl.event.state === 1">
-        <md-icon>pause</md-icon>
-        <md-tooltip>Pausar Prueba</md-tooltip>
-    </md-button>-->
-    <md-button class="md-icon-button" aria-label="Empezar Prueba" ng-click="$ctrl.showStopEventDialog($event)" ng-if="$ctrl.event.state === 1">
-        <md-icon>stop</md-icon>
-        <md-tooltip>Terminar Prueba</md-tooltip>
-    </md-button>
-    <md-button class="md-icon-button" aria-label="Editar" ng-link="['EventEdit', {tournamentId: $ctrl.tournament.id, eventId: $ctrl.event.id}]">
+    <md-button class="md-icon-button"
+        aria-label="Editar Datos"
+        ng-link="['EventEdit', {tournamentId: $ctrl.tournament.id, eventId: $ctrl.event.id}]">
         <md-icon>edit</md-icon>
-        <md-tooltip>Editar</md-tooltip>
+        <md-tooltip>Editar Datos</md-tooltip>
     </md-button>
-    <md-button class="md-icon-button" aria-label="Eliminar" ng-click="$ctrl.delete($event)">
+    <md-button class="md-icon-button"
+        aria-label="Eliminar"
+        ng-click="$ctrl.delete($event)">
         <md-icon>delete</md-icon>
         <md-tooltip>Eliminar</md-tooltip>
     </md-button>
@@ -58,62 +58,69 @@
     </div>
 
     <!--<div layout="row">
-        <h2>Detalles</h2>
-        <span flex></span>
-        <md-button class="md-icon-button" aria-label="Editar" ng-link="['EventEdit', {tournamentId: $ctrl.tournament.id, eventId: $ctrl.event.id}]">
-            <md-icon>edit</md-icon>
-            <md-tooltip>Editar</md-tooltip>
-        </md-button>
-    </div>
-    <div layout="row">
-        <div class="md-body-2" flex="35" flex-gt-lg="20">Numero</div>
-        <div class="md-body-1" flex>{{$ctrl.event.number}}</div>
-    </div>
-    <div layout="row">
-        <div class="md-body-2" flex="35" flex-gt-lg="20">Distancia</div>
-        <div class="md-body-1" flex>{{$ctrl.event.distance}}</div>
-    </div>
-    <div layout="row">
-        <div class="md-body-2" flex="35" flex-gt-lg="20">Estilo</div>
-        <div class="md-body-1" flex>{{$ctrl.event.style}}</div>
-    </div>
-    <div layout="row">
-        <div class="md-body-2" flex="35" flex-gt-lg="20">Categoria</div>
-        <div class="md-body-1" flex>{{$ctrl.event.category.name}}</div>
-    </div>
-    <div layout="row">
-        <div class="md-body-2" flex="35" flex-gt-lg="20">Sexo</div>
-        <div class="md-body-1" flex>{{$ctrl.event.genderDescription}}</div>
-    </div>-->
+<h2>Detalles</h2>
+<span flex></span>
+<md-button class="md-icon-button" aria-label="Editar" ng-link="['EventEdit', {tournamentId: $ctrl.tournament.id, eventId: $ctrl.event.id}]">
+<md-icon>edit</md-icon>
+<md-tooltip>Editar</md-tooltip>
+</md-button>
+</div>
+<div layout="row">
+<div class="md-body-2" flex="35" flex-gt-lg="20">Numero</div>
+<div class="md-body-1" flex>{{$ctrl.event.number}}</div>
+</div>
+<div layout="row">
+<div class="md-body-2" flex="35" flex-gt-lg="20">Distancia</div>
+<div class="md-body-1" flex>{{$ctrl.event.distance}}</div>
+</div>
+<div layout="row">
+<div class="md-body-2" flex="35" flex-gt-lg="20">Estilo</div>
+<div class="md-body-1" flex>{{$ctrl.event.style}}</div>
+</div>
+<div layout="row">
+<div class="md-body-2" flex="35" flex-gt-lg="20">Categoria</div>
+<div class="md-body-1" flex>{{$ctrl.event.category.name}}</div>
+</div>
+<div layout="row">
+<div class="md-body-2" flex="35" flex-gt-lg="20">Sexo</div>
+<div class="md-body-1" flex>{{$ctrl.event.genderDescription}}</div>
+</div>-->
 </md-content>
 <br>
 
 <div>
     <span ng-if="$ctrl.event.state === 0">La Prueba no ha comenzado aun</span>
     <span ng-if="$ctrl.event.state === 1">
-        <span layout="row">
-            Prueba en progreso. Comienzo: {{$ctrl.event.startedDateTime | date: 'short'}}
-        
-        <span flex></span> Duracion:&nbsp;
-    <timer interval="1000" start-time="$ctrl.event.startedDateTime" language="es">
+<span layout="row">
+Prueba en progreso. Comienzo: {{$ctrl.event.startedDateTime | date: 'short'}}
+
+<span flex></span> Duracion:&nbsp;
+    <timer interval="1000"
+        start-time="$ctrl.event.startedDateTime"
+        language="es">
         {{hhours}} h, {{minutes}} m, {{seconds}} s
     </timer>
     </span>
     </span>
     <span ng-if="$ctrl.event.state === 2">
-        La Prueba ha finalizado, duracion: {{$ctrl.event.durationTime}}</span>
+La Prueba ha finalizado, duracion: {{$ctrl.event.durationTime}}</span>
 </div>
 
 <br>
 <md-content>
-    <md-tabs md-dynamic-height md-border-bottom md-selected="$ctrl.selectedTabIndex">
+    <md-tabs md-dynamic-height
+        md-border-bottom
+        md-selected="$ctrl.selectedTabIndex">
         <md-tab label="Nadadores">
             <md-content>
-                <event-swimmers event="$ctrl.event" on-remove="$ctrl.removeSwimmer($event, swimmer)"></event-swimmers>
+                <br>
+                <event-swimmers event="$ctrl.event"
+                    on-remove="$ctrl.removeSwimmer($event, swimmer)"></event-swimmers>
             </md-content>
         </md-tab>
         <md-tab label="Cancheo">
             <md-content>
+                <br>
                 <!--<h2>Posiciones</h2>-->
 
                 <div ng-if="!$ctrl.event.heats.length">Sin Cancheo</div>
@@ -137,49 +144,12 @@
             </md-content>
         </md-tab>
         <md-tab label="Tiempos">
-            <md-content>
-                <div ng-if="!$ctrl.event.heats.length">-</div>
-                <div ng-if="$ctrl.event.heats.length">
-                    <md-list ng-repeat="heat in $ctrl.event.heats">
-                        <md-list-item>
-                            <p>Serie</p>
-                            <p>Numero</p>
-                            <p>Nadador</p>
-                            <p>Tiempo</p>
-                        </md-list-item>
-                        <md-divider></md-divider>
-                        <md-list-item ng-repeat="lane in heat.lanes">
-                            <p>{{ heat.seriesNumber }}</p>
-                            <p>{{ lane.number }}</p>
-                            <p>{{ lane.swimmer.fullName }}</p>
-                            <p>
-                                <span ng-if="$ctrl.event.state === 0">-</span>
-                                <input ng-if="$ctrl.event.state === 1" class="form-control" type="text" name="seedTime{{$index}}" ng-model="lane.raceTime"
-                                    ng-pattern="/^S\/T$|^(\d{1,2}):(\d{2}):(\d{2})$/gim" required>
-                                <span ng-if="$ctrl.event.state === 2">{{ lane.raceTime }}</span>
-                            </p>
-                        </md-list-item>
-                    </md-list>
-                </div>
-            </md-content>
+                <br>
+                <event-times tournament="$ctrl.tournament" event="$ctrl.event" on-change="$ctrl.refresh()"></event-times>
         </md-tab>
         <md-tab label="Posiciones">
-            <span ng-if="$ctrl.event.state !== 2">
-                 La Prueba no ha finalizado aun
-            </span>
-            <span ng-if="$ctrl.event.state === 2">
-                <md-list>
-                    <md-list-item>
-                        <p>Nadador</p>
-                        <p>Tiempo</p>
-                    </md-list-item>
-                    <md-divider></md-divider>
-                    <md-list-item ng-repeat="result in $ctrl.event.getResults()">
-                        <p>{{ result.swimmer.firstName }} {{ result.swimmer.lastName }}</p>
-                        <p>{{ result.time }}</p>
-                    </md-list-item>
-                </md-list>
-            </span>
+                <br>
+            <event-results event="$ctrl.event"></event-results>
         </md-tab>
     </md-tabs>
 </md-content>
