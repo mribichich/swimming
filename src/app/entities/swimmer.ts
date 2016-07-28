@@ -7,6 +7,8 @@ export class Swimmer {
 	birthDate: Date;
 	nid: string;
 	gender: Gender;
+	city:string;
+	team:string;
 
 	get fullName(): string {
         return this.firstName + ' ' + this.lastName;

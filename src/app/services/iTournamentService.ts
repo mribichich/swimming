@@ -2,7 +2,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { IGetAllInfo } from 'app/services';
 import { TournamentGetAllFilter } from 'app/serviceFilters';
-import { Tournament, TournamentEvent, Category, Heat } from 'app/entities';
+import { Tournament, TournamentEvent, Category, Heat, SeedTime } from 'app/entities';
 
 export interface ITournamentService {
     tournaments$: Observable<Tournament[]>;
@@ -24,11 +24,13 @@ export interface ITournamentService {
 
     delete(id: string): ng.IPromise<void>;
 
+    deleteEvent(tournamentId: string, eventId: string): ng.IPromise<void>;
+
     autoAssignSwimmersToEvents(tournamentId: string): ng.IPromise<void>;
 
     getTournamentSwimmers(tournament: Tournament): ng.IPromise<Tournament>;
 
-    getEvent(tournament: Tournament, id: string, withEntities?: string[]): ng.IPromise<TournamentEvent>;
+    // getEvent(tournament: Tournament, id: string, withEntities?: string[]): ng.IPromise<TournamentEvent>;
 
     getEvent2(tournamentId: string, eventId: string, withEntities?: string[]): ng.IPromise<TournamentEvent>;
 
@@ -49,4 +51,6 @@ export interface ITournamentService {
     removeSwimmerFromEvent(tournamentId: string, eventId: string, swimmerToRemoveId: string): ng.IPromise<void>;
 
     removeSwimmer(tournamentId: string, swimmerToRemoveId: string): ng.IPromise<void>;
+
+    changeEventSeedTimes(tournamentId: string, eventId: string, eventSeedTimes: SeedTime[]): ng.IPromise<void>;
 }

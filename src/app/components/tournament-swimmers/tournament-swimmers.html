@@ -14,13 +14,26 @@
 
 <p ng-if="!$ctrl.tournament.swimmers.length">No se encontraron datos</p>
 <md-list ng-if="$ctrl.tournament.swimmers.length">
+        <md-list-item>
+            <p>Nombre</p>
+            <p>Fecha Nac</p>
+            <p>Edad</p>
+            <p>Sexo</p>
+            <p>Documento</p>
+            <p>Ciudad</p>
+            <p>Equipo</p>
+        </md-list-item>
+
     <md-divider></md-divider>
+
     <md-list-item ng-repeat="swimmer in $ctrl.tournament.swimmers | orderBy: 'fullName'" ng-click="$ctrl.navigateTo('tournaments/'+$ctrl.tournament.id+'/swimmers/details/'+swimmer.id)">
         <p>{{swimmer.fullName}}</p>
         <p>{{swimmer.birthDate | date: 'shortDate'}}</p>
         <p>{{swimmer.age}}</p>
         <p>{{swimmer.genderDescription}}</p>
         <p>{{swimmer.nid ? swimmer.nid : '-'}}</p>
+        <p>{{swimmer.city ? swimmer.city : '-'}}</p>
+        <p>{{swimmer.team ? swimmer.team : '-'}}</p>
         <md-icon class="material-icons md-secondary" ng-click="$ctrl.onDelete({$event: $event, swimmer: swimmer})" aria-label="Quitar">delete
             <md-tooltip>Quitar Nadador</md-tooltip>
         </md-icon>

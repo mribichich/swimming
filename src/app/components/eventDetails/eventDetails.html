@@ -17,12 +17,6 @@
         <md-tooltip>Agregar Nadadores</md-tooltip>
     </md-button>
 
-    <md-button class="md-icon-button"
-        aria-label="Cancheo"
-        ng-link="['EventSeed', { tournamentId:$ctrl.tournament.id, eventId: $ctrl.event.id }]">
-        <md-icon>alarm_add</md-icon>
-        <md-tooltip>Cancheo</md-tooltip>
-    </md-button>
     <!--ng-link="['EventStart', {tournamentId:$ctrl.tournament.id, eventId: $ctrl.event.id}]"-->
     <md-button class="md-icon-button"
         aria-label="Editar Datos"
@@ -34,7 +28,7 @@
         aria-label="Eliminar"
         ng-click="$ctrl.delete($event)">
         <md-icon>delete</md-icon>
-        <md-tooltip>Eliminar</md-tooltip>
+        <md-tooltip>Eliminar Prueba</md-tooltip>
     </md-button>
 </div>
 <md-content layout-padding>
@@ -118,37 +112,23 @@ La Prueba ha finalizado, duracion: {{$ctrl.event.durationTime}}</span>
                     on-remove="$ctrl.removeSwimmer($event, swimmer)"></event-swimmers>
             </md-content>
         </md-tab>
-        <md-tab label="Cancheo">
-            <md-content>
-                <br>
-                <!--<h2>Posiciones</h2>-->
 
-                <div ng-if="!$ctrl.event.heats.length">Sin Cancheo</div>
-                <div ng-if="$ctrl.event.heats.length">
-                    <md-list ng-repeat="heat in $ctrl.event.heats">
-                        <md-list-item>
-                            <p>Serie</p>
-                            <p>Numero</p>
-                            <p>Nadador</p>
-                            <p>Tiempo</p>
-                        </md-list-item>
-                        <md-divider></md-divider>
-                        <md-list-item ng-repeat="lane in heat.lanes">
-                            <p>{{heat.seriesNumber}}</p>
-                            <p>{{lane.number}}</p>
-                            <p>{{lane.swimmer.fullName}}</p>
-                            <p>{{lane.seedTime.time}}</p>
-                        </md-list-item>
-                    </md-list>
-                </div>
-            </md-content>
+        <md-tab label="Cancheo">
+            <br>
+            <event-seeds tournament="$ctrl.tournament"
+                event="$ctrl.event"
+                on-change="$ctrl.refresh()"></event-seeds>
         </md-tab>
+
         <md-tab label="Tiempos">
-                <br>
-                <event-times tournament="$ctrl.tournament" event="$ctrl.event" on-change="$ctrl.refresh()"></event-times>
+            <br>
+            <event-times tournament="$ctrl.tournament"
+                event="$ctrl.event"
+                on-change="$ctrl.refresh()"></event-times>
         </md-tab>
+
         <md-tab label="Posiciones">
-                <br>
+            <br>
             <event-results event="$ctrl.event"></event-results>
         </md-tab>
     </md-tabs>

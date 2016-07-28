@@ -1,3 +1,5 @@
+	'use strict';
+
 import * as _ from 'underscore';
 import { Swimmer, Heat, Lane, SeedTime } from 'app/entities';
 
@@ -7,8 +9,6 @@ const LanesOrder = [3, 4, 2, 5, 1, 6];
 const NoTime = 'S/T';
 
 export class HeatAssigner {
-	'use strict';
-
 	assignSwimmers(seedTimes: SeedTime[]): Heat[] {
 		seedTimes.forEach(seedTime=> {
 			if (seedTime.time === NoTime) {
@@ -48,7 +48,7 @@ export class HeatAssigner {
 				let lane = new Lane();
 				lane.number = LanesOrder[y];
 				let seedTime = seedTimes[seedTimeCurrentIndex];
-				lane.swimmer = seedTime.swimmer;
+				// lane.swimmer = seedTime.swimmer;
 				lane.swimmerId = seedTime.swimmerId;
 				lane.seedTime = seedTime;
 

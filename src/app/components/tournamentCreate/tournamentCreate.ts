@@ -33,7 +33,8 @@ class TournamentCreate {
         if (angular.isUndefined(toRoute.params.id)) {
             this.viewAction = 'Create';
 
-            this.tournament = TournamentFactory.Create();
+            TournamentFactory.Create()
+            .then(tournament=> this.tournament = tournament);
         } else {
             this.viewAction = 'Edit';
 

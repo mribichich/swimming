@@ -13,13 +13,10 @@
 /*@ngInject*/
 class EventResults {
     constructor(
-    ) {
-    }
-
-
+    ) { }
 }
 
-export let eventResults = {
+export let eventResults: ng.IComponentOptions = {
     templateUrl: 'app/components/tournament-events/event-results.component.html',
     controller: EventResults,
     bindings: {

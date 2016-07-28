@@ -1,12 +1,12 @@
-import { Category, TournamentEvent, Swimmer } from 'app/entities';
+import { CategoryDb, TournamentEventDb } from 'app/data/entities';
 
 export class TournamentDb {
 	id: string;
 	name: string;
 	startDateTime: string;
 
-	categories: Category[];
-	events: TournamentEvent[];
+	categories: CategoryDb[];
+	events: TournamentEventDb[];
 	swimmerIds: string[];
 
 	// swimmers: Array<Swimmer>;

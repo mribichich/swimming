@@ -9,16 +9,8 @@ import { Category } from 'app/entities/category';
 import { EventFactory } from 'app/factories';
 import * as FeedbackLib from 'app/libs/feedbackLib';
 
+/*@ngInject*/
  class EventCreate {
-    'use strict';
-
-    static $inject: string[] = [
-        'tournamentService',
-        '$rootRouter',
-        '$window',
-        'historyService'
-    ];
-
     constructor(
         private tournamentService: ITournamentService,
         private $rootRouter,
@@ -61,7 +53,7 @@ import * as FeedbackLib from 'app/libs/feedbackLib';
         // this.$location.path(`/tournaments/${this.tournament.id}/categories`);
         //    this.$window.history.back(); 
     
-        this.$rootRouter.navigate(['Events', { tournamentId: this.tournament.id }]);
+        this.$rootRouter.navigate(['/TournamentDetails', { id: this.tournament.id }]);
     }
 
     getTournament(id: string) {

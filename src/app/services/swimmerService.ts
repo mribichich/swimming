@@ -5,15 +5,16 @@ import { Swimmer } from 'app/entities';
 import { SwimmerFactory } from 'app/factories';
 import { ISwimmerRepository } from 'app/data';
 import { Gender } from 'app/enums/gender';
+import { SwimmerDb } from 'app/data/entities';
 
 export interface ISwimmerService {
     get(id: string, withEntities?: string[]): ng.IPromise<Swimmer>;
 
-    getAll():ng.IPromise<Swimmer[]>;
-    
+    getAll(): ng.IPromise<Swimmer[]>;
+
     create(swimmer: Swimmer): ng.IPromise<void>;
 
-    updateInfo(id: string, firstName: string, lastName: string, birthDate: Date, nid: string, gender: Gender): ng.IPromise<void>;
+    updateInfo(id: string, swimmer: Swimmer): ng.IPromise<void>;
 }
 
 /*@ngInject*/
@@ -27,10 +28,10 @@ export class SwimmerService implements ISwimmerService {
     get(id: string, withEntities?: string[]): ng.IPromise<Swimmer> {
         // var d = this.$q.defer<Swimmer>();
 
-     return   this.swimmerRepository.get(id)
+        return this.swimmerRepository.get(id)
             .then((result) => {
                 var swimmer = SwimmerFactory.Create(result);
-return swimmer;
+                return swimmer;
                 // d.resolve(swimmer);
             });
 
@@ -107,14 +108,16 @@ return swimmer;
         // return deferred.promise;
     }
 
-    updateInfo(id: string, firstName: string, lastName: string, birthDate: Date, nid: string, gender: Gender): ng.IPromise<void> {
+    updateInfo(id: string, swimmer: Swimmer): ng.IPromise<void> {
         return this.swimmerRepository.get(id)
             .then((swimmerDb: SwimmerDb) => {
-                swimmerDb.firstName = firstName;
-                swimmerDb.lastName = lastName;
-                swimmerDb.birthDate = birthDate;
-                swimmerDb.nid = nid;
-                swimmerDb.gender = gender;
+                swimmerDb.firstName = swimmer.firstName;
+                swimmerDb.lastName = swimmer.lastName;
+                swimmerDb.birthDate = swimmer.birthDate;
+                swimmerDb.nid = swimmer.nid;
+                swimmerDb.gender = swimmer.gender;
+                swimmerDb.city = swimmer.city;
+                swimmerDb.team = swimmer.team;
 
                 return swimmerDb;
             })

@@ -6,9 +6,12 @@ import * as mapper from 'app/libs/automapper';
 import { CategoryFactory, EventFactory, SwimmerFactory } from 'app/factories';
 import { Tournament, Category, TournamentEvent, Swimmer } from 'app/entities';
 import { TournamentDb } from 'app/data/entities';
+import { ISwimmerService } from 'app/services';
 
 export class TournamentFactory {
-	static Create(tournamentDb?:TournamentDb): Tournament {
+	static Create(tournamentDb?: TournamentDb, swimmerService?: ISwimmerService, $q?: ng.IQService): ng.IPromise<Tournament> {
+		let d = $q.defer();
+		
 		var tournament = new Tournament();
 
 		if (tournamentDb) {
@@ -27,13 +30,28 @@ export class TournamentFactory {
 				return a.name.localeCompare(b.name);
 			});
 
-			for (let i = 0; i < tournamentDb.events.length; i++) {
-				tournament.events[i] = EventFactory.Create(tournamentDb.events[i], tournamentDb.categories);
-			}
+			let swimmersPromises = tournament.swimmerIds.map((swimmerId) => swimmerService.get(swimmerId));
 
-			tournament.events.sort((a: TournamentEvent, b: TournamentEvent) => {
-				return a.number - b.number;
-			});
+			$q.all(swimmersPromises)
+				.then((swimmers: Array<Swimmer>) => {
+					tournament.swimmers = swimmers
+						.sort((a, b) => a.fullName.localeCompare(b.fullName));
+
+					for (let i = 0; i < tournamentDb.events.length; i++) {
+						tournament.events[i] = EventFactory.Create(tournamentDb.events[i], tournament.categories, tournament.swimmers);
+					}
+
+					tournament.events.sort((a: TournamentEvent, b: TournamentEvent) => {
+						return a.number - b.number;
+					});
+
+			d.resolve(tournament);
+				})
+				.catch((error) => {
+					console.log(error);
+
+					d.reject("Error fetching swimmers");
+				});
 
 			// for (let i = 0; i < tournament.swimmers.length; i++) {
 			// 	tournament.swimmers[i] = SwimmerFactory.Create(tournament.swimmers[i]);
@@ -44,8 +62,10 @@ export class TournamentFactory {
 			// });
 		} else {
 			tournament.id = uuid.v4();
+
+			d.resolve(tournament);
 		}
 
-		return tournament;
+		return d.promise;;
 	}
 }

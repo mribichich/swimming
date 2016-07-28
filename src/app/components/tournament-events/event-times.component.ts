@@ -11,6 +11,7 @@ import {
     Swimmer,
     Heat
 } from 'app/entities';
+import * as FeedbackLib from 'app/libs/feedbackLib';
 
 /*@ngInject*/
 class EventTimes {
@@ -19,7 +20,12 @@ class EventTimes {
         private tournamentService: ITournamentService
     ) { }
 
+    submitted: boolean;
     editMode: boolean;
+
+    feedbacks = {
+        save: new FeedbackLib.Feedback()
+    };
 
     tournament: Tournament;
     event: TournamentEvent;
@@ -47,44 +53,13 @@ class EventTimes {
         }, () => { });
     }
 
-    // processStartEvent() {
-    //     this.tournamentService.getEvent2(this.tournament.id, this.event.id)
-    //         .then((tournamentEvent: TournamentEvent) => {
-    //             this.event = tournamentEvent;
+    showStopEventDialog(ev, formInvalid: boolean) {
+        this.submitted = true;
 
-    //             // this.selectedTabIndex = this.tabs.results;
-    //         });
-    // }
+        if (formInvalid) {
+            return;
+        }
 
-    // showPauseEventDialog(ev) {
-    //     var confirm = this.$mdDialog.confirm()
-    //         .title('Pausa de Prueba')
-    //         .textContent('Esta seguro que desea pausar la prueba?')
-    //         .ariaLabel('Pausa de Prueba')
-    //         .targetEvent(ev)
-    //         .ok('Pausar')
-    //         .cancel('Cancelar');
-    //     this.$mdDialog.show(confirm).then(() => {
-    //         this.tournamentService.pauseEvent(this.tournament.id, this.event.id)
-    //             .then(() => this.processPauseEvent())
-    //         // .catch((error) => )
-    //         // .finally(() => {
-    //         //     this.feedbacks.save.isWorking = false;
-    //         // });
-    //     }, () => {
-    //     });
-    // }
-
-    // processPauseEvent() {
-    //     this.tournamentService.getEvent2(this.tournament.id, this.event.id)
-    //         .then((tournamentEvent: TournamentEvent) => {
-    //             this.event = tournamentEvent;
-
-    //             this.selectedTabIndex = this.tabs.results;
-    //         });
-    // }
-
-    showStopEventDialog(ev) {
         var confirm = this.$mdDialog.confirm()
             .title('Terminacion de Prueba')
             .textContent('Esta seguro que desea terminar la prueba?')
@@ -113,7 +88,13 @@ class EventTimes {
         });
     }
 
-    saveTimes(ev) {
+    saveTimes(ev, formInvalid: boolean) {
+        this.submitted = true;
+
+        if (formInvalid) {
+            return;
+        }
+
         var confirm = this.$mdDialog.confirm()
             .title('Cambio de Tiempos')
             .textContent('Esta seguro que desea cambiar los tiempos?')

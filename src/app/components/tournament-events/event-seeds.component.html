@@ -1,0 +1,97 @@
+<div layout="row"
+    layout-align="start center">
+    <span flex></span>
+
+    <md-button class="md-icon-button"
+        aria-label="Cancheo"
+        ng-click="$ctrl.editTimes($event)"
+        ng-if="!$ctrl.editMode">
+        <md-icon>alarm_add</md-icon>
+        <md-tooltip>Cancheo</md-tooltip>
+    </md-button>
+
+    <md-button class="md-icon-button"
+        aria-label="Guardar Tiempos"
+        ng-click="$ctrl.saveTimes($event, seedTimesForm.$invalid)"
+        ng-if="$ctrl.editMode">
+        <md-icon>check_circle</md-icon>
+        <md-tooltip>Guardar Tiempos</md-tooltip>
+    </md-button>
+
+    <md-button class="md-icon-button"
+        aria-label="Cancelar"
+        ng-click="$ctrl.cancelSaveTimes($event)"
+        ng-if="$ctrl.editMode">
+        <md-icon>cancel</md-icon>
+        <md-tooltip>Cancelar</md-tooltip>
+    </md-button>
+</div>
+
+<div ng-if="!$ctrl.editMode">
+    <div>
+        <md-list>
+            <md-list-item>
+                <p>Nadador</p>
+            <p>Equipo</p>
+                <p>Fecha Nac</p>
+                <p>Edad</p>
+                <p>Genero</p>
+                <p>Tiempo</p>
+            </md-list-item>
+            <md-divider></md-divider>
+            <md-list-item ng-repeat="seedTime in $ctrl.eventSeedTimes">
+                <p>{{seedTime.swimmer.fullName}}</p>
+            <p>{{seedTime.swimmer.team}}</p>                
+                <p>{{seedTime.swimmer.birthDate | date: 'shortDate'}}</p>
+                <p>{{seedTime.swimmer.age}}</p>
+                <p>{{seedTime.swimmer.genderDescription}}</p>
+                <p>{{seedTime.time}}</p>
+            </md-list-item>
+        </md-list>
+    </div>
+</div>
+
+<form name="seedTimesForm"
+    ng-if="$ctrl.editMode">
+    <md-list>
+        <md-list-item>
+            <p>Nadador</p>
+            <p>Equipo</p>
+            <p>Fecha Nac</p>
+            <p>Edad</p>
+            <p>Genero</p>
+            <p>Tiempo</p>
+        </md-list-item>
+
+        <md-divider></md-divider>
+
+        <md-list-item ng-repeat="seedTime in $ctrl.eventSeedTimesTemp">
+            <p>{{seedTime.swimmer.fullName}}</p>
+            <p>{{seedTime.swimmer.team}}</p>
+            <p>{{seedTime.swimmer.birthDate | date: 'shortDate'}}</p>
+            <p>{{seedTime.swimmer.age}}</p>
+            <p>{{seedTime.swimmer.genderDescription}}</p>
+            <p>
+                <input class="form-control"
+                    type="text"
+                    name="seedTime{{$index}}"
+                    ng-model="seedTime.time"
+                    ng-pattern="/(^\s*S\/T\s*$)|(^\s*\d{1,2}:\d{1,2}(,\d{1,3}){0,1}\s*$)/gim"
+                    placeholder="S/T | XX:XX,XXX"
+                    required>
+            </p>
+            <md-divider></md-divider>
+        </md-list-item>
+    </md-list>
+
+    <div layout="row"
+        layout-align="end center">
+        <span class="text-warning"
+            ng-if="seedTimesForm.$invalid && $ctrl.submitted">
+            Debe completar todos los campos
+            </span>
+        <feedback ng-model="$ctrl.feedbacks.save"></feedback>
+        <!--<md-button type="submit"
+                class="md-raised md-primary">Hacer Cancheo</md-button>&nbsp;-->
+    </div>
+</form>

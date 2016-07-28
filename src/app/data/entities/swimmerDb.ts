@@ -4,7 +4,9 @@ export class SwimmerDb {
 	id: string;
 	firstName: string;
 	lastName: string;
-	birthDate: Date;
+	birthDate: string;
 	nid: string;
 	gender: Gender;
+	city:string;
+	team:string;
 }

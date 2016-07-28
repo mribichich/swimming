@@ -6,7 +6,18 @@
 <br />
 <p ng-if="$ctrl.swimmers.length == 0">No se encontraron datos</p>
 <md-list ng-if="$ctrl.swimmers.length > 0">
+        <md-list-item>
+            <p>Nombre</p>
+            <p>Fecha Nacimiento</p>
+            <p>Edad</p>
+            <p>Sexo</p>
+            <p>Documento</p>
+            <p>Ciudad</p>
+            <p>Equipo</p>
+        </md-list-item>
+
     <md-divider></md-divider>
+
     <md-list-item class="md-body-1" 
                 ng-repeat="swimmer in $ctrl.swimmers" 
                 ng-click="$ctrl.navigateTo(['SwimmerDetails', {id: swimmer.id}])">
@@ -15,6 +26,8 @@
         <p>{{swimmer.age}}</p>
         <p>{{swimmer.genderDescription}}</p>
         <p>{{swimmer.nid ? swimmer.nid : '-'}}</p>
+        <p>{{swimmer.city ? swimmer.city : '-'}}</p>
+        <p>{{swimmer.team ? swimmer.team : '-'}}</p>
         <!--<md-menu md-position-mode="target-right target">
             <md-button aria-label="Menu" class="md-icon-button" ng-click="$mdOpenMenu()">
                 <md-icon md-menu-origin>description</md-icon>

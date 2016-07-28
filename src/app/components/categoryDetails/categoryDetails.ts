@@ -5,17 +5,8 @@ import { IHistoryService } from 'app/services/historyService';
 import { Tournament } from 'app/entities/tournament';
 import { Category } from 'app/entities/category';
 
+/*@ngInject*/
 class CategoryDetails {
-    'use strict';
-
-    static $inject: string[] = [
-        'tournamentService',
-        '$mdDialog',
-        '$window',
-        'historyService',
-        '$rootRouter'
-    ];
-
     constructor(
         private tournamentService: ITournamentService,
         private $mdDialog,
@@ -38,7 +29,7 @@ class CategoryDetails {
         // this.$location.path(`/tournaments/${this.tournament.id}/categories`);
         //    this.$window.history.back();
 
-        this.$rootRouter.navigate(['/Categories', { tournamentId: this.tournament.id }]);
+        this.$rootRouter.navigate(['/TournamentDetails', { id: this.tournament.id }]);
     }
 
     getTournament(id: string) {

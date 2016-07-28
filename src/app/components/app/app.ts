@@ -60,7 +60,7 @@ let AppComponent = {
         { path: '/tournaments/edit/:id', component: 'tournamentCreate', name: 'TournamentEdit' },
         { path: '/tournaments/details/:id', component: 'tournamentDetails', name: 'TournamentDetails' },
 
-        { path: '/tournaments/:tournamentId/categories', component: 'categories', name: 'Categories' },
+        // { path: '/tournaments/:tournamentId/categories', component: 'categories', name: 'Categories' },
         { path: '/tournaments/:tournamentId/categories/create', component: 'categoryCreate', name: 'CategoryCreate' },
         { path: '/tournaments/:tournamentId/categories/edit/:categoryId', component: 'categoryCreate', name: 'CategoryEdit' },
         { path: '/tournaments/:tournamentId/categories/details/:categoryId', component: 'categoryDetails', name: 'CategoryDetails' },
@@ -122,20 +122,25 @@ angular.module('swimming',
     .component('tournaments', components.tournaments)
     .component('tournamentCreate', components.tournamentCreate)
     .component('tournamentDetails', components.tournamentDetails)
+    .component('tournamentResults', components.tournamentResults)
+    .component('tournamentSeeds', components.tournamentSeeds)
+    .component('tournamentEvents', components.tournamentEvents)
 
-    .component('categories', components.categories)
+    //  .component('categories', components.categories)
+    .component('tournamentCategoryList', components.tournamentCategoryList)
     .component('categoryCreate', components.categoryCreate)
     .component('categoryDetails', components.categoryDetails)
 
-    .component('events', components.events)
+    // .component('events', components.events)
     .component('eventCreate', components.eventCreate)
     .component('eventDetails', components.eventDetails)
     .component('eventSwimmers', components.eventSwimmers)
-    .component('eventSeed', components.eventSeed)
+    // .component('eventSeed', components.eventSeed)
     .component('eventResults', components.eventResults)
     .component('eventTimes', components.eventTimes)
+    .component('eventSeeds', components.eventSeeds)
 
-    .component('tournamentSwimmers', components.tournamentSwimmers)
+    // .component('tournamentSwimmers', components.tournamentSwimmers)
     .component('tournamentSwimmers2', components.tournamentSwimmers2)
     .component('tournamentSwimmerDetails', components.tournamentSwimmerDetails)
 

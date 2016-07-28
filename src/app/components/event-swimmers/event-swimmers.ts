@@ -28,14 +28,14 @@ class EventSwimmers {
         private swimmerService: ISwimmerService,
         private $window,
         private $q: ng.IQService
-    ) {}
+    ) { }
 
     // tournament: Tournament;
 
     event: TournamentEvent;
 }
 
-export let eventSwimmers = {
+export let eventSwimmers: ng.IComponentOptions = {
     templateUrl: 'app/components/event-swimmers/event-swimmers.html',
     controller: EventSwimmers,
     bindings: {

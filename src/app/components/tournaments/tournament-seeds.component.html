@@ -1,0 +1,25 @@
+<div ng-repeat="event in $ctrl.tournament.events">
+    <h4>Prueba: {{event.number}}</h4>
+
+    <p ng-if="!event.heats.length">No se encontraron datos</p>
+
+    <md-list ng-repeat="heat in event.heats">
+        <md-list-item>
+            <p>Serie</p>
+            <p>Carril</p>
+            <p>Nadador</p>
+            <p>Equipo</p>
+        </md-list-item>
+
+        <md-divider></md-divider>
+
+        <md-list-item ng-repeat="lane in heat.lanes">
+            <p>{{ heat.seriesNumber }}</p>
+            <p>{{ lane.number }}</p>
+            <p>{{ lane.swimmer.fullName }}</p>
+            <p>{{ lane.swimmer.team }}</p>
+        </md-list-item>
+    </md-list>
+
+    <br>
+</div>

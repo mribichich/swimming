@@ -120,13 +120,7 @@ class SwimmerCreate {
         this.feedbacks.save.setNone();
         this.feedbacks.save.isWorking = true;
 
-        this.swimmerService.updateInfo(
-            this.swimmer.id,
-            this.swimmer.firstName,
-            this.swimmer.lastName,
-            this.swimmer.birthDate,
-            this.swimmer.nid,
-            this.swimmer.gender)
+        this.swimmerService.updateInfo(this.swimmer.id, this.swimmer)
             .then((data) => this.processEditSwimmer(data))
             .catch((data) => this.catchEditSwimmerError(data))
             .finally(() => this.finallyEditSwimmer());

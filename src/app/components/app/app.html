@@ -1,46 +1,56 @@
 <md-toolbar class="md-whiteframe-z2">
-        <div class="md-toolbar-tools">
-            <md-button class="md-icon-button" aria-label="Settings" ng-click="$ctrl.toggleMenu()">
-                <md-icon>menu</md-icon>
-            </md-button>
-            <h1>
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button"
+            aria-label="Settings"
+            ng-click="$ctrl.toggleMenu()">
+            <md-icon>menu</md-icon>
+        </md-button>
+        <h1>
           <span>Natacion</span>
-        </h1> 
-            <span flex></span>
-            <md-button class="md-icon-button" aria-label="More">
-                <md-icon>more_vert</md-icon>
-            </md-button>
-        </div>
-    </md-toolbar>
-    <div layout="row" flex> 
-        <md-sidenav class="md-sidenav-left md-whiteframe-z2" layout="column" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
-            <md-toolbar class="md-theme-indigo">
-                <h1 class="md-toolbar-tools">Natacion</h1>
-            </md-toolbar>
-            <md-content layout-padding>
-                <md-list>
-                    <md-list-item ng-click="$ctrl.navigateTo(['Dashboard'])"> 
-                        Dashboard
-                    </md-list-item>
-                    <md-list-item ng-click="$ctrl.navigateTo(['Swimmers'])">
-                        Nadadores
-                    </md-list-item>
-                    <!--<md-list-item ng-click="$ctrl.navigateTo('/categories')">
+        </h1>
+        <span flex></span>
+        <!--<md-button class="md-icon-button"
+            aria-label="More">
+            <md-icon>more_vert</md-icon>
+        </md-button>-->
+    </div>
+</md-toolbar>
+<div layout="row"
+    flex>
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2"
+        layout="column"
+        md-component-id="left"
+        md-is-locked-open="$mdMedia('gt-md')">
+        <md-toolbar class="md-theme-indigo">
+            <h1 class="md-toolbar-tools">Natacion</h1>
+        </md-toolbar>
+        <md-content layout-padding>
+            <md-list>
+                <md-list-item ng-click="$ctrl.navigateTo(['Dashboard'])">
+                    Dashboard
+                </md-list-item>
+                <md-list-item ng-click="$ctrl.navigateTo(['Swimmers'])">
+                    Nadadores
+                </md-list-item>
+                <!--<md-list-item ng-click="$ctrl.navigateTo('/categories')">
                         Categorias
                     </md-list-item>-->
-                    <md-list-item ng-click="$ctrl.navigateTo(['Tournaments'])">
-                        Torneos
-                    </md-list-item>
-                </md-list>
-            </md-content>
-        </md-sidenav>
+                <md-list-item ng-click="$ctrl.navigateTo(['Tournaments'])">
+                    Torneos
+                </md-list-item>
+            </md-list>
+        </md-content>
+    </md-sidenav>
 
-<!-- <product-detail [product]="{name: 'hoal', description: 'desc'}"></product-detail>    -->
+    <!-- <product-detail [product]="{name: 'hoal', description: 'desc'}"></product-detail>    -->
 
-<!--<hero-detail></hero-detail>-->
+    <!--<hero-detail></hero-detail>-->
 
-        <div class="view-port-container" layout="row" flex>
-            <!--<ng-viewport class="view-port" flex layout-padding></ng-viewport>-->
-             <ng-outlet class="view-port" flex></ng-outlet>
-        </div>
+    <div class="view-port-container"
+        layout="row"
+        flex>
+        <!--<ng-viewport class="view-port" flex layout-padding></ng-viewport>-->
+        <ng-outlet class="view-port"
+            flex></ng-outlet>
     </div>
+</div>

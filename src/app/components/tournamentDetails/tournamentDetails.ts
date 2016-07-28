@@ -5,6 +5,7 @@ import * as _ from 'underscore';
 import { ITournamentService } from 'app/services';
 import { IHistoryService } from 'app/services/historyService';
 import { Tournament, Swimmer } from 'app/entities';
+import { EventState } from 'app/enums';
 
 /*@ngInject*/
 class TournamentDetails {
@@ -21,6 +22,14 @@ class TournamentDetails {
     fromRoute;
     tournament: Tournament;
     selectedTabIndex: number = 0;
+
+    tabs = {
+        swimmersTab: 0,
+        categoriesTab: 1,
+        eventsTab: 2,
+        seedTimesTab: 3,
+        resultsTab: 4
+    };
 
     $routerOnActivate(toRoute, fromRoute) {
         this.routeParams = toRoute.params;
@@ -40,11 +49,16 @@ class TournamentDetails {
 
     refresh() {
         this.getTournament(this.routeParams.id)
-            .then(() => this.getEventsCategories());
+            .then(() => {
+                if (this.tournament.events.some(m => m.state !== EventState.NotStarted)) {
+                    this.selectedTabIndex = this.tabs.eventsTab;
+                }
+            });
+        // .then(() => this.getEventsCategories());
     }
 
     getTournament(id: string) {
-        return this.tournamentService.get(id, ['swimmers'])
+        return this.tournamentService.get(id)
             .then((tournament) => {
                 this.tournament = tournament;
             })
@@ -53,13 +67,13 @@ class TournamentDetails {
             });
     }
 
-    getEventsCategories() {
-        this.tournament.events.forEach(event => {
-            event.category = _.find(this.tournament.categories, (category) => {
-                return category.id === event.categoryId;
-            });
-        });
-    }
+    // getEventsCategories() {
+    //     this.tournament.events.forEach(event => {
+    //         event.category = _.find(this.tournament.categories, (category) => {
+    //             return category.id === event.categoryId;
+    //         });
+    //     });
+    // }
 
     delete($event) {
         var confirm = this.$mdDialog.confirm()
@@ -100,7 +114,7 @@ class TournamentDetails {
             // this.tournament.swimmers.splice(index, 1);
 
             this.tournamentService.removeSwimmer(this.tournament.id, swimmer.id)
-            .then(()=> this.refresh());
+                .then(() => this.refresh());
         }, () => {
             //
         });

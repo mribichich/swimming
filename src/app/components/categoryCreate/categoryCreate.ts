@@ -1,5 +1,5 @@
 import { ITournamentService } from 'app/services';
-import { IHistoryService } from 'app/services/historyService';
+// import { IHistoryService } from 'app/services/historyService';
 import { Tournament, Category } from 'app/entities';
 import { CategoryFactory } from 'app/factories';
 import * as FeedbackLib from 'app/libs/feedbackLib';
@@ -17,8 +17,8 @@ class CategoryCreate {
     constructor(
         private tournamentService: ITournamentService,
         private $rootRouter,
-        private $window,
-        private historyService: IHistoryService
+        private $window
+        // private historyService: IHistoryService
     ) {
     }
 
@@ -54,7 +54,7 @@ class CategoryCreate {
         // this.$location.path(`/tournaments/${this.tournament.id}/categories`);
         //    this.$window.history.back(); 
     
-        this.$rootRouter.navigate(['/Categories', { tournamentId: this.tournament.id }]);
+        this.$rootRouter.navigate(['/TournamentDetails', { id: this.tournament.id }]);
     }
 
     getTournament(id: string) {

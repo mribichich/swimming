@@ -5,12 +5,14 @@ import 'rxjs/add/operator/share';
 
 import { ITournamentService, ISwimmerService, IGetAllInfo } from 'app/services';
 import { TournamentGetAllFilter } from 'app/serviceFilters';
-import { Tournament, Swimmer, TournamentEvent, Category, Heat } from 'app/entities';
-import { TournamentFactory, CategoryFactory, SeedTimeFactory } from 'app/factories';
+import { Tournament, Swimmer, TournamentEvent, Category, Heat, SeedTime } from 'app/entities';
+import { TournamentFactory, CategoryFactory, SeedTimeFactory, EventFactory } from 'app/factories';
 import { CategorySwimmerAssigner } from 'app/core/categorySwimmerAssigner';
 import { EventGenderAssigner } from 'app/core/eventGenderAssigner';
 import { ITournamentRepository } from 'app/data';
-import { TournamentDb } from 'app/data/entities';
+import { TournamentDb, TournamentEventDb } from 'app/data/entities';
+import { HeatAssigner } from 'app/core/heatAssigner';
+import { EventState } from 'app/enums';
 
 /*@ngInject*/
 export class TournamentService implements ITournamentService {
@@ -30,46 +32,36 @@ export class TournamentService implements ITournamentService {
     // }
 
     get(id: string, withEntities?: string[]) {
-        var d = this.$q.defer<Tournament>();
 
-        this.tournamentRepository.get(id)
-            .then((result) => {
-                var tournament = TournamentFactory.Create(result);
-
-                let promises = [];
-
-                if (withEntities) {
-                    if (_.find(withEntities, entity => entity.toLowerCase() === 'swimmers')) {
-                        promises.push(this.getTournamentSwimmers(tournament));
-                    }
-                }
-
-                this.$q.all(promises)
-                    .then(() => d.resolve(tournament));
+        return this.tournamentRepository.get(id)
+            .then((tournamentDb) => {
+                return this.swimmerService.getAll()
+                    .then((swimmers) => {
+                        return TournamentFactory.Create(tournamentDb, this.swimmerService, this.$q);
+                    });
             });
-
-        return d.promise;
     }
 
     getAll(filter?: TournamentGetAllFilter, max?: number, skip?: number, sort: string = 'date', order: string = 'asc')
         : ng.IPromise<IGetAllInfo<Tournament>> {
         return this.tournamentRepository.find()
-            .then((tournaments) => {
+            .then((tournamentDbs) => {
                 var result = [];
 
-                tournaments.forEach((tournamentDb) => {
-                    var tournament = TournamentFactory.Create(tournamentDb);
-                    result.push(tournament);
-                });
+                let tournamentsPromises = tournamentDbs
+                    .map((tournamentDb) => TournamentFactory.Create(tournamentDb, this.swimmerService, this.$q));
 
-                this.sort(tournaments, sort, order);
+                return this.$q.all(tournamentsPromises)
+                    .then(tournaments => {
+                        this.sort(tournaments, sort, order)
 
-                return {
-                    items: result,
-                    totalCount: result.length,
-                    filterCount: result.length
-                };
-            });
+                        return {
+                            items: tournaments,
+                            totalCount: result.length,
+                            filterCount: result.length
+                        };
+                    })
+            })
     }
 
     sort(tournaments: Tournament[], sort: string = 'date', order: string = 'asc') {
@@ -191,9 +183,22 @@ export class TournamentService implements ITournamentService {
         return deferred.promise;
     }
 
+    deleteEvent(tournamentId: string, eventId: string): ng.IPromise<void> {
+        return this.tournamentRepository.get(tournamentId)
+            .then((tournamentDb: TournamentDb) => {
+                let tournamentEventDbIndex = tournamentDb.events.findIndex(m => m.id === eventId);
+
+                tournamentDb.events.splice(tournamentEventDbIndex, 1);
+
+                return tournamentDb;
+            })
+            .then((tournamentDb) => this.tournamentRepository.update(tournamentDb))
+            .then(() => this.tournamentRepository.save());
+    }
+
     autoAssignSwimmersToEvents(tournamentId: string): ng.IPromise<void> {
         return this.get(tournamentId)
-            .then((tournament) => this.getTournamentSwimmers(tournament))
+            // .then((tournament) => this.getTournamentSwimmers(tournament))
             .then((tournament) => this.assignSwimmers(tournament))
             .then((tournament) => {
                 this.tournamentRepository.get(tournamentId)
@@ -209,48 +214,43 @@ export class TournamentService implements ITournamentService {
             });
     }
 
-    getTournamentSwimmers(tournament: Tournament): ng.IPromise<Tournament> {
-        if (!tournament.swimmerIds) {
-            tournament.swimmers = [];
-        }
+    // getTournamentSwimmers(tournament: Tournament): ng.IPromise<Tournament> {
+    //     if (!tournament.swimmerIds) {
+    //         tournament.swimmers = [];
+    //     }
 
-        const defer = this.$q.defer<Tournament>();
+    //     const defer = this.$q.defer<Tournament>();
 
-        // if (tournament.swimmers && tournament.swimmerIds.length === tournament.swimmers.length) {
-        //     defer.resolve();
+    //     let swimmersPromises: Array<ng.IPromise<Swimmer>> = [];
+    //     tournament.swimmers = [];
 
-        //     return defer.promise;
-        // }
+    //     tournament.swimmerIds.forEach((swimmerId) => {
+    //         let p = this.swimmerService.get(swimmerId);
+    //         swimmersPromises.push(p);
+    //     });
 
-        let swimmersPromises: Array<ng.IPromise<Swimmer>> = [];
-        tournament.swimmers = [];
+    //     this.$q.all(swimmersPromises)
+    //         .then((swimmers: Array<Swimmer>) => {
+    //             swimmers.forEach(swimmer => {
+    //                 tournament.swimmers.push(swimmer);
+    //             });
 
-        tournament.swimmerIds.forEach((swimmerId) => {
-            let p = this.swimmerService.get(swimmerId);
-            swimmersPromises.push(p);
-        });
+    //             defer.resolve(tournament);
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
 
-        this.$q.all(swimmersPromises)
-            .then((swimmers: Array<Swimmer>) => {
-                swimmers.forEach(swimmer => {
-                    tournament.swimmers.push(swimmer);
-                });
+    //             defer.reject();
+    //         });
 
-                defer.resolve(tournament);
-            })
-            .catch((error) => {
-                console.log(error);
-
-                defer.reject();
-            });
-
-        return defer.promise;
-    }
+    //     return defer.promise;
+    // }
 
     assignSwimmers(tournament: Tournament): Tournament {
         tournament.events.forEach((event) => {
-            // event.swimmerIds = [];
-            // event.swimmers = [];
+            if (event.state !== EventState.NotStarted){
+                return;
+            }
 
             tournament.swimmers.forEach((swimmer) => {
                 if (!EventGenderAssigner.isGender(event.genderType, swimmer.gender)) {
@@ -268,84 +268,84 @@ export class TournamentService implements ITournamentService {
         return tournament;
     }
 
-    getEvent(tournament: Tournament, id: string, withEntities?: string[]): ng.IPromise<TournamentEvent> {
-        var deferred = this.$q.defer<TournamentEvent>();
+    // getEvent(tournament: Tournament, eventId: string, withEntities?: string[]): ng.IPromise<TournamentEvent> {
+    //     var deferred = this.$q.defer<TournamentEvent>();
 
-        try {
-            let tournamentEvent = _.find(tournament.events, (item) => {
-                return item.id === id;
-            });
+    //     try {
+    //         let tournamentEvent = _.find(tournament.events, (item) =>  item.id === eventId);
 
-            let category = _.find(tournament.categories, (category) => {
-                return category.id === tournamentEvent.categoryId;
-            });
+    //         let category = _.find(tournament.categories, (category) => {
+    //             return category.id === tournamentEvent.categoryId;
+    //         });
 
-            tournamentEvent.category = CategoryFactory.Create(category);
+    //         tournamentEvent.category = CategoryFactory.Create(category);
 
-            tournamentEvent.swimmers = [];
+    //         tournamentEvent.swimmers = [];
 
-            this.getTournamentSwimmers(tournament)
-                .then(() => {
-                    tournamentEvent.swimmerIds.forEach(swimmerId => {
-                        let swimmer = _.find(tournament.swimmers, (item) => {
-                            return item.id === swimmerId;
-                        });
+    //         this.getTournamentSwimmers(tournament)
+    //             .then(() => {
+    //                 tournamentEvent.swimmerIds.forEach(swimmerId => {
+    //                     let swimmer = _.find(tournament.swimmers, (item) => {
+    //                         return item.id === swimmerId;
+    //                     });
 
-                        tournamentEvent.swimmers.push(swimmer);
-                    });
-                })
-                .then(() => {
-                    if (withEntities) {
-                        if (_.find(withEntities, entity => entity.toLowerCase() === 'seedtimes')) {
-                            if (!tournamentEvent.seedTimes || !tournamentEvent.seedTimes.length) {
-                                let seedTimes = tournamentEvent.swimmers.map(swimmer => SeedTimeFactory.Create(swimmer));
-                                tournamentEvent.seedTimes = seedTimes;
-                                return;
-                            }
+    //                     tournamentEvent.swimmers.push(swimmer);
+    //                 });
+    //             })
+    //             .then(() => {
+    //                 if (withEntities) {
+    //                     // if (_.find(withEntities, entity => entity.toLowerCase() === 'seedtimes')) {
+    //                     //     if (!tournamentEvent.seedTimes || !tournamentEvent.seedTimes.length) {
+    //                     //         let seedTimes = tournamentEvent.swimmers.map(swimmer => SeedTimeFactory.Create(swimmer));
+    //                     //         tournamentEvent.seedTimes = seedTimes;
+    //                     //         return;
+    //                     //     }
 
-                            let seedTimeIndexesToRemove: number[] = [];
+    //                     //     let seedTimeIndexesToRemove: number[] = [];
 
-                            for (let i = 0; i < tournamentEvent.seedTimes.length; i++) {
-                                var seedTime = tournamentEvent.seedTimes[i];
+    //                     //     for (let i = 0; i < tournamentEvent.seedTimes.length; i++) {
+    //                     //         var seedTime = tournamentEvent.seedTimes[i];
 
-                                let swimmer = _.find(tournamentEvent.swimmers, swimmer => swimmer.id === seedTime.swimmerId);
+    //                     //         let swimmer = _.find(tournamentEvent.swimmers, swimmer => swimmer.id === seedTime.swimmerId);
 
-                                if (swimmer) {
-                                    seedTime.swimmer = swimmer;
-                                } else {
-                                    seedTimeIndexesToRemove.push(i);
-                                }
-                            }
+    //                     //         if (swimmer) {
+    //                     //             seedTime.swimmer = swimmer;
+    //                     //         } else {
+    //                     //             seedTimeIndexesToRemove.push(i);
+    //                     //         }
+    //                     //     }
 
-                            for (let i = seedTimeIndexesToRemove.length - 1; i >= 0; i--) {
-                                tournamentEvent.seedTimes.splice(seedTimeIndexesToRemove[i], 1);
-                            }
+    //                     //     for (let i = seedTimeIndexesToRemove.length - 1; i >= 0; i--) {
+    //                     //         tournamentEvent.seedTimes.splice(seedTimeIndexesToRemove[i], 1);
+    //                     //     }
 
-                            tournamentEvent.swimmers.forEach(swimmer => {
-                                let seedTime = _.find(tournamentEvent.seedTimes, seedTime => seedTime.swimmerId === swimmer.id);
+    //                     //     tournamentEvent.swimmers.forEach(swimmer => {
+    //                     //         let seedTime = _.find(tournamentEvent.seedTimes, seedTime => seedTime.swimmerId === swimmer.id);
 
-                                if (!seedTime) {
-                                    let seedTime = SeedTimeFactory.Create(swimmer);
+    //                     //         if (!seedTime) {
+    //                     //             let seedTime = SeedTimeFactory.Create(swimmer);
 
-                                    tournamentEvent.seedTimes.push(seedTime);
-                                }
-                            });
-                        }
-                    }
-                })
-                .then(() => deferred.resolve(tournamentEvent));
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
+    //                     //             tournamentEvent.seedTimes.push(seedTime);
+    //                     //         }
+    //                     //     });
+    //                     // }
+    //                 }
+    //             })
+    //             .then(() => deferred.resolve(tournamentEvent));
+    //     } catch (error) {
+    //         console.error(error);
+    //         throw error;
+    //     }
 
-        return deferred.promise;
-    }
+    //     return deferred.promise;
+    // }
 
     getEvent2(tournamentId: string, eventId: string, withEntities?: string[]): ng.IPromise<TournamentEvent> {
         return this.get(tournamentId)
             .then((tournament: Tournament) => {
-                return this.getEvent(tournament, eventId, withEntities);
+                // return this.getEvent(tournament, eventId, withEntities);
+
+                return _.find(tournament.events, (item) => item.id === eventId);
             });
     }
 
@@ -425,7 +425,7 @@ export class TournamentService implements ITournamentService {
             });
     }
 
-    changeEventTimes(tournamentId: string, eventId: string,  eventHeats: Heat[]): ng.IPromise<void>{
+    changeEventTimes(tournamentId: string, eventId: string, eventHeats: Heat[]): ng.IPromise<void> {
         return this.getEvent2(tournamentId, eventId)
             .then((tournamentEvent: TournamentEvent) => {
                 tournamentEvent.changeTimes(eventHeats);
@@ -490,11 +490,17 @@ export class TournamentService implements ITournamentService {
     removeSwimmerFromEvent(tournamentId: string, eventId: string, swimmerToRemoveId: string): ng.IPromise<void> {
         return this.tournamentRepository.get(tournamentId)
             .then((tournamentDb: TournamentDb) => {
-                let tournamentEventDb = tournamentDb.events.find(m => m.id === eventId);
+                let tournamentEventDb: TournamentEventDb = tournamentDb.events.find(m => m.id === eventId);
 
                 const swimmerToRemoveIndex = tournamentEventDb.swimmerIds.findIndex(m => m === swimmerToRemoveId);
-
                 tournamentEventDb.swimmerIds.splice(swimmerToRemoveIndex, 1);
+
+                for (var i = 0; i < tournamentEventDb.heats.length; i++) {
+                    let heat = tournamentEventDb.heats[i];
+
+                    const laneToRemoveIndex = heat.lanes.findIndex(m => m.swimmerId === swimmerToRemoveId);
+                    heat.lanes.splice(laneToRemoveIndex, 1);
+                }
 
                 return tournamentDb;
             })
@@ -533,16 +539,30 @@ export class TournamentService implements ITournamentService {
                         }
                     }
 
-                    if (tournamentEventDb.seedTimes) {
-                        const seedTimeIndex = tournamentEventDb.seedTimes.findIndex(m => m.swimmerId === swimmerToRemoveId);
+                    // if (tournamentEventDb.seedTimes) {
+                    //     const seedTimeIndex = tournamentEventDb.seedTimes.findIndex(m => m.swimmerId === swimmerToRemoveId);
 
-                        if (seedTimeIndex === -1) {
-                            return;
-                        }
+                    //     if (seedTimeIndex === -1) {
+                    //         return;
+                    //     }
 
-                        tournamentEventDb.seedTimes.splice(seedTimeIndex, 1);
-                    }
+                    //     tournamentEventDb.seedTimes.splice(seedTimeIndex, 1);
+                    // }
                 });
+
+                return tournamentDb;
+            })
+            .then((tournamentDb) => this.tournamentRepository.update(tournamentDb))
+            .then(() => this.tournamentRepository.save());
+    }
+
+    changeEventSeedTimes(tournamentId: string, eventId: string, eventSeedTimes: SeedTime[]): ng.IPromise<void> {
+        return this.tournamentRepository.get(tournamentId)
+            .then((tournamentDb: TournamentDb) => {
+                let tournamentEventDb = tournamentDb.events.find(m => m.id === eventId);
+
+                let h = new HeatAssigner();
+                tournamentEventDb.heats = h.assignSwimmers(eventSeedTimes);
 
                 return tournamentDb;
             })

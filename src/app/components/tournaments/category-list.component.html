@@ -1,0 +1,35 @@
+<div layout="row">
+    <span flex></span>
+    <!--ng-click="$ctrl.navigateToCreateCategory()"-->
+    <md-button class="md-icon-button"
+        aria-label="Crear Categoria"
+        ng-link="['CategoryCreate', { tournamentId: $ctrl.tournament.id }]">
+        <md-icon>add</md-icon>
+        <md-tooltip>Crear Categoria</md-tooltip>
+    </md-button>
+</div>
+
+<p ng-if="!$ctrl.tournament.categories.length">No se encontraron datos</p>
+<md-list ng-if="$ctrl.tournament.categories.length">
+    <md-list-item>
+        <p>Nombre</p>
+        <p>Tipo</p>
+        <p>Desde</p>
+        <p>Hasta</p>
+    </md-list-item>
+    <md-divider></md-divider>
+
+    <md-list-item ng-repeat="category in $ctrl.tournament.categories | orderBy: 'fullName'"
+        ng-click="$ctrl.navigateTo(['/CategoryDetails', { tournamentId: $ctrl.tournament.id, categoryId: category.id }])">
+        <p>{{category.name}}</p>
+        <p>{{category.typeDescription}}</p>
+        <p>{{category.from}}</p>
+        <p>{{category.to}}</p>
+        <md-icon class="material-icons md-secondary"
+            ng-click="$ctrl.delete($event, category)"
+            aria-label="Quitar">
+            delete
+            <md-tooltip>Quitar Categoria</md-tooltip>
+        </md-icon>
+    </md-list-item>
+</md-list>

@@ -1,14 +1,14 @@
 import {IStorage} from 'app/data';
-import {Swimmer} from 'app/entities';
+import {SwimmerDb} from 'app/data/entities';
 
 export interface ISwimmerRepository {
-    add(swimmerDb: Swimmer): ng.IPromise<void>;
+    add(swimmerDb: SwimmerDb): ng.IPromise<void>;
 
-    update(swimmerDb: Swimmer): ng.IPromise<void>;
+    update(swimmerDb: SwimmerDb): ng.IPromise<void>;
 
-    get(id: string): ng.IPromise<Swimmer>;
+    get(id: string): ng.IPromise<SwimmerDb>;
 
-    find(query?: LokiQuery): ng.IPromise<Swimmer[]>;
+    find(query?: LokiQuery): ng.IPromise<SwimmerDb[]>;
 
     save(): ng.IPromise<void>;
 }
@@ -21,9 +21,9 @@ export class SwimmerRepository implements ISwimmerRepository {
     ) {
     }
 
-    collection: LokiCollection<Swimmer>;
+    collection: LokiCollection<SwimmerDb>;
 
-    getCollection(): ng.IPromise<LokiCollection<Swimmer>> {
+    getCollection(): ng.IPromise<LokiCollection<SwimmerDb>> {
         var d = this.$q.defer<LokiCollection<Swimmer>>();
 
         if (this.collection) {
@@ -40,28 +40,28 @@ export class SwimmerRepository implements ISwimmerRepository {
         return d.promise;
     }
 
-    add(swimmerDb: Swimmer): ng.IPromise<void> {
+    add(swimmerDb: SwimmerDb): ng.IPromise<void> {
         return this.getCollection()
             .then(() => {
                 this.collection.insert(swimmerDb);
             });
     }
 
-    update(swimmerDb: Swimmer): ng.IPromise<void> {
+    update(swimmerDb: SwimmerDb): ng.IPromise<void> {
         return this.getCollection()
             .then(() => {
                 this.collection.update(swimmerDb);
             });
     }
 
-    get(id: string): ng.IPromise<Swimmer> {
+    get(id: string): ng.IPromise<SwimmerDb> {
         return this.getCollection()
             .then(() => {
                 return this.collection.by('id', id);
             });
     }
 
-    find(query?: LokiQuery): ng.IPromise<Swimmer[]> {
+    find(query?: LokiQuery): ng.IPromise<SwimmerDb[]> {
         return this.getCollection()
             .then(() => {
                 if (query) {

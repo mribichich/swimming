@@ -5,6 +5,7 @@ import humanizeDuration from 'humanize-duration';
 // import { EventGenderType } from 'app/enums/eventGenderType';
 import { EventGenderType, EventState } from 'app/enums';
 import { Category, Swimmer, SeedTime, Lane, Heat } from 'app/entities';
+import { SeedTimeFactory } from 'app/factories';
 
 // jspm install angular-timer=npm:angular-timer -o "{ main: 'dist/angular-timer', format: 'global',  shim: { 'dist/angular-timer': { "deps": ["moment"], "exports": "moment" } }, dependencies: { 'moment': '*' }, registry: 'jspm' }"
 
@@ -14,7 +15,7 @@ export class TournamentEvent {
 	constructor() {
 		this.swimmerIds = [];
 		this.swimmers = [];
-		this.seedTimes = [];
+		// this.seedTimes = [];
 		this.state = EventState.NotStarted;
 	}
 
@@ -29,7 +30,7 @@ export class TournamentEvent {
 	genderType: EventGenderType;
 	swimmerIds: Array<string>;
 	swimmers: Array<Swimmer>;
-	seedTimes: SeedTime[];
+	_seedTimes: SeedTime[];
 	heats: Heat[];
 	startedDateTime: Date;
 	finishedDateTime: Date;
@@ -68,10 +69,10 @@ export class TournamentEvent {
 		this.swimmerIds.push(swimmer.id);
 		this.swimmers.push(swimmer);
 
-		let seedTime = new SeedTime();
-		seedTime.swimmerId = swimmer.id;
-		seedTime.time = 'S/T';
-		this.seedTimes.push(seedTime);
+		// let seedTime = new SeedTime();
+		// seedTime.swimmerId = swimmer.id;
+		// seedTime.time = 'S/T';
+		// this.seedTimes.push(seedTime);
 	}
 
 	startEvent() {
@@ -119,6 +120,10 @@ export class TournamentEvent {
 			return this._results;
 		}
 
+		if (!this.heats) {
+			return undefined;
+		}
+
 		this._results = this.heats.map(m => m.lanes)
 			.reduce((a, b) => a.concat(b), [])
 			.map(m => {
@@ -128,7 +133,40 @@ export class TournamentEvent {
 				};
 			})
 			.sort((a, b) => {
+if (!a.time){
+	return 0;
+}
+
 				return a.time.localeCompare(b.time);
+			});
+	}
+
+	getSeedTimes() {
+		const seedTimes: SeedTime[] = [];
+
+		if (this.heats && this.heats.length) {
+			this.heats.forEach(heat => {
+				heat.lanes.forEach(lane => {
+					// const seedTime = new SeedTime();
+					// seedTime.swimmer = lane.swimmer;
+					// seedTime. = lane.swimmer;
+
+					// const swimmerTemp = this.swimmers.find(f => f.id === lane.swimmerId);
+					// lane.seedTime.swimmer = lane.swimmer;
+					seedTimes.push(lane.seedTime);
+				});
+			});
+		} else {
+			this.swimmers.forEach(m => {
+				const seedTime = SeedTimeFactory.Create(m);
+
+				seedTimes.push(seedTime);
+			});
+		}
+
+		return seedTimes
+			.sort((a, b) => {
+				return a.swimmer.fullName.localeCompare(b.swimmer.fullName);
 			});
 	}
 }
