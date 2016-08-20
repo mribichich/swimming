@@ -24,8 +24,8 @@
 
         <md-divider></md-divider>
 
-        <md-list-item ng-repeat="result in event.getResults()">
-            <p>{{ $index + 1 }}</p>
+        <md-list-item ng-repeat="result in event.getResults() | filter: $ctrl.filterResults">
+            <p>{{ result.pos }}</p>
             <p>{{ result.swimmer.fullName }}</p>
             <p>{{ result.swimmer.team }}</p>
             <p>{{ result.time }}</p>

@@ -24,7 +24,7 @@
 
         <md-divider></md-divider>
 
-        <md-list-item ng-repeat="lane in heat.lanes">
+        <md-list-item ng-repeat="lane in heat.lanes | filter: $ctrl.filterLanes">
             <p>{{ heat.seriesNumber }}</p>
             <p>{{ lane.number }}</p>
             <p>{{ lane.swimmer.fullName }}</p>

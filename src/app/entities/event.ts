@@ -133,12 +133,16 @@ export class TournamentEvent {
 				};
 			})
 			.sort((a, b) => {
-if (!a.time){
-	return 0;
-}
+				if (!a.time) {
+					return 0;
+				}
 
 				return a.time.localeCompare(b.time);
 			});
+
+		for (var i = 0; i < this._results.length; i++) {
+			this._results[i].pos = i + 1;
+		}
 	}
 
 	getSeedTimes() {
