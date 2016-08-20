@@ -53,4 +53,6 @@ export interface ITournamentService {
     removeSwimmer(tournamentId: string, swimmerToRemoveId: string): ng.IPromise<void>;
 
     changeEventSeedTimes(tournamentId: string, eventId: string, eventSeedTimes: SeedTime[]): ng.IPromise<void>;
+
+    updateCategoryDetails(tournamentId: string, category: Category): ng.IPromise<void> ;
 }

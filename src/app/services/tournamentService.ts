@@ -10,7 +10,7 @@ import { TournamentFactory, CategoryFactory, SeedTimeFactory, EventFactory } fro
 import { CategorySwimmerAssigner } from 'app/core/categorySwimmerAssigner';
 import { EventGenderAssigner } from 'app/core/eventGenderAssigner';
 import { ITournamentRepository } from 'app/data';
-import { TournamentDb, TournamentEventDb } from 'app/data/entities';
+import { TournamentDb, TournamentEventDb, CategoryDb } from 'app/data/entities';
 import { HeatAssigner } from 'app/core/heatAssigner';
 import { EventState } from 'app/enums';
 
@@ -248,7 +248,7 @@ export class TournamentService implements ITournamentService {
 
     assignSwimmers(tournament: Tournament): Tournament {
         tournament.events.forEach((event) => {
-            if (event.state !== EventState.NotStarted){
+            if (event.state !== EventState.NotStarted) {
                 return;
             }
 
@@ -563,6 +563,22 @@ export class TournamentService implements ITournamentService {
 
                 let h = new HeatAssigner();
                 tournamentEventDb.heats = h.assignSwimmers(eventSeedTimes);
+
+                return tournamentDb;
+            })
+            .then((tournamentDb) => this.tournamentRepository.update(tournamentDb))
+            .then(() => this.tournamentRepository.save());
+    }
+
+    updateCategoryDetails(tournamentId: string, category: Category): ng.IPromise<void> {
+        return this.tournamentRepository.get(tournamentId)
+            .then((tournamentDb: TournamentDb) => {
+                let tournamentCategoryDb: CategoryDb = tournamentDb.categories.find(m => m.id === category.id);
+
+                tournamentCategoryDb.name = category.name;
+                tournamentCategoryDb.type = category.type;
+                tournamentCategoryDb.from = category.from;
+                tournamentCategoryDb.to = category.to;
 
                 return tournamentDb;
             })

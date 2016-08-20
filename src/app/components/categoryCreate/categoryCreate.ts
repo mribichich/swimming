@@ -5,20 +5,11 @@ import { CategoryFactory } from 'app/factories';
 import * as FeedbackLib from 'app/libs/feedbackLib';
 
 class CategoryCreate {
-    'use strict';
-
-    static $inject: string[] = [
-        'tournamentService',
-        '$rootRouter',
-        '$window',
-        'historyService'
-    ];
-
+    /*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
         private $rootRouter,
         private $window
-        // private historyService: IHistoryService
     ) {
     }
 
@@ -53,7 +44,7 @@ class CategoryCreate {
         // this.$window.history.back();
         // this.$location.path(`/tournaments/${this.tournament.id}/categories`);
         //    this.$window.history.back(); 
-    
+
         this.$rootRouter.navigate(['/TournamentDetails', { id: this.tournament.id }]);
     }
 
@@ -94,7 +85,7 @@ class CategoryCreate {
         this.feedbacks.save.isWorking = true;
 
         // this.tournament.categories.push(this.category);
-        
+
         this.tournamentService.addCategory(this.tournament, this.category)
             .then((data) => this.processCreateCategory(data))
             .catch((error) => this.catchCreateCategoryError(error))
@@ -123,7 +114,7 @@ class CategoryCreate {
         this.feedbacks.save.setNone();
         this.feedbacks.save.isWorking = true;
 
-        this.tournamentService.edit(this.tournament)
+        this.tournamentService.updateCategoryDetails(this.tournament.id, this.category)
             .then((data) => this.processEditCategory(data))
             .catch((error) => this.catchEditCategoryError(error))
             .finally(() => {
@@ -133,8 +124,7 @@ class CategoryCreate {
 
     private processEditCategory(data) {
         this.feedbacks.save.setSuccess();
-        // this.alertService.add(TSS.AngularJs.AlertType.success, "El registro se ha guardado correctamente");
-        // this.$location.path(`/tournaments/${this.tournament.id}/categories`);
+
         this.goBack();
     }
 

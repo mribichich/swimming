@@ -1,3 +1,14 @@
+<div class="layout layout-row layout-align-start-center">
+    <span flex></span>
+
+    <md-input-container class="md-icon-float md-block">
+        <label>Buscar</label>
+        <md-icon>search</md-icon>
+        <input ng-model="$ctrl.searchText"
+            type="text">
+    </md-input-container>
+</div>
+
 <div ng-repeat="event in $ctrl.tournament.events">
     <h4>Prueba: {{event.number}}</h4>
 
