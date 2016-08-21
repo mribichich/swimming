@@ -1,13 +1,21 @@
 <div class="layout layout-row layout-align-start-center">
     <span flex></span>
 
-    <md-input-container class="md-icon-float md-block">
-        <label>Buscar</label>
+    <md-input-container class="tournament-results__search-input" md-no-float>
         <md-icon>search</md-icon>
         <input ng-model="$ctrl.searchText"
-            type="text">
+            type="text" placeholder="Buscar">
     </md-input-container>
+
+    <md-button class="md-icon-button tournament-results__print-btn"
+        aria-label="Imprimir"
+        ng-click="$ctrl.printResults()">
+        <md-icon>print</md-icon>
+        <md-tooltip>Imprimir</md-tooltip>
+    </md-button>
 </div>
+
+<h3 class="tournament-results__title"><strong>Resultados</strong></h3>
 
 <div ng-repeat="event in $ctrl.tournament.events">
     <h4>Prueba: {{event.number}}</h4>

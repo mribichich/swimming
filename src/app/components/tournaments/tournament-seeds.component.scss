@@ -1,5 +1,11 @@
-.tournament-seeds__search-input{
-    margin-bottom: 0px;
+.tournament-seeds {
+    &__search-input {
+        margin-bottom: 0px;
+    }
+
+    &__title {
+        display: none;
+    }
 }
 
 @media print {
@@ -10,6 +16,12 @@
 
         &__print-btn {
             display: none;
+        }
+
+        &__title {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 30px;
         }
     }
 } 
