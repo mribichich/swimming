@@ -5,15 +5,7 @@ import { CategoryFactory } from 'app/factories';
 import * as FeedbackLib from 'app/libs/feedbackLib';
 
 class CategoryCreate {
-    'use strict';
-
-    static $inject: string[] = [
-        'tournamentService',
-        '$rootRouter',
-        '$window',
-        'historyService'
-    ];
-
+/*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
         private $rootRouter,

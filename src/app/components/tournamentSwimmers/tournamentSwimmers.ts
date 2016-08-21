@@ -10,8 +10,8 @@ import { Swimmer } from 'app/entities/swimmer';
 import { SwimmersSelectionDialogComponent } from 'app/components/swimmers-selection-dialog/swimmers-selection-dialog';
 import { ISwimmerService } from 'app/services/swimmerService';
 
-/*@ngInject*/
 class TournamentSwimmers {
+/*@ngInject*/
     constructor(
         private $rootRouter,
         private tournamentService: ITournamentService,

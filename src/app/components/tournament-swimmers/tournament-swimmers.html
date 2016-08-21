@@ -26,7 +26,7 @@
 
     <md-divider></md-divider>
 
-    <md-list-item ng-repeat="swimmer in $ctrl.tournament.swimmers | orderBy: 'fullName'" ng-click="$ctrl.navigateTo('tournaments/'+$ctrl.tournament.id+'/swimmers/details/'+swimmer.id)">
+    <md-list-item ng-repeat="swimmer in $ctrl.tournament.swimmers | orderBy: 'fullName'" ng-click="$ctrl.navigateTo(['/TournamentSwimmerDetails', { tournamentId: $ctrl.tournament.id, swimmerId: swimmer.id }])">
         <p>{{swimmer.fullName}}</p>
         <p>{{swimmer.birthDate | date: 'shortDate'}}</p>
         <p>{{swimmer.age}}</p>

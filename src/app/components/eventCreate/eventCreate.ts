@@ -9,8 +9,8 @@ import { Category } from 'app/entities/category';
 import { EventFactory } from 'app/factories';
 import * as FeedbackLib from 'app/libs/feedbackLib';
 
-/*@ngInject*/
  class EventCreate {
+/*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
         private $rootRouter,

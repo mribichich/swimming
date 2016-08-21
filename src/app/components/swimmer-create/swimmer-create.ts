@@ -6,13 +6,14 @@ import { Swimmer } from 'app/entities/swimmer';
 import { SwimmerFactory } from 'app/factories';
 import * as FeedbackLib from 'app/libs/feedbackLib';
 
-/*@ngInject*/
 class SwimmerCreate {
+/*@ngInject*/
     constructor(
         private swimmerService: ISwimmerService,
         private $rootRouter,
         private $window,
-        private historyService: IHistoryService
+        private historyService: IHistoryService,
+        private $q:ng.IQService
     ) {
     }
 

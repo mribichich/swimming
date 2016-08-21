@@ -2,8 +2,8 @@ import { ITournamentService } from 'app/services';
 import { Tournament, TournamentEvent, Swimmer } from 'app/entities';
 import { Feedback } from 'app/libs/feedback/feedback';
 
-/*@ngInject*/
 class TournamentEvents {
+/*@ngInject*/
     constructor(
         private $mdDialog,
         private tournamentService:ITournamentService,

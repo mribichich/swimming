@@ -14,11 +14,11 @@ import { TournamentDb, TournamentEventDb } from 'app/data/entities';
 import { HeatAssigner } from 'app/core/heatAssigner';
 import { EventState } from 'app/enums';
 
-/*@ngInject*/
 export class TournamentService implements ITournamentService {
     private tournamentsObserver: Observer<Tournament[]>;
     tournaments$: Observable<Tournament[]>;
 
+/*@ngInject*/
     constructor(
         private $q: ng.IQService,
         private swimmerService: ISwimmerService,

@@ -9,15 +9,7 @@ import { Tournament } from 'app/entities/tournament';
 import { Swimmer } from 'app/entities/swimmer';
 
  class TournamentSwimmerDetails {
-    static $inject: string[] = [
-        'tournamentService',
-        '$rootRouter',
-        '$window',
-        '$location',
-        '$mdDialog',
-        'historyService'
-    ];
-
+/*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
         private $rootRouter,

@@ -17,8 +17,8 @@ export interface ISwimmerService {
     updateInfo(id: string, swimmer: Swimmer): ng.IPromise<void>;
 }
 
-/*@ngInject*/
 export class SwimmerService implements ISwimmerService {
+/*@ngInject*/
     constructor(
         private $q: ng.IQService,
         private swimmerRepository: ISwimmerRepository

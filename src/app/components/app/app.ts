@@ -25,8 +25,8 @@ import * as components from 'app/components';
 import {upgradeAdapter} from 'app/upgrade_adapter';
 import {HeroDetailComponent} from 'app/components/test/test';
 
-/*@ngInject*/
 export class App {
+/*@ngInject*/
     constructor(
         private $rootRouter,
         private $mdSidenav

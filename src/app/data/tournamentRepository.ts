@@ -14,8 +14,8 @@ export interface ITournamentRepository {
     save(): ng.IPromise<void>;
 }
 
-/*@ngInject*/
 export class TournamentRepository implements ITournamentRepository {
+/*@ngInject*/
     constructor(
         private storage: IStorage,
         private $q: ng.IQService

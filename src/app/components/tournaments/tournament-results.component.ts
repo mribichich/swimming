@@ -1,5 +1,6 @@
-/*@ngInject*/
+
 class TournamentResults {
+/*@ngInject*/
     constructor(
     ) { }
 }

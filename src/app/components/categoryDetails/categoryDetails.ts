@@ -5,8 +5,8 @@ import { IHistoryService } from 'app/services/historyService';
 import { Tournament } from 'app/entities/tournament';
 import { Category } from 'app/entities/category';
 
-/*@ngInject*/
 class CategoryDetails {
+/*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
         private $mdDialog,

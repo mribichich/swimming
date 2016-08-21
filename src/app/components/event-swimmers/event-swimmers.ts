@@ -19,8 +19,8 @@ import {
     SwimmerFactory
 } from 'app/factories';
 
-/*@ngInject*/
 class EventSwimmers {
+/*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
         private $mdDialog,
