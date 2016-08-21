@@ -13,8 +13,8 @@ export interface ISwimmerRepository {
     save(): ng.IPromise<void>;
 }
 
-/*@ngInject*/
 export class SwimmerRepository implements ISwimmerRepository {
+/*@ngInject*/
     constructor(
         private storage: IStorage,
         private $q: ng.IQService

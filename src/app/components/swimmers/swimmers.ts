@@ -5,12 +5,7 @@ import { IHistoryService } from 'app/services/historyService';
 import { Swimmer } from 'app/entities/swimmer';
 
  class Swimmers {
-    static $inject: string[] = [
-        'swimmerService',
-        'historyService',
-        '$rootRouter'
-    ];
-
+/*@ngInject*/
     constructor(
         private swimmerService: ISwimmerService,
         private historyService: IHistoryService,

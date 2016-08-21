@@ -27,8 +27,8 @@ import {
     SwimmersSelectionDialogComponent
 } from 'app/components/swimmers-selection-dialog/swimmers-selection-dialog';
 
-/*@ngInject*/
 class EventDetails {
+/*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
         private $mdDialog,

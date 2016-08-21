@@ -27,7 +27,7 @@ export class Storage implements IStorage {
 
             return true;
         } catch (error) {
-            if (error.errno && error.errno === -2) {
+            if (error.code === "ENOENT") {
                 return false;
             }
 

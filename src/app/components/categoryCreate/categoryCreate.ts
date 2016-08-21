@@ -84,8 +84,6 @@ class CategoryCreate {
         this.feedbacks.save.setNone();
         this.feedbacks.save.isWorking = true;
 
-        // this.tournament.categories.push(this.category);
-
         this.tournamentService.addCategory(this.tournament, this.category)
             .then((data) => this.processCreateCategory(data))
             .catch((error) => this.catchCreateCategoryError(error))
@@ -96,8 +94,7 @@ class CategoryCreate {
 
     private processCreateCategory(data) {
         this.feedbacks.save.setSuccess();
-        // this.alertService.add(TSS.AngularJs.AlertType.success, "El registro se ha guardado correctamente");
-        // this.$location.path(`/tournaments/${this.tournament.id}/categories`);
+        
         this.goBack();
     }
 

@@ -13,8 +13,8 @@ import {
 } from 'app/entities';
 import * as FeedbackLib from 'app/libs/feedbackLib';
 
-/*@ngInject*/
 class EventTimes {
+/*@ngInject*/
     constructor(
         private $mdDialog,
         private tournamentService: ITournamentService

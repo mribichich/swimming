@@ -11,10 +11,8 @@ export interface IHistoryService {
 	foward(): string;
 }
 
-/*@ngInject*/
 export class HistoryService implements IHistoryService {
-	'use strict';
-
+/*@ngInject*/
     constructor(
 		private $location,
 		private $rootScope

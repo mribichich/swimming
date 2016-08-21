@@ -10,15 +10,16 @@ import { Swimmer } from 'app/entities/swimmer';
 import { SwimmersSelectionDialogComponent } from 'app/components/swimmers-selection-dialog/swimmers-selection-dialog';
 import { ISwimmerService } from 'app/services/swimmerService';
 
-/*@ngInject*/
 class TournamentSwimmers2 {
+/*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
         private $mdDialog,
         private $location: ng.ILocationService,
         private swimmerService: ISwimmerService,
         private $window: ng.IWindowService,
-        private $q: ng.IQService
+        private $q: ng.IQService,
+        private $rootRouter
     ) {
     }
 
@@ -37,11 +38,11 @@ class TournamentSwimmers2 {
     // }
 
     navigateTo(path) {
-        this.historyService.go(path);
+        this.$rootRouter.navigate(path);
     }
 
     navigateToCreateSwimmer() {
-        this.historyService.go('/swimmers/create');
+        this.$rootRouter.navigate(['/SwimmerCreate']);
     }
 
     // refresh() {

@@ -10,8 +10,8 @@
 // import { SwimmersSelectionDialogComponent } from 'app/components/swimmers-selection-dialog/swimmers-selection-dialog';
 // import { ISwimmerService } from 'app/services/swimmerService';
 
-/*@ngInject*/
 class EventResults {
+/*@ngInject*/
     constructor(
     ) { }
 }

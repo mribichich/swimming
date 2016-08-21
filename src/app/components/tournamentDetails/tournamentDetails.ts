@@ -9,8 +9,8 @@ import { IHistoryService } from 'app/services/historyService';
 import { Tournament, Swimmer } from 'app/entities';
 import { EventState } from 'app/enums';
 
-/*@ngInject*/
 class TournamentDetails {
+/*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
         private $window,

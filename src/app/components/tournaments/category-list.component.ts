@@ -5,8 +5,8 @@ import * as angular from 'angular';
 import { ITournamentService } from 'app/services';
 import { Tournament, Category } from 'app/entities';
 
-/*@ngInject*/
 class CategoryList {
+/*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
         private $mdDialog,

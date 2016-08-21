@@ -15,8 +15,8 @@ import {
 import { EventState } from 'app/enums';
 import * as FeedbackLib from 'app/libs/feedbackLib';
 
-/*@ngInject*/
 class EventSeeds {
+/*@ngInject*/
     constructor(
         private $mdDialog,
         private tournamentService: ITournamentService

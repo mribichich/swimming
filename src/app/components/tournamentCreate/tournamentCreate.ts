@@ -7,14 +7,15 @@ import { TournamentFactory } from 'app/factories';
 import * as FeedbackLib from 'app/libs/feedbackLib';
 import { Category } from 'app/entities/category';
 
-/*@ngInject*/
 class TournamentCreate {
+/*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
         private $window,
         private $location,
         private historyService: IHistoryService,
-        private $rootRouter
+        private $rootRouter,
+        private $q:ng.IQService
     ) {
     }
 
@@ -33,7 +34,7 @@ class TournamentCreate {
         if (angular.isUndefined(toRoute.params.id)) {
             this.viewAction = 'Create';
 
-            TournamentFactory.Create()
+            TournamentFactory.Create(null, null, this.$q)
             .then(tournament=> this.tournament = tournament);
         } else {
             this.viewAction = 'Edit';
