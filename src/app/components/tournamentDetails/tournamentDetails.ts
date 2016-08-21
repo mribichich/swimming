@@ -1,5 +1,7 @@
 'use strict';
 
+import './tournament-details.css!';
+
 import * as _ from 'underscore';
 
 import { ITournamentService } from 'app/services';

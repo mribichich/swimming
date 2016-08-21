@@ -1,6 +1,10 @@
-/*@ngInject*/
+import './tournament-seeds.component.css!';
+
 class TournamentSeeds {
+    /*@ngInject*/
     constructor(
+        private $window,
+        private currentWebContents
     ) { }
 
     searchText: string;
@@ -8,6 +12,10 @@ class TournamentSeeds {
     filterLanes = (value, index, array) => {
         var patt = new RegExp(this.searchText, 'i');
         return patt.test(value.swimmer.team);
+    }
+
+    printSeeds() {
+        this.currentWebContents.print();
     }
 }
 

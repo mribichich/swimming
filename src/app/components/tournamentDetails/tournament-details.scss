@@ -1,0 +1,15 @@
+@media print {
+   .tournament-details {
+       &__go-back-btn {
+         display: none; 
+        }
+
+        &__actions-menu {
+          display: none ; 
+        }
+    
+          &__tabs-menu md-tabs-wrapper {
+            display: none; 
+        }
+    }
+} 

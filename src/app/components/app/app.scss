@@ -1,0 +1,9 @@
+@media print {
+    .main-toolbar {
+        display: none; 
+    }
+
+    md-tooltip {
+         display: none; 
+    }
+}

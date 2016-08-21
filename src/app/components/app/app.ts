@@ -1,6 +1,7 @@
 // import 'material-design-lite/material.css!';
 
 import 'app/styles/roboto-font.css!';
+import './app.css!';
 // import 'app/styles/demo-site.css!';
 
 // import 'material-design-lite/material';
@@ -15,6 +16,7 @@ import 'angular-indexedDB';
 import moment from 'moment';
 import 'moment/locale/es';
 import * as timerModule from 'angular-timer';
+import 'angular-electron';
 
 import 'app/templates';
 import * as data from 'app/data';
@@ -87,7 +89,8 @@ angular.module('swimming',
         'ngComponentRouter',
         'indexedDB',
         'templates',
-        timerModule.name
+        timerModule.name,
+        'angular-electron'
     ])
 
     .config(function ($mdDateLocaleProvider) {

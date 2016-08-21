@@ -1,0 +1,15 @@
+.tournament-seeds__search-input{
+    margin-bottom: 0px;
+}
+
+@media print {
+    .tournament-seeds {
+        &__search-input {
+            display: none !important; 
+        }
+
+        &__print-btn {
+            display: none;
+        }
+    }
+} 
