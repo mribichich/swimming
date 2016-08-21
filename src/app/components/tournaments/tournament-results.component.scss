@@ -1,0 +1,27 @@
+.tournament-results {
+    &__search-input{
+        margin-bottom: 0px;
+    }
+
+    &__title {
+        display: none;
+    }
+}
+
+@media print {
+    .tournament-results {
+        &__search-input {
+            display: none !important; 
+        }
+
+        &__print-btn {
+            display: none;
+        }
+
+        &__title {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+    }
+} 
