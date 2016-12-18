@@ -16,10 +16,15 @@
 
 <body layout="column">
   <app></app>
+  
+<script>
+    // You can also require other files to run in this process
+    require('../renderer.js')
+</script>
 
-  <!--<script src="jspm_packages/npm/zone.js@0.5.10/dist/zone.js"></script>-->
-  <script src="jspm_packages/system.js"></script>
-  <script src="config.js"></script>
+<script src="../jspm_packages/system.js"></script>
+<script src="../jspm.config.js"></script>
+
   <script>
        System.import('app/bootstrap');
     </script>

@@ -89,5 +89,3 @@ export class HistoryService implements IHistoryService {
 		return foward;
 	}
 }
-
-// servicesModule.service('historyService', HistoryService);

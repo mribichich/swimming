@@ -1,86 +1,127 @@
 'use strict';
 
-var gulp = require('gulp'),
-    // debug = require('gulp-debug'),
-    // inject = require('gulp-inject'),
-    ts = require('gulp-typescript'),
-    tslint = require('gulp-tslint'),
-    sourcemaps = require('gulp-sourcemaps');
-var del = require('del');
-var path = require('path');
-var runSequence = require('run-sequence');
-var sass = require('gulp-sass');
-var exec = require('child_process').exec;
-var templateCache = require('gulp-angular-templatecache');
-var minifyHtml = require('gulp-minify-html');
-var ngAnnotate = require('gulp-ng-annotate');
-var electron = require('electron-connect').server.create();
-var merge = require('merge2');
+let gulp = require('gulp');
+let autoprefixer = require('gulp-autoprefixer');
+let del = require('del');
+let path = require('path');
+let sass = require('gulp-sass');
+let runSequence = require('run-sequence');
+let sourcemaps = require('gulp-sourcemaps');
+let ngTemplates = require('gulp-ng-templates');
+let htmlmin = require('gulp-htmlmin');
+let watch = require('gulp-watch');
+let ts = require('gulp-typescript');
+let tslint = require('gulp-tslint');
+let ngAnnotate = require('gulp-ng-annotate');
+let argv = require('yargs').argv;
+let gulpif = require('gulp-if');
+let jspmAssets = require('gulp-jspm-assets').jspmAssets;
+let jspm = require('jspm');
+let electron = require('electron-connect').server.create();
+let useref = require('gulp-useref');
+let removeCode = require('gulp-remove-code');
+let CONFIG = require('./gulp.config');
 
-var tsProjectApp = ts.createProject('src/app/tsconfig.json', {
+var tsProject = ts.createProject('tsconfig.json', {
     typescript: require('typescript')
 });
-var tsProjectTests = ts.createProject('src/tests/tsconfig.json',{
-	typescript: require('typescript')
-});
-var tsProjectTestse2e = ts.createProject('src/tests-e2e/tsconfig.json',{
-	typescript: require('typescript')
+
+var tsTests2e2Project = ts.createProject('tsconfig.json', {
+    typescript: require('typescript')
 });
 
-var paths = {
-    sass: {
-        app: {
-            src: 'src/app/**/*.scss',
-            dest: 'dist/app'
-        }
-    },
-    ts: {
-        app: {
-            src: 'src/app/**/!(*.d).ts',
-            dest: 'dist/app'
-        },
-        tests: {
-            // src: 'src/tests/**/*.ts',
-            dest: 'dist/tests'
-        },
-        testse2e: {
-            src: 'src/tests-e2e/**/!(*.d).ts',
-            dest: 'dist/tests-e2e'
-        }
-    },
 
-    html: {
-        app: {
-            src: 'src/app/**/*.html',
-            dest: 'dist/app'
-        }
-    },
 
-    src: {
-        app: {
-            tds:                 'src/app/typings/main/**/*.d.ts'
-        },
-        tests: {
-            js: 'src/tests/**/*.ts',
-            tds: 'src/tests/**/*.d.ts'
-        },
-        testse2e: {
-            tds: 'src/tests-e2e/typings/**/*.d.ts'
-        }
+gulp.task('clean', (done) => {
+    del('dist/**')
+        .then(del('.tmp/**'))
+        .then(() => done());
+});
+
+gulp.task('build', (done) => {
+    runSequence('build.css', 'build.icons', 'build.html', 'build.partials', 'build.js', (done));
+});
+
+gulp.task('rebuild', (done) => {
+    runSequence('clean', 'build', (done));
+});
+
+gulp.task('build.icons', () => {
+    jspmAssets('@material-design-icons/svg-sprite', '*.svg')
+        .pipe(gulp.dest(CONFIG.dest.icons.app))
+});
+
+gulp.task('build.css', (done) => {
+    if (argv.production) {
+        runSequence('build.css.compile', done) // , 'build.css.bundle'
+    } else {
+        runSequence('build.css.compile', done)
     }
-}
+});
 
-var allTsFiles = [paths.ts.app.src, paths.src.tests.js, paths.ts.testse2e.src, '!**/*.d.ts'];
+gulp.task('build.css.compile', () => {
+    let dest = CONFIG.dest.css.app;
 
-gulp.task('sass', function () {
-    gulp.src(paths.sass.app.src)
+    // if (argv.production) {
+    //     dest = CONFIG.tmp.client.path;
+    // }
+
+    return gulp.src(CONFIG.src.css.app)
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
+        .pipe(autoprefixer())
+        //.pipe(cleanCSS())
+        //.pipe(rename({ suffix: '.min' }))
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest(paths.sass.app.dest));
+        .pipe(gulp.dest(dest))
 });
 
-gulp.task('ts-lint', function () {
+gulp.task('build.html', () => {
+    let dest = CONFIG.dest.html.app;
+
+    // if (argv.production) {
+    //     dest = CONFIG.tmp.client.path;
+    // }
+
+    return gulp.src(CONFIG.src.html.app)
+        .pipe(gulpif(!argv.production, removeCode({
+            development: false,
+            production: true
+        })))
+        .pipe(gulpif(argv.production, useref()))
+        .pipe(gulpif(argv.production, removeCode({
+            development: true,
+            production: false
+        })))
+        .pipe(htmlmin({
+            collapseWhitespace: true
+        }))
+        .pipe(gulp.dest(dest))
+});
+
+gulp.task('build.partials', () => {
+    let dest = CONFIG.dest.partials.app;
+
+    // if (argv.production) {
+    //     dest = CONFIG.tmp.client.path;
+    // }
+
+    return gulp.src(CONFIG.src.partials.app)
+        .pipe(htmlmin({
+            collapseWhitespace: true
+        }))
+        .pipe(ngTemplates({
+            filename: 'app-templates.js',
+            module: 'app.templates',
+            path: function(path, base) {
+                return path.replace(base, 'app/');
+            }
+        }))
+        .pipe(gulp.dest(dest))
+});
+
+
+gulp.task('ts-lint', function() {
     return gulp.src(allTsFiles)
         .pipe(tslint())
         .pipe(tslint.report('verbose', {
@@ -88,141 +129,141 @@ gulp.task('ts-lint', function () {
         }));
 });
 
-gulp.task('build.js', function () {
-    let tsFiles = [paths.src.app.tds, paths.ts.app.src, 'src/app-dts/**/*.d.ts'];
-
-    let tsResult = gulp.src(tsFiles)
-        .pipe(sourcemaps.init())
-        .pipe(ts(tsProjectApp));
-
-   return tsResult.js
-        .pipe(ngAnnotate({ single_quotes: true }))
-        .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest(paths.ts.app.dest));
-
-    // return merge([
-    //     tsResult.dts.pipe(gulp.dest('src/app-dts')),
-    //     js
-    // ]);
+gulp.task('build.js', (done) => {
+    if (argv.production) {
+        runSequence('build.js.compile', 'build.js.bundle', done)
+    } else {
+        runSequence('build.js.compile', 'build.js.tests2e2', done)
+    }
 });
 
-gulp.task('ts-tests', function () {
-    let tsFiles = [paths.src.tests.tds, paths.src.tests.js];
+gulp.task('build.js.compile', () => {
+    let src = [...CONFIG.src.js.appTds];
+    let dest = CONFIG.dest.js.app;
 
-    let tsResult = gulp.src(tsFiles)
+    if (argv.production) {
+        src.push(CONFIG.src.js.appWithoutSpec);
+        // dest = CONFIG.tmp.client.path;
+    } else {
+        src.push(CONFIG.src.js.app);
+    }
+
+    var tsResult = gulp.src(src)
         .pipe(sourcemaps.init())
-        .pipe(ts(tsProjectTests));
+        .pipe(tsProject());
 
     return tsResult.js
-        .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest(paths.ts.tests.dest));
-});
-
-gulp.task('ts-tests-e2e', function () {
-    let tsFiles = [paths.src.testse2e.tds, paths.ts.testse2e.src];
-
-    let tsResult = gulp.src(tsFiles)
-        .pipe(sourcemaps.init())
-        .pipe(ts(tsProjectTestse2e));
-
-    return tsResult.js
-        .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest(paths.ts.testse2e.dest));
-});
-
-gulp.task('clean', ['clean:sass', 'clean:ts', 'clean:html']);
-
-gulp.task('clean:sass', () => {
-    del(path.join(paths.sass.app.dest, '**/*.css'));
-});
-
-gulp.task('clean:html', () => {
-    del(path.join(paths.html.app.dest, '**/*.html'));
-});
-
-gulp.task('clean:ts', () => {
-    del(path.join(paths.ts.app.dest, '**/*.js'));
-});
-
-gulp.task('build', ['build:sass', 'build:ts', 'build:html']);
-
-gulp.task('build:sass', ['sass']);
-
-gulp.task('build:ts', function (done) {
-    runSequence(
-        'ts-lint',
-        'build.js',
-        ['ts-tests', 'ts-tests-e2e'],
-        done
-    );
-});
-
-gulp.task('build:html', function () {
-    return gulp.src(paths.html.app.src)
-        .pipe(minifyHtml({ empty: true }))
-        .pipe(templateCache({
-            standalone: true,
-            root: 'app'
+        .pipe(ngAnnotate({
+            single_quotes: true
         }))
-        .pipe(gulp.dest(paths.html.app.dest));
-
-    // return gulp.src(paths.html.app.src)
-    //     .pipe(gulp.dest(paths.html.app.dest));
+        .pipe(gulpif(argv.production === undefined, sourcemaps.write('.')))
+        // .pipe(gulpif(argv.production, uglify()))
+        .pipe(gulp.dest(dest));
 });
 
-gulp.task('rebuild', function (done) {
-    runSequence(
-        'clean',
-        'build',
-        done);
+gulp.task('build.js.bundle', (done) => {
+    runSequence('build.js.bundle.deps', 'build.js.bundle.main', () => {
+        del(['dist/app/**', '!dist/app', '!dist/app/icons/**'])
+            .then(() => done());
+    })
 });
 
-gulp.task('watch:ts', () => {
-    gulp.watch(allTsFiles, ['build:ts']);
+gulp.task('build.js.bundle.deps', (done) => {
+    var builder = new jspm.Builder(null, './jspm.config.js');
+
+    builder.bundle(`app/index - [${CONFIG.dest.js.app}/**/*] - [${CONFIG.dest.js.app}/**/*.css!]`, `dist/deps.bundle.js`, {
+            minify: true
+        })
+        .then(function() {
+            console.log('Build complete');
+        })
+        .catch(function(err) {
+            console.log(err)
+            throw err;
+        })
+        .finally(() => done());
 });
 
-gulp.task('watch:sass', () => {
-    gulp.watch(paths.sass.app.src, ['build:sass']);
+gulp.task('build.js.bundle.main', (done) => {
+    var builder = new jspm.Builder(null, './jspm.config.js');
+
+    builder.bundle(`app/index - dist/deps.bundle.js`, `dist/main.bundle.js`, {
+            minify: true
+        })
+        .then(function() {
+            console.log('Build complete');
+        })
+        .catch(function(err) {
+            console.log(err)
+            throw err;
+        })
+        .finally(() => done());
 });
 
-gulp.task('watch:html', () => {
-    gulp.watch(paths.html.app.src, ['build:html']);
-});
+gulp.task('build.js.tests2e2', function() {
+    let tsResult = gulp.src([CONFIG.src.js.tests2e2, CONFIG.src.js.tests2e2Tds])
+        .pipe(sourcemaps.init())
+        .pipe(tsTests2e2Project());
 
-// gulp.task('watch', ['watch:sass', 'watch:ts', 'watch:html']);
+    return tsResult.js
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest(CONFIG.dest.js.tests2e2));
+});
 
 gulp.task('watch', (done) => {
     runSequence(
         'clean',
         'build',
-        [
-            'watch:sass',
-            'watch:html',
-            'watch:ts'
-        ],
-        done);
+        'watch.css',
+        'watch.html',
+        'watch.partials',
+        'watch.js',
+        done)
 });
 
-gulp.task('start', function (done) {
-    // Start browser process
-    // electron.start();
-
-    // // Add an argument
-    // electron.start('Hoge!');
-
-    // // Add list of arguments
-    // electron.start(['Hoge', 'foo']);
-
-    // Callback
-    electron.start('--debug=5858', done);
+gulp.task('watch.css', () => {
+    watch(CONFIG.src.css.app, batch(function(events, done) {
+        runSequence(
+            'build.css',
+            // 'livereload', 
+            done);
+    }));
 });
+
+gulp.task('watch.html', () => {
+    watch(CONFIG.src.html.app, batch(function(events, done) {
+        runSequence('build.html', 'reload', done);
+    }));
+});
+
+gulp.task('watch.partials', () => {
+    watch(CONFIG.src.partials.app, batch(function(events, done) {
+        runSequence('build.partials', 'reload', done);
+    }));
+});
+
+gulp.task('watch.js', () => {
+    watch([CONFIG.src.js.app, CONFIG.src.js.tests2e2], batch(function(events, done) {
+        runSequence('build.js', 'reload', done);
+    }, function(err) {
+        console.error(err)
+    }));
+});
+
+gulp.task('electron.start', () => {
+    electron.start();
+
+    gulp.watch('main.js', electron.restart);
+
+    gulp.watch(['index.js'], electron.reload);
+})
 
 gulp.task('serve', (done) => {
-    runSequence(
-        'rebuild',
-        'start',
-        'watch',
-        done);
-});
+    process.env.NODE_ENV = 'development';
 
-gulp.task('default', ['serve']);
+    runSequence('watch', 'electron.start', done);
+})
+
+gulp.task('reload', () => {
+    electron.reload();
+})

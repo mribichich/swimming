@@ -39,5 +39,3 @@ export class FeedbackDirective implements ng.IDirective {
         return directive;
     }
 }
-
-// directivesModule.directive('feedback', FeedbackDirective.factory());

@@ -1,0 +1,34 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
+        "lib": [
+            "dom",
+            "es6"
+        ],
+        "baseUrl": "./",
+        "paths": {
+            "app/*": [
+                "src/app/*"
+            ],
+            "tss-angular": [
+                "jspm_packages/github/tss-ar/angular-jspm@0.9.1/index"
+            ],
+            "tss-lib": [
+                "jspm_packages/github/tss-ar/lib-jspm@0.6.0/dist/dts/index"
+            ],
+            "moment": [
+                "jspm_packages/npm/moment@2.17.0"
+            ],
+            "rxjs/*": [
+                "jspm_packages/npm/rxjs@5.0.1/*"
+            ]
+        }
+    },
+    "compileOnSave": false,
+    "buildOnSave": false
+}

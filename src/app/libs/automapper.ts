@@ -5,9 +5,3 @@ export function map(source, dest) {
 		}
 	}
 }
-
-// export function mapCollection(source: Array<any>, dest: Array<any>) {
-// 	for (var i = 0; i < source.length; i++) {
-// 		map(source[i], dest[i]);
-// 	}
-// }

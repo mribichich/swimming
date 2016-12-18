@@ -9,7 +9,7 @@ export class CategorySwimmerAssigner {
 			}
 
 			return false;
-		}
+		} 
 
 		if (swimmer.birthDate.getFullYear() >= category.from && swimmer.birthDate.getFullYear() <= category.to) {
 			return true;

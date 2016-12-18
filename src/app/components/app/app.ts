@@ -24,7 +24,6 @@ import * as services from 'app/services';
 import * as directives from 'app/directives';
 import * as components from 'app/components';
 
-import {upgradeAdapter} from 'app/upgrade_adapter';
 import {HeroDetailComponent} from 'app/components/test/test';
 
 export class App {
