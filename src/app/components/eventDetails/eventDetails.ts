@@ -28,7 +28,7 @@ import {
 } from 'app/components/swimmers-selection-dialog/swimmers-selection-dialog';
 
 class EventDetails {
-/*@ngInject*/
+    /*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
         private $mdDialog,
@@ -36,7 +36,8 @@ class EventDetails {
         private swimmerService: ISwimmerService,
         private $window,
         private $q: ng.IQService,
-        private $rootRouter
+        private $location: ng.ILocationService,
+        private $routeParams
     ) { }
 
     tabs = {
@@ -55,21 +56,17 @@ class EventDetails {
 
     selectedTabIndex: number;
 
-    $routerOnActivate(toRoute, fromRoute) {
+    $onInit() {
         this.tournament2 = this.tournamentService.tournaments$
-            .map(tournaments => tournaments.find(item => item.id === toRoute.params.tournamentId));
+            .map(tournaments => tournaments.find(item => item.id === this.$routeParams.tournamentId));
 
-        this.routeParams = toRoute.params;
+        this.routeParams = this.$routeParams;
 
         this.refresh();
     }
 
     goBack() {
-        // this.$window.history.back();
-        // this.$location.path(`/tournaments/${this.tournament.id}/categories`);
-        //    this.$window.history.back(); 
-
-        this.$rootRouter.navigate(['/TournamentDetails', { id: this.tournament.id }]);
+        this.$location.path(`/tournaments/details/${this.tournament.id}`);
     }
 
     refresh() {

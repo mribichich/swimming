@@ -4,13 +4,13 @@ import { ISwimmerService } from 'app/services/swimmerService';
 import { IHistoryService } from 'app/services/historyService';
 import { Swimmer } from 'app/entities/swimmer';
 
- class Swimmers {
-/*@ngInject*/
+class Swimmers {
+    /*@ngInject*/
     constructor(
         private swimmerService: ISwimmerService,
         private historyService: IHistoryService,
-        private $rootRouter
-        ) {
+        private $location: ng.ILocationService,
+    ) {
         this.getSwimmers();
     }
 
@@ -27,11 +27,11 @@ import { Swimmer } from 'app/entities/swimmer';
     }
 
     navigateTo(to) {
-       this.$rootRouter.navigate(to);
+        this.$location.path(to);
     }
 }
 
 export let swimmers = {
-	templateUrl: 'app/components/swimmers/swimmers.html',
-	controller: Swimmers
+    templateUrl: 'app/components/swimmers/swimmers.html',
+    controller: Swimmers
 };

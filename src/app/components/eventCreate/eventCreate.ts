@@ -9,13 +9,14 @@ import { Category } from 'app/entities/category';
 import { EventFactory } from 'app/factories';
 import * as FeedbackLib from 'app/libs/feedbackLib';
 
- class EventCreate {
-/*@ngInject*/
+class EventCreate {
+    /*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
-        private $rootRouter,
+        private $location: ng.ILocationService,
         private $window,
-        private historyService: IHistoryService
+        private historyService: IHistoryService,
+        private $routeParams
     ) {
     }
 
@@ -30,10 +31,10 @@ import * as FeedbackLib from 'app/libs/feedbackLib';
     selectedCategory: Category;
     submitted: boolean = false;
 
-    $routerOnActivate(toRoute, fromRoute) {
-        var promise = this.getTournament(toRoute.params.tournamentId);
+    $onInit() {
+        var promise = this.getTournament(this.$routeParams.tournamentId);
 
-        if (angular.isUndefined(toRoute.params.eventId)) {
+        if (angular.isUndefined(this.$routeParams.eventId)) {
             this.viewAction = 'Create';
 
             this.event = EventFactory.Create();
@@ -42,18 +43,14 @@ import * as FeedbackLib from 'app/libs/feedbackLib';
 
             promise
                 .then(() => {
-                    this.getEvent(toRoute.params.eventId);
+                    this.getEvent(this.$routeParams.eventId);
                     this.setSelectedCategory();
                 });
         }
     }
 
     goBack() {
-        // this.$window.history.back();
-        // this.$location.path(`/tournaments/${this.tournament.id}/categories`);
-        //    this.$window.history.back(); 
-    
-        this.$rootRouter.navigate(['/TournamentDetails', { id: this.tournament.id }]);
+        this.$location.path(`/tournaments/details/${this.tournament.id}`);
     }
 
     getTournament(id: string) {

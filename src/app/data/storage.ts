@@ -1,7 +1,7 @@
 import loki from 'lokijs';
-import * as path from '@node/path';
-import * as fs from '@node/fs';
-import {Tournament, Swimmer} from 'app/entities';
+import * as path from 'path';
+import * as fs from 'fs';
+import { Tournament, Swimmer } from 'app/entities';
 
 export interface IStorage {
     getCollection<T>(collectionName: string): ng.IPromise<LokiCollection<T>>
@@ -129,13 +129,13 @@ export class Storage implements IStorage {
 
             this.db.saveDatabase();
         }
-        
-            // this.db.removeCollection('swimmers');
 
-            // this.db.addCollection('swimmers', {
-            //     unique: ['id']
-            // });
+        // this.db.removeCollection('swimmers');
 
-            // this.db.saveDatabase();
+        // this.db.addCollection('swimmers', {
+        //     unique: ['id']
+        // });
+
+        // this.db.saveDatabase();
     }
 }

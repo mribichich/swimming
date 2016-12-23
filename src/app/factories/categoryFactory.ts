@@ -1,4 +1,4 @@
-import uuid = require('node-uuid');
+import * as uuid from 'node-uuid';
 
 import { Category } from 'app/entities/category';
 import * as mapper from 'app/libs/automapper';

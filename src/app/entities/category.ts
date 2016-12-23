@@ -14,5 +14,5 @@ export class Category {
 			case CategoryType.ByAge:
 				return 'Por Edad';
 		}
-    }
+	}
 }

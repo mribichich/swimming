@@ -1,6 +1,6 @@
 'use strict';
 
-import uuid = require('node-uuid');
+import * as uuid from 'node-uuid';
 
 import * as mapper from 'app/libs/automapper';
 import { CategoryFactory, EventFactory, SwimmerFactory } from 'app/factories';
@@ -11,7 +11,7 @@ import { ISwimmerService } from 'app/services';
 export class TournamentFactory {
 	static Create(tournamentDb?: TournamentDb, swimmerService?: ISwimmerService, $q?: ng.IQService): ng.IPromise<Tournament> {
 		let d = $q.defer();
-		
+
 		var tournament = new Tournament();
 
 		if (tournamentDb) {
@@ -45,7 +45,7 @@ export class TournamentFactory {
 						return a.number - b.number;
 					});
 
-			d.resolve(tournament);
+					d.resolve(tournament);
 				})
 				.catch((error) => {
 					console.log(error);

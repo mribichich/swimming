@@ -1,7 +1,7 @@
 'use strict';
 
 import * as angular from 'angular';
-import URI from 'uri';
+import * as URI from 'urijs';
 
 import { ITournamentService } from 'app/services';
 import { IHistoryService } from 'app/services/historyService';
@@ -11,7 +11,7 @@ import { SwimmersSelectionDialogComponent } from 'app/components/swimmers-select
 import { ISwimmerService } from 'app/services/swimmerService';
 
 class TournamentSwimmers2 {
-/*@ngInject*/
+    /*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
         private $mdDialog,
@@ -19,48 +19,19 @@ class TournamentSwimmers2 {
         private swimmerService: ISwimmerService,
         private $window: ng.IWindowService,
         private $q: ng.IQService,
-        private $rootRouter
+        private $routeParams
     ) {
     }
 
-    routeParams;
-
     tournament: Tournament;
 
-    // $routerOnActivate(toRoute, fromRoute) {
-    //     this.routeParams = toRoute.params;
-
-    //     this.refresh();
-    // }
-
-    // goBack() {
-    //     this.$window.history.back();
-    // }
-
     navigateTo(path) {
-        this.$rootRouter.navigate(path);
+        this.$location.path(path);
     }
 
     navigateToCreateSwimmer() {
-        this.$rootRouter.navigate(['/SwimmerCreate']);
+        this.$location.path('/swimmers/create');
     }
-
-    // refresh() {
-    //     this.getTournament(this.routeParams.tournamentId)
-    //         .then(() => this.registerNewSwimmer());
-    // }
-
-    // getTournament(id: string) {
-    //     return this.tournamentService.get(id, ['swimmers'])
-    //         .then((tournament) => this.tournament = tournament)
-    //         .catch((error) => {
-    //             console.log(error);
-    //         });
-    // }
-
-    // getSwimmers() {
-    //     return this.tournamentService.getTournamentSwimmers(this.tournament);
-    // }
 
     registerNewSwimmer() {
         var uri = URI(this.$location.path());

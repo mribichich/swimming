@@ -2,16 +2,19 @@ import { ITournamentService, IHistoryService } from 'app/services';
 import { Tournament } from 'app/entities/tournament';
 
 class Tournaments {
-/*@ngInject*/
+    /*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
         private historyService: IHistoryService,
-        private $rootRouter
+        private $location: ng.ILocationService,
     ) {
-        this.getTournaments();
     }
 
     tournaments: Tournament[] = [];
+
+    $onInit() {
+        this.getTournaments();
+    }
 
     getTournaments() {
         this.tournamentService.getAll()
@@ -24,7 +27,7 @@ class Tournaments {
     }
 
     navigateTo(to) {
-        this.$rootRouter.navigate(to);
+        this.$location.path(to);
     }
 }
 

@@ -1,13 +1,13 @@
 'use strict';
 
-import uuid = require('node-uuid');
+import * as uuid from 'node-uuid';
 
 import { Swimmer } from 'app/entities';
 import { SwimmerDb } from 'app/data/entities';
 // import * as mapper from 'app/libs/automapper';
 
 export class SwimmerFactory {
-	static Create(swimmerDb?:SwimmerDb): Swimmer {
+	static Create(swimmerDb?: SwimmerDb): Swimmer {
 		var swimmer = new Swimmer();
 
 		if (swimmerDb) {

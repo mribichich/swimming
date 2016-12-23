@@ -1,7 +1,7 @@
 'use strict';
 
 import * as angular from 'angular';
-import URI from 'uri';
+import * as URI from 'urijs';
 
 import { ITournamentService } from 'app/services';
 import { IHistoryService } from 'app/services/historyService';
@@ -11,26 +11,22 @@ import { SwimmersSelectionDialogComponent } from 'app/components/swimmers-select
 import { ISwimmerService } from 'app/services/swimmerService';
 
 class TournamentSwimmers {
-/*@ngInject*/
+    /*@ngInject*/
     constructor(
-        private $rootRouter,
         private tournamentService: ITournamentService,
         private $mdDialog,
         private historyService: IHistoryService,
         private $location: ng.ILocationService,
         private swimmerService: ISwimmerService,
         private $window: ng.IWindowService,
-        private $q: ng.IQService
+        private $q: ng.IQService,
+        private $routeParams
     ) {
     }
 
-    routeParams;
-
     tournament: Tournament;
 
-    $routerOnActivate(toRoute, fromRoute) {
-        this.routeParams = toRoute.params;
-
+    $onInit() {
         this.refresh();
     }
 
@@ -47,7 +43,7 @@ class TournamentSwimmers {
     }
 
     refresh() {
-        this.getTournament(this.routeParams.tournamentId)
+        this.getTournament(this.$routeParams.tournamentId)
             .then(() => this.registerNewSwimmer());
     }
 

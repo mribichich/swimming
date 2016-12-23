@@ -1,4 +1,4 @@
-import URI from 'uri';
+import * as URI from 'urijs';
 
 export interface QueryParam {
 	key: string;
@@ -12,11 +12,11 @@ export interface IHistoryService {
 }
 
 export class HistoryService implements IHistoryService {
-/*@ngInject*/
-    constructor(
+	/*@ngInject*/
+	constructor(
 		private $location,
 		private $rootScope
-        ) {
+	) {
 		$rootScope.$watch(() => {
 			return $location.url();
 		}, (path) => {
@@ -30,7 +30,7 @@ export class HistoryService implements IHistoryService {
 			this.paths.push(path);
 			this.currentIndex++;
 		});
-    }
+	}
 
 	isMoving: boolean = false;
 	currentIndex = -1;

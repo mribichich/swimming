@@ -1,5 +1,5 @@
-import _ from 'underscore';
-import moment from 'moment';
+import * as _ from 'underscore';
+import * as moment from 'moment';
 import humanizeDuration from 'humanize-duration';
 
 import { EventGenderType, EventState } from 'app/enums';
@@ -13,7 +13,7 @@ export class TournamentEventDb {
 	categoryId: string;
 	genderType: EventGenderType;
 	swimmerIds: Array<string>;
-	
+
 	heats: HeatDb[];
 	startedDateTime: Date;
 	finishedDateTime: Date;

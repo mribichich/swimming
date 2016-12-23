@@ -8,7 +8,7 @@ import { Swimmer } from 'app/entities/swimmer';
 import { ListItem } from 'app/entities/listItem';
 
 export class SwimmersSelectionDialogComponent {
-/*@ngInject*/
+    /*@ngInject*/
     constructor(
         // private swimmerService: ISwimmerService,
         private $mdDialog,

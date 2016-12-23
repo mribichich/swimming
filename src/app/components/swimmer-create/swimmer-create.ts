@@ -7,13 +7,14 @@ import { SwimmerFactory } from 'app/factories';
 import * as FeedbackLib from 'app/libs/feedbackLib';
 
 class SwimmerCreate {
-/*@ngInject*/
+    /*@ngInject*/
     constructor(
         private swimmerService: ISwimmerService,
-        private $rootRouter,
+        private $location: ng.ILocationService,
         private $window,
         private historyService: IHistoryService,
-        private $q:ng.IQService
+        private $q: ng.IQService,
+        private $routeParams
     ) {
     }
 
@@ -28,20 +29,20 @@ class SwimmerCreate {
     submitted: boolean = false;
     modelErrors;
 
-    $routerOnActivate(toRoute, fromRoute) {
-        if (angular.isUndefined(toRoute.params.id)) {
+    $onInit() {
+        if (!this.$routeParams.id) {
             this.viewAction = 'Create';
 
             this.swimmer = SwimmerFactory.Create();
         } else {
             this.viewAction = 'Edit';
 
-            this.getSwimmer(toRoute.params.id);
+            this.getSwimmer(this.$routeParams.id);
         }
     }
 
     goBack() {
-        this.$rootRouter.navigate(['/Swimmers']);
+        this.$location.path('/swimmers');
     }
 
     saveSwimmer(isFormInvalid) {

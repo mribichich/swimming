@@ -1,0 +1,58 @@
+$layout-breakpoint-xs: 600px !default;
+$layout-breakpoint-sm: 960px !default;
+$layout-breakpoint-md: 1280px !default;
+$layout-breakpoint-lg: 1920px !default;
+@mixin layout-xs {
+    @media (max-width: $layout-breakpoint-xs - 1) {
+        // Xtra-SMALL  SCREEN
+        @content;
+    }
+}
+
+@mixin layout-gt-xs {
+    @media (min-width: $layout-breakpoint-xs) {
+        // BIGGER THAN Xtra-SMALL SCREEN
+        @content;
+    }
+}
+
+@mixin layout-sm {
+    @media (min-width: $layout-breakpoint-xs) and (max-width: $layout-breakpoint-sm - 1) {
+        @content;
+    }
+}
+
+@mixin layout-gt-sm {
+    @media (min-width: $layout-breakpoint-sm) {
+        // BIGGER THAN SMALL SCREEN
+        @content;
+    }
+}
+
+@mixin layout-md {
+    @media (min-width: $layout-breakpoint-sm) and (max-width: $layout-breakpoint-md - 1) {
+        // MEDIUM SCREEN
+        @content;
+    }
+}
+
+@mixin layout-gt-md {
+    @media (min-width: $layout-breakpoint-md) {
+        // BIGGER THAN MEDIUM SCREEN
+        @content;
+    }
+}
+
+@mixin layout-lg {
+    @media (min-width: $layout-breakpoint-md) and (max-width: $layout-breakpoint-lg - 1) {
+        // LARGE SCREEN
+        @content;
+    }
+}
+
+@mixin layout-gt-lg {
+    @media (min-width: $layout-breakpoint-lg) {
+        // BIGGER THAN LARGE SCREEN
+        @content;
+    }
+}

@@ -1,0 +1,397 @@
+.tss-media {
+    display: flex;
+}
+
+.tss-media-left {
+    -ms-flex: none;
+    -webkit-flex: none;
+    flex: none;
+    padding-right: 15px;
+}
+
+.tss-media-right {
+    -ms-flex: none;
+    -webkit-flex: none;
+    flex: none;
+    padding-left: 15px;
+}
+
+.tss-media-body {
+    -ms-flex: auto;
+    -webkit-flex: auto;
+    flex: auto;
+}
+
+.hand-cursor {
+    cursor: pointer;
+}
+
+.list-item-none {
+    list-style-type: none;
+}
+
+.md-icon-button .glyphicon {
+    line-height: 36px;
+    width: 30px;
+    height: 36px;
+    min-height: 36px;
+    font-size: 19px;
+}
+
+.md-button.md-icon-button.tss-btn-xs {
+    line-height: 20px;
+    width: 30px;
+    height: 30px;
+    min-height: 30px;
+    padding: 5px;
+    md-icon {
+        width: 20px;
+        height: 20px;
+        font-size: 20px;
+    }
+    .glyphicon {
+        font-size: 16px;
+    }
+}
+
+.md-button.md-icon-button.tss-btn-sm {
+    line-height: 24px;
+    width: 36px;
+    height: 36px;
+    min-height: 36px;
+    padding: 6px;
+    md-icon {
+        width: 24px;
+        height: 24px;
+    }
+    .glyphicon {
+        font-size: 19px;
+    }
+}
+
+md-toolbar.tss-md-medium {
+    height: 48px;
+    min-height: 48px;
+    max-height: 48px;
+    .md-toolbar-tools {
+        height: 48px;
+        min-height: 48px;
+        max-height: 48px;
+    }
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+
+/*[ng-cloak].splash {
+    display: flex !important;
+}
+
+.splash {
+    display: none;
+    opacity: 0.5;
+    margin-top: 100px;
+}*/
+
+.actions-col {
+    width: 5em;
+    max-width: 5em;
+    min-width: 5em;
+}
+
+.actions-col-without-details {
+    width: 3em;
+    max-width: 3em;
+    min-width: 3em;
+}
+
+.actions-col-cell {
+    text-align: right;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+.tss-list-group-item {
+    padding: 2px 15px;
+    md-checkbox {
+        margin: 0;
+    }
+}
+
+.tss-list-group-item md-menu {
+    padding: 4px 0;
+}
+
+.tss-list-group-item .md-icon-button {
+    @extend .md-button.md-icon-button.tss-btn-sm;
+    opacity: 0.5;
+    &:hover {
+        opacity: 1;
+    }
+}
+
+.form-group md-switch {
+    margin: 0;
+    margin-top: 6px;
+}
+
+.form-group md-select {
+    margin: 0;
+    margin-top: 6px;
+}
+
+.form-group md-input-container {
+    margin: 0;
+}
+
+.view-port-container {
+    overflow: hidden;
+}
+
+.view-port.ng-enter {
+    -webkit-transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.7s;
+    -moz-transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.7s;
+    -o-transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.7s;
+    transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.7s;
+    position: relative;
+    opacity: 0;
+    left: 50px;
+}
+
+.view-port.ng-enter.ng-enter-active {
+    left: 0;
+    opacity: 1;
+}
+
+.page-header {
+    padding-bottom: 9px;
+    margin: 40px 0 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.page-header-custom {
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+    h1,
+    h2,
+    h3 {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    md-progress-circular {
+        margin-top: -50px !important;
+        margin-bottom: -50px !important;
+    }
+}
+
+.bottom-line {
+    border-bottom: 1px solid #ddd;
+}
+
+md-menu-item.md-menu-item-36 {
+    min-height: 36px;
+    height: 36px;
+}
+
+.rotate {
+    -webkit-transition: 0.5s linear all;
+    transition: 0.5s linear all;
+}
+
+.rotate-90 {
+    -webkit-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.rotate-n90 {
+    -webkit-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
+
+.rotate-n180 {
+    -webkit-transform: rotate(-180deg);
+    -ms-transform: rotate(-180deg);
+    transform: rotate(-180deg);
+}
+
+.th-center th {
+    text-align: center;
+}
+
+.td-center td {
+    text-align: center;
+}
+
+/// bootstrap-ui-datetime-picker
+[time-picker-wrap] {
+    width: 268px;
+}
+
+.datetime-picker div>table .btn-default {
+    border: 0;
+}
+
+[datepicker] table .btn-default {
+    border: 0;
+}
+
+.datetime-picker-dropdown>li.date-picker-menu div>table .btn-default {
+    border: 0;
+}
+
+[uib-time-picker-wrap] {
+    width: 268px;
+}
+
+.uib-datetime-picker div>table .btn-default {
+    border: 0;
+}
+
+[uib-datepicker] table .btn-default {
+    border: 0;
+}
+
+.uib-datetime-picker-dropdown>li.date-picker-menu div>table .btn-default {
+    border: 0;
+}
+
+/// bootstrap-ui-datetime-picker
+.icon-link {
+    width: 50px;
+    height: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+a.thumbnail {
+    text-align: center;
+    text-decoration: none;
+}
+
+.thumbnail:hover {
+    background-color: #eee !important;
+}
+
+md-icon.md-icon-18 {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+}
+
+md-icon.md-icon-24 {
+    font-size: 24px;
+    height: 24px;
+    width: 24px;
+}
+
+md-icon.md-icon-36 {
+    font-size: 36px;
+    height: 36px;
+    width: 36px;
+}
+
+md-icon.md-icon-48 {
+    font-size: 48px;
+    height: 48px;
+    width: 48px;
+}
+
+.md-button.md-button-18 {
+    min-height: 18px;
+    height: 18px;
+    width: 18px;
+    line-height: 18px;
+}
+
+.md-button.md-button-24 {
+    min-height: 24px;
+    height: 24px;
+    width: 24px;
+    line-height: 24px;
+}
+
+// Rules for sizing the icon.
+.md-button.md-icon-button.md-button-18 {
+    height: 18px;
+    width: 18px;
+    line-height: 18px;
+    md-icon {
+        font-size: 18px;
+        height: 18px;
+        width: 18px;
+    }
+}
+
+.md-button.md-icon-button.md-button-24 {
+    height: 24px;
+    width: 24px;
+    line-height: 24px;
+    md-icon {
+        font-size: 24px;
+        height: 24px;
+        width: 24px;
+    }
+}
+
+.md-button.md-icon-button.md-button-36 {
+    height: 36px;
+    width: 36px;
+    line-height: 36px;
+    md-icon {
+        font-size: 36px;
+        height: 36px;
+        width: 36px;
+    }
+}
+
+.md-button.md-icon-button.md-button-48 {
+    height: 64px;
+    width: 64px;
+    line-height: 48px;
+    md-icon {
+        font-size: 48px;
+        height: 48px;
+        width: 48px;
+    }
+}
+
+.panel-heading .md-button.md-icon-button {
+    padding: 0;
+    width: 30px;
+    height: 24px;
+    min-height: 24px;
+    line-height: 24px;
+}
+
+.form-group {
+    md-checkbox {
+        margin-top: 5px;
+    }
+}

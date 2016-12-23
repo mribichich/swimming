@@ -4,25 +4,26 @@ import { ISwimmerService } from 'app/services/swimmerService';
 import { Swimmer } from 'app/entities/swimmer';
 import { IHistoryService } from 'app/services/historyService';
 
- class SwimmerDetails {
-/*@ngInject*/
+class SwimmerDetails {
+    /*@ngInject*/
     constructor(
         private swimmerService: ISwimmerService,
-        private $rootRouter,
+        private $location: ng.ILocationService,
         private $window,
         private $mdDialog,
-        private historyService: IHistoryService
-        ) {
+        private historyService: IHistoryService,
+        private $routeParams
+    ) {
     }
 
     swimmer: Swimmer;
 
-    $routerOnActivate(toRoute, fromRoute) {
-        this.getSwimmer(toRoute.params.id);
+    $onInit() {
+        this.getSwimmer(this.$routeParams.id);
     }
 
     goBack() {
-        this.$rootRouter.navigate(['/Swimmers']);
+        this.$location.path('/swimmers');
     }
 
     getSwimmer(id: string) {
@@ -59,6 +60,6 @@ import { IHistoryService } from 'app/services/historyService';
 }
 
 export let swimmerDetails = {
-	templateUrl: 'app/components/swimmerDetails/swimmerDetails.html',
-	controller: SwimmerDetails
+    templateUrl: 'app/components/swimmerDetails/swimmerDetails.html',
+    controller: SwimmerDetails
 };

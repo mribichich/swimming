@@ -1,7 +1,7 @@
 'use strict';
 
 // import * as angular from 'angular';
-// import URI from 'uri';
+// import * as URI from 'urijs';
 
 // import { ITournamentService } from 'app/services';
 // import { IHistoryService } from 'app/services/historyService';
@@ -11,7 +11,7 @@
 // import { ISwimmerService } from 'app/services/swimmerService';
 
 class EventResults {
-/*@ngInject*/
+    /*@ngInject*/
     constructor(
     ) { }
 }

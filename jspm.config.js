@@ -1,4 +1,5 @@
 System.config({
+  baseURL: "../",
   defaultJSExtensions: true,
   transpiler: "typescript",
   paths: {
@@ -9,41 +10,51 @@ System.config({
 
   map: {
     "@angular/router": "npm:@angular/router@0.2.0",
-    "angular": "github:angular/bower-angular@1.5.6",
+    "angular": "github:angular/bower-angular@1.6.0",
     "angular-animate": "github:angular/bower-angular-animate@1.5.5",
     "angular-aria": "github:angular/bower-angular-aria@1.5.5",
+    "angular-bootstrap": "github:angular-ui/bootstrap-bower@2.3.1",
     "angular-electron": "npm:angular-electron@0.2.1",
     "angular-i18n": "npm:angular-i18n@1.5.5",
     "angular-indexedDB": "github:bramski/angular-indexedDB@1.1.3",
     "angular-material": "github:angular/bower-material@1.0.8",
     "angular-messages": "github:angular/bower-angular-messages@1.5.0-rc.0",
     "angular-mocks": "github:angular/bower-angular-mocks@1.5.0-rc.0",
-    "angular-sanitize": "github:angular/bower-angular-sanitize@1.5.0-rc.0",
+    "angular-route": "github:angular/bower-angular-route@1.6.0",
+    "angular-sanitize": "github:angular/bower-angular-sanitize@1.6.0",
     "angular-timer": "github:siddii/angular-timer@1.3.4",
     "angular-toastr": "github:Foxandxss/angular-toastr@2.1.1",
-    "bootstrap": "github:twbs/bootstrap@4.0.0-alpha",
+    "bootstrap": "github:twbs/bootstrap@4.0.0-alpha.5",
     "bramski/angular-indexedDB": "github:bramski/angular-indexedDB@1.1.3",
     "clean-css": "npm:clean-css@3.4.8",
     "core-js": "npm:core-js@1.2.6",
     "css": "github:systemjs/plugin-css@0.1.21",
+    "fs": "github:jspm/nodelibs-fs@0.1.2",
     "humanize-duration": "github:EvanHahn/HumanizeDuration.js@3.8.0",
-    "jquery": "github:components/jquery@2.1.4",
+    "jquery": "github:components/jquery@2.2.4",
     "lokijs": "npm:lokijs@1.3.16",
     "material-design-lite": "github:google/material-design-lite@1.1.3",
     "moment": "github:moment/moment@2.13.0",
     "node-uuid": "npm:node-uuid@1.4.7",
+    "path": "github:jspm/nodelibs-path@0.1.0",
     "rxjs": "npm:rxjs@5.0.1",
     "typescript": "npm:typescript@2.1.4",
     "underscore": "npm:underscore@1.8.3",
-    "uri": "github:medialize/URI.js@1.17.0",
+    "urijs": "npm:urijs@1.18.4",
     "github:angular/bower-angular-animate@1.5.5": {
-      "angular": "github:angular/bower-angular@1.5.6"
+      "angular": "github:angular/bower-angular@1.6.0"
     },
     "github:angular/bower-angular-aria@1.5.5": {
-      "angular": "github:angular/bower-angular@1.5.6"
+      "angular": "github:angular/bower-angular@1.6.0"
+    },
+    "github:angular/bower-angular-route@1.6.0": {
+      "angular": "github:angular/bower-angular@1.6.0"
+    },
+    "github:angular/bower-angular-sanitize@1.6.0": {
+      "angular": "github:angular/bower-angular@1.6.0"
     },
     "github:angular/bower-material@1.0.8": {
-      "angular": "github:angular/bower-angular@1.5.6",
+      "angular": "github:angular/bower-angular@1.6.0",
       "angular-animate": "github:angular/bower-angular-animate@1.5.5",
       "angular-aria": "github:angular/bower-angular-aria@1.5.5",
       "css": "github:systemjs/plugin-css@0.1.21"
@@ -115,12 +126,13 @@ System.config({
       "vm-browserify": "npm:vm-browserify@0.0.4"
     },
     "github:siddii/angular-timer@1.3.4": {
-      "angular": "github:angular/bower-angular@1.5.6",
+      "angular": "github:angular/bower-angular@1.6.0",
       "humanize-duration": "github:EvanHahn/HumanizeDuration.js@3.8.0",
       "moment": "npm:moment@2.13.0"
     },
-    "github:twbs/bootstrap@4.0.0-alpha": {
-      "jquery": "github:components/jquery@2.1.4"
+    "github:twbs/bootstrap@4.0.0-alpha.5": {
+      "jquery": "npm:jquery@2.2.4",
+      "tether": "github:HubSpot/tether@1.4.0"
     },
     "npm:@angular/router@0.2.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
@@ -440,6 +452,9 @@ System.config({
       "net": "github:jspm/nodelibs-net@0.1.2",
       "os": "github:jspm/nodelibs-os@0.1.0",
       "source-map-support": "npm:source-map-support@0.4.6"
+    },
+    "npm:urijs@1.18.4": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:url@0.10.3": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",

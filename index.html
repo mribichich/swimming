@@ -2,31 +2,30 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="Natacion">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <!--<base href="/">-->
-  <title>Natacion</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible"
+        content="IE=edge">
+    <meta name="description"
+        content="Natacion">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
-  <!--<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="bower_components/angular-material/angular-material.css">
-    <link rel="stylesheet" type="text/css" href="app/styles/material-design-custom.css">-->
+    <title>Natacion</title>
 </head>
 
-<body layout="column">
-  <app></app>
-  
-<script>
-    // You can also require other files to run in this process
-    require('../renderer.js')
-</script>
+<body class="layout layout-column layout-fill">
+    <app class="flex layout layout-column"></app>
 
-<script src="../jspm_packages/system.js"></script>
-<script src="../jspm.config.js"></script>
+    <script>
+        // You can also require other files to run in this process
+        require('../renderer.js')
+    </script>
 
-  <script>
-       System.import('app/bootstrap');
+    <script src="../jspm_packages/system.js"></script>
+    <script src="../jspm.config.js"></script>
+
+    <script>
+        System.import('app/index');
     </script>
 </body>
 

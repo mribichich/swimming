@@ -1,25 +1,28 @@
+
+import * as angular from 'angular';
+
 import { ITournamentService } from 'app/services';
 import { Tournament, TournamentEvent, Swimmer } from 'app/entities';
 import { Feedback } from 'app/libs/feedback/feedback';
 
 class TournamentEvents {
-/*@ngInject*/
+    /*@ngInject*/
     constructor(
         private $mdDialog,
-        private tournamentService:ITournamentService,
-        private $rootRouter
+        private tournamentService: ITournamentService,
+        private $location: ng.ILocationService,
     ) { }
 
     tournament: Tournament;
-    
-        onUpdate: Function; 
+
+    onUpdate: Function;
 
     feedbacks = {
         autoAssignSwimmers: new Feedback()
     };
 
     navigateTo(to) {
-        this.$rootRouter.navigate(to);
+        this.$location.path(to);
     }
 
     autoAssignSwimmers(ev) {
@@ -32,14 +35,14 @@ class TournamentEvents {
             .cancel('Cancelar')
             .targetEvent(ev);
         this.$mdDialog.show(confirm).then(() =>
-        this.tournamentService.autoAssignSwimmersToEvents(this.tournament.id)
-            .then(() => this.feedbacks.autoAssignSwimmers.setSuccess('Asignacion terminada exitosamente')), 
+            this.tournamentService.autoAssignSwimmersToEvents(this.tournament.id)
+                .then(() => this.feedbacks.autoAssignSwimmers.setSuccess('Asignacion terminada exitosamente')),
             () => {
-            //
-        });
+                //
+            });
     }
 
-    deleteEvent(ev, tournamentEvent:TournamentEvent) {
+    deleteEvent(ev, tournamentEvent: TournamentEvent) {
         var confirm = this.$mdDialog.confirm()
             .parent(angular.element(document.body))
             .title('Eliminado de Prueba')

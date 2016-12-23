@@ -42,7 +42,9 @@ function createWindow() {
     });
 
     if (process.env.NODE_ENV === 'development') {
-        client.create(mainWindow);
+        client.create(mainWindow, {
+            port: 30081
+        });
     }
 }
 

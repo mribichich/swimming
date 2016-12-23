@@ -6,23 +6,22 @@ import { ITournamentService } from 'app/services';
 import { Tournament, Category } from 'app/entities';
 
 class CategoryList {
-/*@ngInject*/
+    /*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
         private $mdDialog,
         private $location: ng.ILocationService,
         private $window: ng.IWindowService,
-        private $q: ng.IQService,
-        private $rootRouter
+        private $q: ng.IQService
     ) {
     }
 
     tournament: Tournament;
-    
-        onUpdate: Function; 
+
+    onUpdate: Function;
 
     navigateTo(to) {
-        this.$rootRouter.navigate(to);
+        this.$location.path(to);
     }
 
     delete(ev, category: Category) {

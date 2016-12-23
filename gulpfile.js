@@ -10,6 +10,7 @@ let sourcemaps = require('gulp-sourcemaps');
 let ngTemplates = require('gulp-ng-templates');
 let htmlmin = require('gulp-htmlmin');
 let watch = require('gulp-watch');
+let batch = require('gulp-batch');
 let ts = require('gulp-typescript');
 let tslint = require('gulp-tslint');
 let ngAnnotate = require('gulp-ng-annotate');
@@ -17,7 +18,9 @@ let argv = require('yargs').argv;
 let gulpif = require('gulp-if');
 let jspmAssets = require('gulp-jspm-assets').jspmAssets;
 let jspm = require('jspm');
-let electron = require('electron-connect').server.create();
+let electron = require('electron-connect').server.create({
+    port: 30081
+});
 let useref = require('gulp-useref');
 let removeCode = require('gulp-remove-code');
 let CONFIG = require('./gulp.config');
@@ -29,8 +32,6 @@ var tsProject = ts.createProject('tsconfig.json', {
 var tsTests2e2Project = ts.createProject('tsconfig.json', {
     typescript: require('typescript')
 });
-
-
 
 gulp.task('clean', (done) => {
     del('dist/**')
@@ -120,12 +121,15 @@ gulp.task('build.partials', () => {
         .pipe(gulp.dest(dest))
 });
 
-
-gulp.task('ts-lint', function() {
-    return gulp.src(allTsFiles)
-        .pipe(tslint())
-        .pipe(tslint.report('verbose', {
-            emitError: false
+gulp.task('ts.lint', function() {
+    return gulp.src(CONFIG.src.js.app)
+        .pipe(tslint({
+            // contains rules in the tslint.json format 
+            configuration: "./tslint.json"
+        }))
+        .pipe(tslint.report({
+            emitError: false,
+            summarizeFailureOutput: true
         }));
 });
 
@@ -138,7 +142,9 @@ gulp.task('build.js', (done) => {
 });
 
 gulp.task('build.js.compile', () => {
-    let src = [...CONFIG.src.js.appTds];
+    let src = [
+        // ...CONFIG.src.js.appTds
+    ];
     let dest = CONFIG.dest.js.app;
 
     if (argv.production) {
@@ -223,10 +229,7 @@ gulp.task('watch', (done) => {
 
 gulp.task('watch.css', () => {
     watch(CONFIG.src.css.app, batch(function(events, done) {
-        runSequence(
-            'build.css',
-            // 'livereload', 
-            done);
+        runSequence('build.css', 'reload', done);
     }));
 });
 

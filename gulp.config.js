@@ -12,9 +12,9 @@ module.exports = {
         js: {
             app: 'src/app/**/!(*.d).{ts,js}',
             appWithoutSpec: 'src/app/**/!(*.d|*.spec|*.e2e).{ts,js}',
-            appTds: ['src/app/typings/index.d.ts', 'src/app/typings-custom/custom.d.ts'],
-            tests2e2: 'app-tests-e2e/**/!(*.d).ts',
-            tests2e2Tds: 'app-tests-e2e/typings/index.d.ts'
+            // appTds: ['src/app/typings/index.d.ts', 'src/app/typings-custom/custom.d.ts'],
+            tests2e2: 'src/tests-e2e/**/!(*.d).ts',
+            tests2e2Tds: 'src/tests-e2e/typings/index.d.ts'
         }
     },
 

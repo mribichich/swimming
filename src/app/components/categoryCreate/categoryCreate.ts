@@ -8,8 +8,9 @@ class CategoryCreate {
     /*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
-        private $rootRouter,
-        private $window
+        private $location: ng.ILocationService,
+        private $window,
+        private $routeParams
     ) {
     }
 
@@ -25,27 +26,23 @@ class CategoryCreate {
 
     submitted: boolean = false;
 
-    $routerOnActivate(toRoute, fromRoute) {
-        var promise = this.getTournament(toRoute.params.tournamentId)
+    $onInit() {
+        var promise = this.getTournament(this.$routeParams.tournamentId)
             .then(() => {
-                if (angular.isUndefined(toRoute.params.categoryId)) {
+                if (!this.$routeParams.categoryId) {
                     this.viewAction = 'Create';
 
                     this.category = CategoryFactory.Create();
                 } else {
                     this.viewAction = 'Edit';
 
-                    promise.then(() => this.getCategory(toRoute.params.categoryId));
+                    promise.then(() => this.getCategory(this.$routeParams.categoryId));
                 }
             });
     }
 
     goBack() {
-        // this.$window.history.back();
-        // this.$location.path(`/tournaments/${this.tournament.id}/categories`);
-        //    this.$window.history.back(); 
-
-        this.$rootRouter.navigate(['/TournamentDetails', { id: this.tournament.id }]);
+        this.$location.path(`/tournaments/details/${this.tournament.id}`);
     }
 
     getTournament(id: string) {
@@ -59,7 +56,7 @@ class CategoryCreate {
     }
 
     getCategory(id: string) {
-        var categories = this.tournament.categories.filter((item) => {
+        let categories = this.tournament.categories.filter((item) => {
             return item.id === id;
         });
 
@@ -94,7 +91,7 @@ class CategoryCreate {
 
     private processCreateCategory(data) {
         this.feedbacks.save.setSuccess();
-        
+
         this.goBack();
     }
 

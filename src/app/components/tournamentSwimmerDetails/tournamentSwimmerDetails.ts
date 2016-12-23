@@ -8,32 +8,32 @@ import { IHistoryService } from 'app/services/historyService';
 import { Tournament } from 'app/entities/tournament';
 import { Swimmer } from 'app/entities/swimmer';
 
- class TournamentSwimmerDetails {
-/*@ngInject*/
+class TournamentSwimmerDetails {
+    /*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
-        private $rootRouter,
         private $window,
-        private $location,
+        private $location: ng.ILocationService,
         private $mdDialog,
-        private historyService: IHistoryService
-        ) {
+        private historyService: IHistoryService,
+        private $routeParams
+    ) {
     }
 
     tournament: Tournament;
 
     swimmer: Swimmer;
 
-    $routerOnActivate(toRoute, fromRoute) {
-        this.getTournament(toRoute.params.tournamentId)
+    $onInit() {
+        this.getTournament(this.$routeParams.tournamentId)
             // .then(() => this.getTournamentSwimmers())
-            .then(() => this.getSwimmer(toRoute.params.swimmerId));
+            .then(() => this.getSwimmer(this.$routeParams.swimmerId));
     }
 
     goBack() {
         // this.$window.history.back();
         // this.$location.path(`/tournaments/${this.tournament.id}/swimmers`);
-       this.$window.history.back();
+        this.$window.history.back();
     }
 
     getTournament(id: string) {
@@ -70,9 +70,9 @@ import { Swimmer } from 'app/entities/swimmer';
 
             this.tournament.swimmers.splice(index, 1);
 
-			this.tournamentService.edit(this.tournament);
+            this.tournamentService.edit(this.tournament);
 
-			this.goBack();
+            this.goBack();
         }, () => {
             //
         });
@@ -80,6 +80,6 @@ import { Swimmer } from 'app/entities/swimmer';
 }
 
 export let tournamentSwimmerDetails = {
-	templateUrl: 'app/components/tournamentSwimmerDetails/tournamentSwimmerDetails.html',
-	controller: TournamentSwimmerDetails
+    templateUrl: 'app/components/tournamentSwimmerDetails/tournamentSwimmerDetails.html',
+    controller: TournamentSwimmerDetails
 };

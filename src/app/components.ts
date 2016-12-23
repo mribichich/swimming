@@ -1,3 +1,4 @@
+export * from 'app/components/app/app';
 export * from 'app/components/dashboard/dashboard';
 
 export * from 'app/components/swimmers/swimmers';

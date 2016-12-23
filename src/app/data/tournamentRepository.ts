@@ -1,21 +1,9 @@
-import {IStorage} from 'app/data';
-import {Tournament} from 'app/entities';
-import {TournamentDb} from 'app/data/entities';
+import { IStorage } from 'app/data';
+import { Tournament } from 'app/entities';
+import { TournamentDb } from 'app/data/entities';
 
-export interface ITournamentRepository {
-    add(tournament: TournamentDb): ng.IPromise<void>;
-
-    update(tournamentDb: TournamentDb): ng.IPromise<void>;
-
-    get(id: string): ng.IPromise<TournamentDb>;
-
-    find(query?: LokiQuery): ng.IPromise<TournamentDb[]>;
-
-    save(): ng.IPromise<void>;
-}
-
-export class TournamentRepository implements ITournamentRepository {
-/*@ngInject*/
+export class TournamentRepository {
+    /*@ngInject*/
     constructor(
         private storage: IStorage,
         private $q: ng.IQService

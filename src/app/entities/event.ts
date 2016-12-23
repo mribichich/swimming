@@ -1,15 +1,11 @@
-import _ from 'underscore';
-import moment from 'moment';
+import * as _ from 'underscore';
+import * as moment from 'moment';
 import humanizeDuration from 'humanize-duration';
 
 // import { EventGenderType } from 'app/enums/eventGenderType';
 import { EventGenderType, EventState } from 'app/enums';
 import { Category, Swimmer, SeedTime, Lane, Heat } from 'app/entities';
 import { SeedTimeFactory } from 'app/factories';
-
-// jspm install angular-timer=npm:angular-timer -o "{ main: 'dist/angular-timer', format: 'global',  shim: { 'dist/angular-timer': { "deps": ["moment"], "exports": "moment" } }, dependencies: { 'moment': '*' }, registry: 'jspm' }"
-
-// jspm install angular-timer=npm:angular-timer -o "{ 'main': 'dist/angular-timer', 'dependencies': {    'moment': '*' }, 'format': 'global', 'shim': { 'deps': ['moment'], 'exports': 'moment' } }"
 
 export class TournamentEvent {
 	constructor() {
@@ -47,7 +43,7 @@ export class TournamentEvent {
 			case EventGenderType.Mixed:
 				return 'Mixto';
 		}
-    }
+	}
 
 	get durationTime(): string {
 		if (this._durationTime) {
@@ -59,7 +55,7 @@ export class TournamentEvent {
 		this._durationTime = humanizeDuration(dur.asMilliseconds(), { language: 'es' });
 
 		return this._durationTime;
-    }
+	}
 
 	addSwimmer(swimmer: Swimmer) {
 		if (_.find(this.swimmerIds, swimmerId => swimmerId === swimmer.id)) {

@@ -1,4 +1,6 @@
-import _ = require('underscore');
+
+import * as angular from 'angular';
+import * as _ from 'underscore';
 
 import { ITournamentService } from 'app/services';
 import { IHistoryService } from 'app/services/historyService';
@@ -6,30 +8,27 @@ import { Tournament } from 'app/entities/tournament';
 import { Category } from 'app/entities/category';
 
 class CategoryDetails {
-/*@ngInject*/
+    /*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
         private $mdDialog,
         private $window,
         private historyService: IHistoryService,
-        private $rootRouter
+        private $location: ng.ILocationService,
+        private $routeParams
     ) {
     }
 
     tournament: Tournament;
     category: Category;
 
-    $routerOnActivate(toRoute, fromRoute) {
-        this.getTournament(toRoute.params.tournamentId)
-            .then(() => this.getCategory(toRoute.params.categoryId));
+    $onInit() {
+        this.getTournament(this.$routeParams.tournamentId)
+            .then(() => this.getCategory(this.$routeParams.categoryId));
     }
 
     goBack() {
-        // this.$window.history.back();
-        // this.$location.path(`/tournaments/${this.tournament.id}/categories`);
-        //    this.$window.history.back();
-
-        this.$rootRouter.navigate(['/TournamentDetails', { id: this.tournament.id }]);
+        this.$location.path(`/tournaments/details/${this.tournament.id}`);
     }
 
     getTournament(id: string) {

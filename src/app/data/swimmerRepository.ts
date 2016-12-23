@@ -1,20 +1,8 @@
-import {IStorage} from 'app/data';
-import {SwimmerDb} from 'app/data/entities';
+import { IStorage } from 'app/data';
+import { SwimmerDb } from 'app/data/entities';
 
-export interface ISwimmerRepository {
-    add(swimmerDb: SwimmerDb): ng.IPromise<void>;
-
-    update(swimmerDb: SwimmerDb): ng.IPromise<void>;
-
-    get(id: string): ng.IPromise<SwimmerDb>;
-
-    find(query?: LokiQuery): ng.IPromise<SwimmerDb[]>;
-
-    save(): ng.IPromise<void>;
-}
-
-export class SwimmerRepository implements ISwimmerRepository {
-/*@ngInject*/
+export class SwimmerRepository {
+    /*@ngInject*/
     constructor(
         private storage: IStorage,
         private $q: ng.IQService

@@ -1,5 +1,6 @@
 'use strict';
 
+import * as angular from 'angular';
 import './tournament-details.css!';
 
 import * as _ from 'underscore';
@@ -10,18 +11,16 @@ import { Tournament, Swimmer } from 'app/entities';
 import { EventState } from 'app/enums';
 
 class TournamentDetails {
-/*@ngInject*/
+    /*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
         private $window,
         private $mdDialog,
-        private $location,
-        private $rootRouter
+        private $location: ng.ILocationService,
+        private $routeParams
     ) {
     }
 
-    routeParams;
-    fromRoute;
     tournament: Tournament;
     selectedTabIndex: number = 0;
 
@@ -33,24 +32,20 @@ class TournamentDetails {
         resultsTab: 4
     };
 
-    $routerOnActivate(toRoute, fromRoute) {
-        this.routeParams = toRoute.params;
-        this.fromRoute = fromRoute;
-
+    $onInit() {
         this.refresh();
     }
 
     navigate(to) {
-        this.$rootRouter.navigate(to);
+        this.$location.path(to);
     }
 
     goBack() {
-        // this.$location.path(this.fromRoute.urlPath);
-        this.$rootRouter.navigate(['/Tournaments']);
+        this.$location.path('/tournaments');
     }
 
     refresh() {
-        this.getTournament(this.routeParams.id)
+        this.getTournament(this.$routeParams.id)
             .then(() => {
                 if (this.tournament.events.some(m => m.state !== EventState.NotStarted)) {
                     this.selectedTabIndex = this.tabs.eventsTab;

@@ -8,18 +8,17 @@ import * as FeedbackLib from 'app/libs/feedbackLib';
 import { Category } from 'app/entities/category';
 
 class TournamentCreate {
-/*@ngInject*/
+    /*@ngInject*/
     constructor(
         private tournamentService: ITournamentService,
         private $window,
-        private $location,
         private historyService: IHistoryService,
-        private $rootRouter,
-        private $q:ng.IQService
+        private $location: ng.ILocationService,
+        private $q: ng.IQService,
+        private $routeParams
     ) {
     }
 
-    fromRoute;
     viewAction: string;
     feedbacks = {
         save: new FeedbackLib.Feedback()
@@ -28,24 +27,21 @@ class TournamentCreate {
     submitted: boolean = false;
     modelErrors;
 
-    $routerOnActivate(toRoute, fromRoute) {
-        this.fromRoute = fromRoute;
-
-        if (angular.isUndefined(toRoute.params.id)) {
+    $onInit() {
+        if (!this.$routeParams.id) {
             this.viewAction = 'Create';
 
             TournamentFactory.Create(null, null, this.$q)
-            .then(tournament=> this.tournament = tournament);
+                .then(tournament => this.tournament = tournament);
         } else {
             this.viewAction = 'Edit';
 
-            this.getTournament(toRoute.params.id);
+            this.getTournament(this.$routeParams.id);
         }
     }
 
     goBack() {
-        //   this.$window.history.back();
-        this.$rootRouter.navigate(['Tournaments']);
+        this.$location.path('/tournaments');
     }
 
     getTournament(id: string) {
@@ -108,7 +104,7 @@ class TournamentCreate {
         this.feedbacks.save.setNone();
         this.feedbacks.save.isWorking = true;
 
-        this.tournamentService.updateInfo(this.tournament.id,this.tournament.name, this.tournament.startDateTime )
+        this.tournamentService.updateInfo(this.tournament.id, this.tournament.name, this.tournament.startDateTime)
             .then((data) => this.processEditTournament(data))
             .catch((data) => this.catchEditTournamentError(data))
             .finally(() => this.finallyEditTournament());

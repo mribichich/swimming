@@ -4,8 +4,8 @@
 module.exports = function (config) {
   config.set({
 
-    // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+        // base path that will be used to resolve all patterns (eg. files, exclude)
+        basePath: './',
 
 
     // frameworks to use
@@ -13,59 +13,39 @@ module.exports = function (config) {
     frameworks: ['jasmine', 'jspm'],
 
 
-    // list of files / patterns to load in the browser
-    files: [
-      // { pattern: 'bower_components/angular/angular.js', included: false },
-      // { pattern: 'bower_components/angular-animate/angular-animate.js', included: false },
-      // { pattern: 'bower_components/angular-material/angular-material.js', included: false },
-      // { pattern: 'bower_components/angular-messages/angular-messages.js', included: false },
-      // { pattern: 'bower_components/angular-aria/angular-aria.js', included: false },
-      // { pattern: 'bower_components/angular-mocks/angular-mocks.js', included: false },
-      // { pattern: 'bower_components/angular-sanitize/angular-sanitize.js', included: false },
-      // { pattern: 'node_modules/angular-new-router/dist/router.es5.js', included: false },
-      // { pattern: 'node_modules/node-uuid/uuid.js', included: false },
-      // { pattern: 'bower_components/angular-indexed-db/angular-indexed-db.js', included: false },
-      // { pattern: 'bower_components/angular-i18n/angular-locale_es-ar.js', included: false },
-      // { pattern: 'bower_components/underscore/underscore.js', included: false },
-      // { pattern: 'bower_components/uri.js/src/URI.js', included: false },
-      // { pattern: 'bower_components/uri.js/src/IPv6.js', included: false },
-      // { pattern: 'bower_components/uri.js/src/punycode.js', included: false },
-      // { pattern: 'bower_components/uri.js/src/SecondLevelDomains.js', included: false },
+        // list of files / patterns to load in the browser
+        files: [],
 
-      // { pattern: 'tests/**/*Spec.js', included: false },
 
-      // { pattern: 'tests/**/*.js.map', included: true },
+        // list of files to exclude
+        exclude: [],
 
-      // { pattern: 'app/**/*.js', included: false }
 
-      // { pattern: 'app/**/*.ts', included: true },
-      // { pattern: 'app/**/*.js.map', included: true },
+        // preprocess matching files before serving them to the browser
+        // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+        preprocessors: {
+            '**/*.js': ['electron']
+        },
 
-      'jspm_packages/system.src.js',
-    ],
+        client: {
+            useIframe: false
+        },
 
-    // list of files to exclude
-    exclude: [
-    ],
+        // plugins: ['karma-jspm'],
 
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {
-    },
+        jspm: {
+            config: 'jspm.config.js',
+            loadFiles: [
+                'dist/app/**/*.spec.js'
+            ],
+            serveFiles: [
+                'dist/app/**/!(*.spec).js'
+            ]
+        },
 
-    jspm: {
-      // config: 'config.js',
-      loadFiles: [
-        'bin/tests/**/*Spec.js'
-      ],
-      serveFiles: [
-        'bin/app/**/*.js'
-      ]
-    },
-
- // proxies: {
-  //           '/base': '/base/app'
-  //       },
+        proxies: {
+            '/dist': '/base/dist'
+        },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -90,13 +70,20 @@ module.exports = function (config) {
     autoWatch: true,
 
 
-    // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+        // start these browsers
+        // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+        browsers: [
+            'Chrome',
+            'Electron'
+        ],
 
 
-    // Continuous Integration mode
-    // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false
-  })
+        // Continuous Integration mode
+        // if true, Karma captures browsers, runs the tests and exits
+        singleRun: false,
+
+        // Concurrency level
+        // how many browser should be started simultaneous
+        concurrency: Infinity
+    })
 }

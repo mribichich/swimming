@@ -1,15 +1,31 @@
-<h1>Torneos</h1>
-<md-button class="md-fab md-primary md-fab-bottom-right" aria-label="Crear Torneo" ng-link="['TournamentCreate']">
-    <md-icon>add</md-icon>
-    <md-tooltip>Crear Torneo</md-tooltip>
-</md-button>
-<br />
+<div class="page-header page-header-custom layout layout-row layout-align-start-center">
+    <!--<md-button class="md-icon-button"
+        aria-label="Volver"
+        ng-click="$ctrl.goBack()"
+        e2e="go-back-btn">
+        <md-icon md-svg-icon="navigation:ic_arrow_back_24px"></md-icon>
+        <md-tooltip>Volver</md-tooltip>
+    </md-button>-->
+
+    <h1 e2e="main-title">Torneos</h1>
+
+    <span class="flex"></span>
+
+    <md-button class="md-icon-button"
+        aria-label="Crear"
+        ng-href="#!/tournaments/create">
+        <md-icon>add</md-icon>
+        <md-tooltip>Crear</md-tooltip>
+    </md-button>
+</div>
+
 <p ng-if="$ctrl.tournaments.length == 0">No se encontraron datos</p>
+
 <md-list ng-if="$ctrl.tournaments.length > 0">
     <md-divider></md-divider>
-    <md-list-item class="md-body-1" 
-    ng-repeat="tournament in $ctrl.tournaments" 
-    ng-click="$ctrl.navigateTo(['/TournamentDetails', {id: tournament.id}])">
+    <md-list-item class="md-body-1"
+        ng-repeat="tournament in $ctrl.tournaments"
+        ng-click="$ctrl.navigateTo(`/tournaments/details/${tournament.id}`)">
         <p>{{tournament.startDateTime | date: 'shortDate'}}</p>
         <p>{{tournament.name}}</p>
         <!--<md-menu class="md-secondary" md-position-mode="target-right target">
