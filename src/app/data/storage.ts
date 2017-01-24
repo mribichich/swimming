@@ -1,4 +1,4 @@
-import loki from 'lokijs';
+import * as loki from 'lokijs';
 import * as path from 'path';
 import * as fs from 'fs';
 import { Tournament, Swimmer } from 'app/entities';
@@ -42,7 +42,7 @@ export class Storage implements IStorage {
             d.resolve();
         } else {
             try {
-                this.db = new loki(path.resolve(__dirname, 'data', 'app.db'));
+                this.db = new loki(path.resolve(process.cwd(), 'data', 'app.db'));
 
                 if (this.fileExists(this.db.filename)) {
                     this.db.loadDatabase({}, (error, data) => {

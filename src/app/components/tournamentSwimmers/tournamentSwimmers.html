@@ -1,5 +1,13 @@
-<div class="page-header page-header-custom" layout="row" layout-align="start center">
-    <md-button class="md-icon-button" aria-label="Volver" ng-click="$ctrl.goBack()">
+<div
+    class="page-header page-header-custom"
+    layout="row"
+    layout-align="start center"
+>
+    <md-button
+        class="md-icon-button"
+        aria-label="Volver"
+        ng-click="$ctrl.goBack()"
+    >
         <md-icon>arrow_back</md-icon>
         <md-tooltip>Volver</md-tooltip>
     </md-button>
@@ -9,18 +17,32 @@
     <md-icon>add</md-icon>
     <md-tooltip>Registrar Nadadores</md-tooltip>
 </md-button>-->
-<md-fab-speed-dial class="md-fling md-fab-bottom-right" md-direction="up">
+<md-fab-speed-dial
+    class="md-fling md-fab-bottom-right"
+    md-direction="up"
+>
     <md-fab-trigger>
-        <md-button aria-label="Agregar Nadador" class="md-fab md-primary">
+        <md-button
+            aria-label="Agregar Nadador"
+            class="md-fab md-primary"
+        >
             <md-icon>add</md-icon>
         </md-button>
     </md-fab-trigger>
     <md-fab-actions>
-        <md-button class="md-fab md-mini" aria-label="Registrar Nadador" ng-click="$ctrl.registerSwimmers($event)">
+        <md-button
+            class="md-fab md-mini"
+            aria-label="Registrar Nadador"
+            ng-click="$ctrl.registerSwimmers($event)"
+        >
             <md-icon>person_add</md-icon>
             <md-tooltip md-direction="left">Registrar Nadadores</md-tooltip>
         </md-button>
-        <md-button class="md-fab md-mini" aria-label="Crear Nadador" ng-click="$ctrl.navigateToCreateSwimmer()">
+        <md-button
+            class="md-fab md-mini"
+            aria-label="Crear Nadador"
+            ng-click="$ctrl.navigateToCreateSwimmer()"
+        >
             <md-icon>add</md-icon>
             <md-tooltip md-direction="left">Crear Nadador</md-tooltip>
         </md-button>
@@ -30,14 +52,20 @@
 <p ng-if="$ctrl.tournament.swimmers.length == 0">No se encontraron datos</p>
 <md-list ng-if="$ctrl.tournament.swimmers.length > 0">
     <md-divider></md-divider>
-    <md-list-item ng-repeat="swimmer in $ctrl.tournament.swimmers" ng-click="$ctrl.navigateTo('tournaments/'+$ctrl.tournament.id+'/swimmers/details/'+swimmer.id)">
+    <md-list-item
+        ng-repeat="swimmer in $ctrl.tournament.swimmers"
+        ng-click="$ctrl.navigateTo('/tournaments/' + $ctrl.tournament.id + '/swimmers/details/' + swimmer.id)"
+    >
         <p>{{swimmer.fullName}}</p>
         <p>{{swimmer.birthDate | date: 'shortDate'}}</p>
         <p>{{swimmer.age}}</p>
         <p>{{swimmer.genderDescription}}</p>
         <p>{{swimmer.nid ? swimmer.nid : '-'}}</p>
-        <md-icon class="material-icons md-secondary" ng-click="$ctrl.removeSwimmer($event, swimmer)"
-        aria-label="Quitar">delete
+        <md-icon
+            class="material-icons md-secondary"
+            ng-click="$ctrl.removeSwimmer($event, swimmer)"
+            aria-label="Quitar"
+        >delete
             <md-tooltip>Quitar Nadador</md-tooltip>
         </md-icon>
         <md-divider></md-divider>

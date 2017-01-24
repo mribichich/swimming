@@ -254,7 +254,11 @@ gulp.task('watch.js', () => {
 });
 
 gulp.task('electron.start', () => {
-    electron.start();
+    electron.start([
+        '--debug=5858',
+        '--enable-logging',
+        '--remote-debugging-port=9222'
+    ]);
 
     gulp.watch('main.js', electron.restart);
 

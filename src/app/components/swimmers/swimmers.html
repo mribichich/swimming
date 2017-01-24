@@ -11,9 +11,11 @@
 
     <span class="flex"></span>
 
-    <md-button class="md-icon-button"
+    <md-button
+        class="md-icon-button"
         aria-label="Crear"
-        ng-href="#!/swimmers/create">
+        ng-href="#!/swimmers/create"
+    >
         <md-icon>add</md-icon>
         <md-tooltip>Crear</md-tooltip>
     </md-button>
@@ -33,9 +35,11 @@
 
     <md-divider></md-divider>
 
-    <md-list-item class="md-body-1"
+    <md-list-item
+        class="md-body-1"
         ng-repeat="swimmer in $ctrl.swimmers"
-        ng-click="$ctrl.navigateTo(['SwimmerDetails', {id: swimmer.id}])">
+        ng-click="$ctrl.navigateTo('/swimmers/details/'+swimmer.id)"
+    >
         <p>{{swimmer.fullName}}</p>
         <p>{{swimmer.birthDate | date: 'shortDate'}}</p>
         <p>{{swimmer.age}}</p>
