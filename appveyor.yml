@@ -3,6 +3,10 @@ version: 0.4.{build}
 platform:
   - x64
 
+environment:
+  JSPM_GITHUB_AUTH_TOKEN:
+    secure: DjDHKWLd+lqIDf84qOaG1PjZ+uILUomO+LKwm8bfDECXdrV/wdbn7vRxAF8EEsfk
+
 cache:
   - node_modules
   - jspm_packages
@@ -16,13 +20,16 @@ init:
 install:
   - ps: Install-Product node 7.4.0 x64
   - git reset --hard HEAD
-  # - npm install npm -g
-  # - npm install electron-builder@next # force install next version to test electron-builder
   - yarn
+  - yarn global add electron-packager
+  - node_modules\.bin\jspm config registries.github.timeouts.lookup 180
+  - node_modules\.bin\jspm config registries.npm.timeouts.lookup 180
   - node_modules\.bin\jspm install
 
 build_script:
   # - node --version
   - node_modules\.bin\gulp build --production
+  - npm prune
+  - electron-packager . --platform=win32
 
 test: off
