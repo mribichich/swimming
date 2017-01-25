@@ -17,11 +17,12 @@ install:
   - ps: Install-Product node 7.4.0 x64
   - git reset --hard HEAD
   # - npm install npm -g
-  - npm install electron-builder@next # force install next version to test electron-builder
+  # - npm install electron-builder@next # force install next version to test electron-builder
   - yarn
+  - node_modules\.bin\jspm install
 
 build_script:
-  - node --version
-  - gulp build --production
+  # - node --version
+  - node_modules\.bin\gulp build --production
 
 test: off
