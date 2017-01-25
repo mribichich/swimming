@@ -21,7 +21,7 @@ install:
   - ps: Install-Product node 7.4.0 x64
   - choco install -i yarn
   - git reset --hard HEAD
-  - ps: $env:YARN_GLOBAL_BIN = (yarn global bin)
+  - SET YARN_GLOBAL_BIN = (yarn global bin)
   - SET PATH=%YARN_GLOBAL_BIN%;%PATH%
   - yarn
   - yarn global add electron-packager
