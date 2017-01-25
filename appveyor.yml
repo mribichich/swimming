@@ -1,0 +1,27 @@
+version: 0.4.{build}
+
+platform:
+  - x64
+
+cache:
+  - node_modules
+  - jspm_packages
+  - '%USERPROFILE%\.electron'
+  - '%LOCALAPPDATA%\Yarn'
+  - '%LOCALAPPDATA%\.jspm'
+
+init:
+  - git config --global core.autocrlf input
+
+install:
+  - ps: Install-Product node 7.4.0 x64
+  - git reset --hard HEAD
+  # - npm install npm -g
+  - npm install electron-builder@next # force install next version to test electron-builder
+  - yarn
+
+build_script:
+  - node --version
+  - gulp build --production
+
+test: off
