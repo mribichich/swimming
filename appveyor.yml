@@ -23,10 +23,10 @@ install:
   - git reset --hard HEAD
   - yarn global bin
   - ps: $env:YARN_GLOBAL_BIN=(yarn global bin)
-  - ps: $env:YARN_GLOBAL_BIN
+  # - ps: $env:YARN_GLOBAL_BIN
   - ps: $env:PATH="$env:YARN_GLOBAL_BIN;$env:PATH"
-  - ps: $env:PATH
-  - exit 1
+  # - ps: $env:PATH
+  # - exit 1
   - yarn
   - yarn global add electron-packager
   - node_modules\.bin\jspm config registries.github.timeouts.lookup 180
