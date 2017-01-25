@@ -36,3 +36,7 @@ build_script:
   - electron-packager . --platform=win32
 
 test: off
+
+artifacts:
+  - path: swimming.web-win32-x64
+    name: app
