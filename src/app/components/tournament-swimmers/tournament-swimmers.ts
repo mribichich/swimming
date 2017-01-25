@@ -3,7 +3,7 @@
 import * as angular from 'angular';
 import * as URI from 'urijs';
 
-import { ITournamentService } from 'app/services';
+import { TournamentService } from 'app/services';
 import { IHistoryService } from 'app/services/historyService';
 import { Tournament } from 'app/entities/tournament';
 import { Swimmer } from 'app/entities/swimmer';
@@ -13,7 +13,7 @@ import { ISwimmerService } from 'app/services/swimmerService';
 class TournamentSwimmers2 {
     /*@ngInject*/
     constructor(
-        private tournamentService: ITournamentService,
+        private tournamentService: TournamentService,
         private $mdDialog,
         private $location: ng.ILocationService,
         private swimmerService: ISwimmerService,

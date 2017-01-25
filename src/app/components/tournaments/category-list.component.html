@@ -4,7 +4,7 @@
     <md-button
         class="md-icon-button"
         aria-label="Crear Categoria"
-        ng-link="['CategoryCreate', { tournamentId: $ctrl.tournament.id }]"
+        ng-href="#!/tournaments/{{$ctrl.tournament.id}}/categories/create"
     >
         <md-icon>add</md-icon>
         <md-tooltip>Crear Categoria</md-tooltip>
@@ -13,11 +13,12 @@
 
 <p ng-if="!$ctrl.tournament.categories.length">No se encontraron datos</p>
 <md-list ng-if="$ctrl.tournament.categories.length">
-    <md-list-item>
-        <p>Nombre</p>
-        <p>Tipo</p>
-        <p>Desde</p>
-        <p>Hasta</p>
+    <md-list-item class="{{$ctrl.styles.listHeader}}">
+        <p class="flex">Nombre</p>
+        <p class="flex">Tipo</p>
+        <p class="flex">Desde</p>
+        <p class="flex">Hasta</p>
+        <p class="{{$ctrl.styles.listHeaderActions}}"></p>
     </md-list-item>
     <md-divider></md-divider>
 

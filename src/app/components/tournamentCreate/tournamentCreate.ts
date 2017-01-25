@@ -1,6 +1,6 @@
 'use strict';
 
-import { ITournamentService } from 'app/services';
+import { TournamentService } from 'app/services';
 import { IHistoryService } from 'app/services/historyService';
 import { Tournament } from 'app/entities/tournament';
 import { TournamentFactory } from 'app/factories';
@@ -8,130 +8,130 @@ import * as FeedbackLib from 'app/libs/feedbackLib';
 import { Category } from 'app/entities/category';
 
 class TournamentCreate {
-    /*@ngInject*/
-    constructor(
-        private tournamentService: ITournamentService,
-        private $window,
-        private historyService: IHistoryService,
-        private $location: ng.ILocationService,
-        private $q: ng.IQService,
-        private $routeParams
-    ) {
+  /*@ngInject*/
+  constructor(
+    private tournamentService: TournamentService,
+    private $window,
+    private historyService: IHistoryService,
+    private $location: ng.ILocationService,
+    private $q: ng.IQService,
+    private $routeParams
+  ) {
+  }
+
+  viewAction: string;
+  feedbacks = {
+    save: new FeedbackLib.Feedback()
+  };
+  tournament: Tournament;
+  submitted: boolean = false;
+  modelErrors;
+
+  $onInit() {
+    if (!this.$routeParams.id) {
+      this.viewAction = 'Create';
+
+      TournamentFactory.Create(null, null, this.$q)
+        .then(tournament => this.tournament = tournament);
+    } else {
+      this.viewAction = 'Edit';
+
+      this.getTournament(this.$routeParams.id);
+    }
+  }
+
+  goBack() {
+    this.$location.path('/tournaments');
+  }
+
+  getTournament(id: string) {
+    return this.tournamentService.get(id)
+      .then((tournament) => {
+        this.tournament = tournament;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  saveTournament(isFormInvalid) {
+    this.submitted = true;
+
+    if (isFormInvalid) {
+      return;
     }
 
-    viewAction: string;
-    feedbacks = {
-        save: new FeedbackLib.Feedback()
-    };
-    tournament: Tournament;
-    submitted: boolean = false;
-    modelErrors;
-
-    $onInit() {
-        if (!this.$routeParams.id) {
-            this.viewAction = 'Create';
-
-            TournamentFactory.Create(null, null, this.$q)
-                .then(tournament => this.tournament = tournament);
-        } else {
-            this.viewAction = 'Edit';
-
-            this.getTournament(this.$routeParams.id);
-        }
+    if (this.viewAction === 'Create') {
+      this.createTournament();
+    } else {
+      this.editTournament();
     }
+  }
 
-    goBack() {
-        this.$location.path('/tournaments');
-    }
+  createTournament() {
+    this.feedbacks.save.setNone();
+    this.feedbacks.save.isWorking = true;
 
-    getTournament(id: string) {
-        return this.tournamentService.get(id)
-            .then((tournament) => {
-                this.tournament = tournament;
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
+    this.tournamentService.create(this.tournament)
+      .then((data) => this.processCreateTournament(data))
+      .catch((data) => this.catchCreateTournamentError(data))
+      .finally(() => this.finallyCreateTournament());
+  }
 
-    saveTournament(isFormInvalid) {
-        this.submitted = true;
+  private processCreateTournament(data) {
+    this.feedbacks.save.setSuccess();
 
-        if (isFormInvalid) {
-            return;
-        }
+    // this.alertService.add(TSS.AngularJs.AlertType.success, "El registro se ha guardado correctamente");
 
-        if (this.viewAction === 'Create') {
-            this.createTournament();
-        } else {
-            this.editTournament();
-        }
-    }
+    this.$window.history.back();
+  }
 
-    createTournament() {
-        this.feedbacks.save.setNone();
-        this.feedbacks.save.isWorking = true;
+  private catchCreateTournamentError(data) {
+    console.log(data);
 
-        this.tournamentService.create(this.tournament)
-            .then((data) => this.processCreateTournament(data))
-            .catch((data) => this.catchCreateTournamentError(data))
-            .finally(() => this.finallyCreateTournament());
-    }
+    var msg = 'Ha ocurrido un error guardando los datos';
 
-    private processCreateTournament(data) {
-        this.feedbacks.save.setSuccess();
+    this.modelErrors = data.modelErrors;
 
-        // this.alertService.add(TSS.AngularJs.AlertType.success, "El registro se ha guardado correctamente");
+    this.feedbacks.save.setError(msg);
+  }
 
-        this.$window.history.back();
-    }
+  private finallyCreateTournament() {
+    this.feedbacks.save.isWorking = false;
+  }
 
-    private catchCreateTournamentError(data) {
-        console.log(data);
+  editTournament() {
+    this.feedbacks.save.setNone();
+    this.feedbacks.save.isWorking = true;
 
-        var msg = 'Ha ocurrido un error guardando los datos';
+    this.tournamentService.updateInfo(this.tournament.id, this.tournament.name, this.tournament.startDateTime)
+      .then((data) => this.processEditTournament(data))
+      .catch((data) => this.catchEditTournamentError(data))
+      .finally(() => this.finallyEditTournament());
+  }
 
-        this.modelErrors = data.modelErrors;
+  private processEditTournament(data) {
+    this.feedbacks.save.setSuccess();
 
-        this.feedbacks.save.setError(msg);
-    }
+    // this.alertService.add(TSS.AngularJs.AlertType.success, "El registro se ha guardado correctamente");
 
-    private finallyCreateTournament() {
-        this.feedbacks.save.isWorking = false;
-    }
+    this.$window.history.back();
+  }
 
-    editTournament() {
-        this.feedbacks.save.setNone();
-        this.feedbacks.save.isWorking = true;
+  private catchEditTournamentError(data) {
+    var msg = 'Ha ocurrido un error guardando los datos';
 
-        this.tournamentService.updateInfo(this.tournament.id, this.tournament.name, this.tournament.startDateTime)
-            .then((data) => this.processEditTournament(data))
-            .catch((data) => this.catchEditTournamentError(data))
-            .finally(() => this.finallyEditTournament());
-    }
+    this.modelErrors = data.modelErrors;
 
-    private processEditTournament(data) {
-        this.feedbacks.save.setSuccess();
+    this.feedbacks.save.setError(msg);
+  }
 
-        // this.alertService.add(TSS.AngularJs.AlertType.success, "El registro se ha guardado correctamente");
-
-        this.$window.history.back();
-    }
-
-    private catchEditTournamentError(data) {
-        var msg = 'Ha ocurrido un error guardando los datos';
-
-        this.modelErrors = data.modelErrors;
-
-        this.feedbacks.save.setError(msg);
-    }
-
-    private finallyEditTournament() {
-        this.feedbacks.save.isWorking = false;
-    }
+  private finallyEditTournament() {
+    this.feedbacks.save.isWorking = false;
+  }
 }
 
 export let tournamentCreate = {
-    templateUrl: 'app/components/tournamentCreate/tournamentCreate.html',
-    controller: TournamentCreate
+  templateUrl: 'app/components/tournamentCreate/tournamentCreate.html',
+  controller: TournamentCreate
 };

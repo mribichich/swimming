@@ -5,7 +5,7 @@ import './tournament-details.css!';
 
 import * as _ from 'underscore';
 
-import { ITournamentService } from 'app/services';
+import { TournamentService } from 'app/services';
 import { IHistoryService } from 'app/services/historyService';
 import { Tournament, Swimmer } from 'app/entities';
 import { EventState } from 'app/enums';
@@ -13,7 +13,7 @@ import { EventState } from 'app/enums';
 class TournamentDetails {
   /*@ngInject*/
   constructor(
-    private tournamentService: ITournamentService,
+    private tournamentService: TournamentService,
     private $window,
     private $mdDialog,
     private $location: ng.ILocationService,

@@ -3,7 +3,7 @@
 // import * as angular from 'angular';
 // import * as URI from 'urijs';
 
-// import { ITournamentService } from 'app/services';
+// import { TournamentService } from 'app/services';
 // import { IHistoryService } from 'app/services/historyService';
 // import { Tournament } from 'app/entities/tournament';
 // import { Swimmer } from 'app/entities/swimmer';
@@ -22,4 +22,4 @@ export let eventResults: ng.IComponentOptions = {
     bindings: {
         event: '<'
     }
-}; 
+};

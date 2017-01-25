@@ -1,14 +1,19 @@
-'use strict';
+// app css
+import * as styles from './category-list.component.css!css-modules';
 
+// lib js
 import * as angular from 'angular';
 
-import { ITournamentService } from 'app/services';
+// app js
+import { TournamentService } from 'app/services';
 import { Tournament, Category } from 'app/entities';
 
 class CategoryList {
+    styles = styles;
+
     /*@ngInject*/
     constructor(
-        private tournamentService: ITournamentService,
+        private tournamentService: TournamentService,
         private $mdDialog,
         private $location: ng.ILocationService,
         private $window: ng.IWindowService,
@@ -34,7 +39,7 @@ class CategoryList {
             .cancel('Cancelar')
             .targetEvent(ev);
         this.$mdDialog.show(confirm).then(() => {
-            this.tournamentService.deleteEvent(this.tournament.id, category.id)
+            this.tournamentService.deleteCategory(this.tournament.id, category.id)
                 .then(() => {
                     this.onUpdate();
                 })

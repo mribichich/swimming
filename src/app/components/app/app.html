@@ -1,16 +1,22 @@
-<div class="splash"
-    ng-cloak>
+<div
+    class="splash"
+    ng-cloak
+>
     <span class="spinner-section"></span>
 </div>
 
-<div class="layout layout-column layout-fill"
-    ng-cloak>
+<div
+    class="layout layout-column layout-fill"
+    ng-cloak
+>
     <md-toolbar class="md-whiteframe-z2 main-toolbar">
 
         <div class="md-toolbar-tools">
-            <md-button class="md-icon-button"
+            <md-button
+                class="md-icon-button"
                 aria-label="Settings"
-                ng-click="$ctrl.toggleMenu()">
+                ng-click="$ctrl.toggleMenu()"
+            >
                 <md-icon>menu</md-icon>
             </md-button>
             <h1>
@@ -25,10 +31,11 @@
     </md-toolbar>
 
     <div class="flex layout layout-row">
-        <md-sidenav class="md-sidenav-left md-whiteframe-z2"
+        <md-sidenav
+            class="md-sidenav-left md-whiteframe-z2"
             layout="column"
             md-component-id="left"
-            md-is-locked-open="$mdMedia('gt-md')">
+        >
             <!--<md-toolbar class="md-theme-indigo">
                 <h1 class="md-toolbar-tools">Natacion</h1>
             </md-toolbar>-->
@@ -50,11 +57,15 @@
             </md-content>
         </md-sidenav>
 
-        <md-content class="main-content flex layout layout-column"
-            md-scroll-y>
+        <md-content
+            class="main-content flex layout layout-column"
+            md-scroll-y
+        >
 
-            <div class="view-port layout layout-column flex"
-                ng-view>
+            <div
+                class="view-port layout layout-column flex"
+                ng-view
+            >
                 <!--<div class="layout layout-column flex">
                     <div ng-view></div>
                 </div>-->

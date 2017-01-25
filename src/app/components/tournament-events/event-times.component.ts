@@ -3,7 +3,7 @@
 import * as _ from 'underscore';
 
 import {
-    ITournamentService
+    TournamentService
 } from 'app/services';
 import {
     Tournament,
@@ -17,7 +17,7 @@ class EventTimes {
     /*@ngInject*/
     constructor(
         private $mdDialog,
-        private tournamentService: ITournamentService
+        private tournamentService: TournamentService
     ) { }
 
     submitted: boolean;

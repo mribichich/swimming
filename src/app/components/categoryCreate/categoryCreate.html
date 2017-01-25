@@ -1,51 +1,122 @@
-<div class="page-header page-header-custom" layout="row" layout-align="start center">
-    <md-button class="md-icon-button" aria-label="Volver" ng-click="$ctrl.goBack()">
+<div
+    class="page-header page-header-custom"
+    layout="row"
+    layout-align="start center"
+>
+    <md-button
+        class="md-icon-button"
+        aria-label="Volver"
+        ng-click="$ctrl.goBack()"
+    >
         <md-icon class="material-icons">arrow_back</md-icon>
         <md-tooltip>Volver</md-tooltip>
     </md-button>
     <h1>{{$ctrl.tournament.name}} > {{$ctrl.viewAction === 'Create' ? 'Crear Categoria' : 'Editar Categoria'}}</h1>
 </div>
-<form name="categoryForm" ng-submit="$ctrl.saveCategory(categoryForm.$invalid)" novalidate rc-disabled="$ctrl.feedbacks.save.isWorking || $ctrl.feedbacks.save.isSuccess()">
-    <div class="alert alert-danger" ng-if="$ctrl.modelErrors">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <ul>
-            <li ng-repeat="modelError in $ctrl.modelErrors">{{modelError}}</li>
-        </ul>
-    </div>
-    <md-input-container>
-        <label>Nombre</label>
-        <input name="categoryName" ng-model="$ctrl.category.name" autofocus="autofocus" required>
-        <div ng-messages="categoryForm.categoryName.$error" ng-if="categoryForm.categoryName.$invalid && ($ctrl.submitted || categoryForm.categoryName.$dirty)">
-            <div ng-message="required">Debe ingresar el nombre</div>
+
+<div class="md-whiteframe-2dp {{$ctrl.styles.viewContainer}}">
+    <form
+        name="categoryForm"
+        ng-submit="$ctrl.saveCategory(categoryForm.$invalid)"
+        novalidate
+        rc-disabled="$ctrl.feedbacks.save.isWorking || $ctrl.feedbacks.save.isSuccess()"
+    >
+        <div class="layout-column">
+            <div
+                class="alert alert-danger"
+                ng-if="$ctrl.modelErrors"
+            >
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="alert"
+                    aria-hidden="true"
+                >&times;</button>
+                <ul>
+                    <li ng-repeat="modelError in $ctrl.modelErrors">{{modelError}}</li>
+                </ul>
+            </div>
+
+            <md-input-container class="flex">
+                <label>Nombre</label>
+                <input
+                    name="categoryName"
+                    ng-model="$ctrl.category.name"
+                    autofocus="autofocus"
+                    required
+                >
+                <div
+                    ng-messages="categoryForm.categoryName.$error"
+                    ng-if="categoryForm.categoryName.$invalid && ($ctrl.submitted || categoryForm.categoryName.$dirty)"
+                >
+                    <div ng-message="required">Debe ingresar el nombre</div>
+                </div>
+            </md-input-container>
+
+            <div>
+                <label>Tipo</label>
+                <md-radio-group
+                    class="layout-row"
+                    name="categoryType"
+                    ng-model="$ctrl.category.type"
+                    required
+                >
+                    <md-radio-button value="byYear">Por Año</md-radio-button>
+                    <md-radio-button value="byAge">Por Edad</md-radio-button>
+                </md-radio-group>
+                <div
+                    ng-messages="categoryForm.categoryType.$error"
+                    ng-if="categoryForm.categoryType.$invalid && ($ctrl.submitted || categoryForm.categoryType.$dirty)"
+                >
+                    <div ng-message="required">Debe ingresar el tipo de categoria</div>
+                </div>
+                <br>
+            </div>
+
+            <div class="layout-row">
+                <md-input-container class="flex">
+                    <label>Desde</label>
+                    <input
+                        type="number"
+                        name="categoryFrom"
+                        ng-model="$ctrl.category.from"
+                        required
+                    >
+                    <div
+                        ng-messages="categoryForm.categoryFrom.$error"
+                        ng-if="categoryForm.categoryFrom.$invalid && ($ctrl.submitted || categoryForm.categoryFrom.$dirty)"
+                    >
+                        <div ng-message="required">Debe ingresar el desde</div>
+                    </div>
+                </md-input-container>
+
+                <md-input-container class="flex">
+                    <label>Hasta</label>
+                    <input
+                        type="number"
+                        name="categoryTo"
+                        ng-model="$ctrl.category.to"
+                        required
+                    >
+                    <div
+                        ng-messages="categoryForm.categoryTo.$error"
+                        ng-if="categoryForm.categoryTo.$invalid && ($ctrl.submitted || categoryForm.categoryTo.$dirty)"
+                    >
+                        <div ng-message="required">Debe ingresar el hasta</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <br />
         </div>
-    </md-input-container>
-    <div>
-        <label>Tipo</label>
-        <md-radio-group name="categoryType" ng-model="$ctrl.category.type" required>
-            <md-radio-button value="byYear">Por Año</md-radio-button>
-            <md-radio-button value="byAge">Por Edad</md-radio-button>
-        </md-radio-group>
-        <div ng-messages="categoryForm.categoryType.$error" ng-if="categoryForm.categoryType.$invalid && ($ctrl.submitted || categoryForm.categoryType.$dirty)">
-            <div ng-message="required">Debe ingresar el tipo de categoria</div>
+
+        <div class="layout-row layout-align-start-center">
+            <md-button
+                class="md-raised md-primary"
+                type="submit"
+            >Guardar Categoria</md-button>
+            <md-button ng-click="$ctrl.goBack()">Cancel</md-button>
+            &nbsp;
+            <feedback ng-model="$ctrl.feedbacks.save"></feedback>
         </div>
-    </div>
-    <md-input-container>
-        <label>Desde</label>
-        <input type="number" name="categoryFrom" ng-model="$ctrl.category.from" required>
-        <div ng-messages="categoryForm.categoryFrom.$error" ng-if="categoryForm.categoryFrom.$invalid && ($ctrl.submitted || categoryForm.categoryFrom.$dirty)">
-            <div ng-message="required">Debe ingresar el desde</div>
-        </div>
-    </md-input-container>
-    <md-input-container>
-        <label>Hasta</label>
-        <input type="number" name="categoryTo" ng-model="$ctrl.category.to" required>
-        <div ng-messages="categoryForm.categoryTo.$error" ng-if="categoryForm.categoryTo.$invalid && ($ctrl.submitted || categoryForm.categoryTo.$dirty)">
-            <div ng-message="required">Debe ingresar el hasta</div>
-        </div>
-    </md-input-container>
-    <br />
-    <div layout="row" layout-align="start center">
-        <md-button class="md-raised md-primary" type="submit">Guardar Categoria</md-button>&nbsp;
-        <feedback ng-model="$ctrl.feedbacks.save"></feedback>
-    </div>
-</form>
+    </form>
+</div>

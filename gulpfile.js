@@ -124,7 +124,7 @@ gulp.task('build.partials', () => {
 gulp.task('ts.lint', function() {
     return gulp.src(CONFIG.src.js.app)
         .pipe(tslint({
-            // contains rules in the tslint.json format 
+            // contains rules in the tslint.json format
             configuration: "./tslint.json"
         }))
         .pipe(tslint.report({

@@ -1,5 +1,13 @@
-<div class="page-header page-header-custom" layout="row" layout-align="start center">
-    <md-button class="md-icon-button" aria-label="Volver" ng-click="$ctrl.goBack()">
+<div
+    class="page-header page-header-custom"
+    layout="row"
+    layout-align="start center"
+>
+    <md-button
+        class="md-icon-button"
+        aria-label="Volver"
+        ng-click="$ctrl.goBack()"
+    >
         <md-icon>arrow_back</md-icon>
         <md-tooltip>Volver</md-tooltip>
     </md-button>
@@ -10,35 +18,99 @@
         <md-tooltip>Editar</md-tooltip>
     </md-button>-->
 
-    <md-button class="md-icon-button" aria-label="Eliminar" ng-click="$ctrl.remove($event)">
+    <md-button
+        class="md-icon-button"
+        aria-label="Eliminar"
+        ng-click="$ctrl.remove($event)"
+    >
         <md-icon>delete</md-icon>
         <md-tooltip>Eliminar</md-tooltip>
     </md-button>
 </div>
 
 <md-content>
-   <div layout="row" layout-padding>
-        <div class="md-body-2" flex="35" flex-gt-lg="20">Nombre</div>
-        <div class="md-body-1" flex>{{$ctrl.swimmer.firstName}}</div>
+    <div
+        layout="row"
+        layout-padding
+    >
+        <div
+            class="md-body-2"
+            flex="35"
+            flex-gt-lg="20"
+        >Nombre</div>
+        <div
+            class="md-body-1"
+            flex
+        >{{$ctrl.swimmer.firstName}}</div>
     </div>
-    <div layout="row" layout-padding>
-        <div class="md-body-2" flex="35" flex-gt-lg="20">Apellido</div>
-        <div class="md-body-1" flex>{{$ctrl.swimmer.lastName}}</div>
+    <div
+        layout="row"
+        layout-padding
+    >
+        <div
+            class="md-body-2"
+            flex="35"
+            flex-gt-lg="20"
+        >Apellido</div>
+        <div
+            class="md-body-1"
+            flex
+        >{{$ctrl.swimmer.lastName}}</div>
     </div>
-    <div layout="row" layout-padding>
-        <div class="md-body-2" flex="35" flex-gt-lg="20">Fecha Nacimiento</div>
-        <div class="md-body-1" flex>{{$ctrl.swimmer.birthDate | date: 'longDate'}}</div>
+    <div
+        layout="row"
+        layout-padding
+    >
+        <div
+            class="md-body-2"
+            flex="35"
+            flex-gt-lg="20"
+        >Fecha Nacimiento</div>
+        <div
+            class="md-body-1"
+            flex
+        >{{$ctrl.swimmer.birthDate | date: 'longDate'}}</div>
     </div>
-    <div layout="row" layout-padding>
-        <div class="md-body-2" flex="35" flex-gt-lg="20">Edad</div>
-        <div class="md-body-1" flex>{{$ctrl.swimmer.age}}</div>
+    <div
+        layout="row"
+        layout-padding
+    >
+        <div
+            class="md-body-2"
+            flex="35"
+            flex-gt-lg="20"
+        >Edad</div>
+        <div
+            class="md-body-1"
+            flex
+        >{{$ctrl.swimmer.age}}</div>
     </div>
-    <div layout="row" layout-padding>
-        <div class="md-body-2" flex="35" flex-gt-lg="20">Sexo</div>
-        <div class="md-body-1" flex>{{$ctrl.swimmer.genderDescription}}</div>
+    <div
+        layout="row"
+        layout-padding
+    >
+        <div
+            class="md-body-2"
+            flex="35"
+            flex-gt-lg="20"
+        >Sexo</div>
+        <div
+            class="md-body-1"
+            flex
+        >{{$ctrl.swimmer.genderDescription}}</div>
     </div>
-    <div layout="row" layout-padding>
-        <div class="md-body-2" flex="35" flex-gt-lg="20">Documento</div>
-        <div class="md-body-1" flex>{{$ctrl.swimmer.nid ? $ctrl.swimmer.nid : '-'}}</div>
+    <div
+        layout="row"
+        layout-padding
+    >
+        <div
+            class="md-body-2"
+            flex="35"
+            flex-gt-lg="20"
+        >Documento</div>
+        <div
+            class="md-body-1"
+            flex
+        >{{$ctrl.swimmer.nid ? $ctrl.swimmer.nid : '-'}}</div>
     </div>
 </md-content>

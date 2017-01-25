@@ -2,7 +2,7 @@
 
 // import * as _ from 'underscore';
 
-// import { ITournamentService } from 'app/services';
+// import { TournamentService } from 'app/services';
 // import { IHistoryService } from 'app/services/historyService';
 // import { Tournament, TournamentEvent, Swimmer } from 'app/entities';
 // import { CategoryType } from 'app/enums/categoryType';
@@ -13,7 +13,7 @@
 // class Events {
 //     constructor(
 //         private $window,
-//         private tournamentService: ITournamentService,
+//         private tournamentService: TournamentService,
 //         private $location: ng.ILocationService,
 //         private $rootRouter,
 //         private $mdDialog

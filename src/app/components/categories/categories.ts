@@ -1,6 +1,6 @@
 //  'use strict';
 
-// import { ITournamentService } from 'app/services';
+// import { TournamentService } from 'app/services';
 // import { IHistoryService } from 'app/services/historyService';
 // import { Tournament } from 'app/entities/tournament';
 // import { Category } from 'app/entities/category';
@@ -8,7 +8,7 @@
 // /*@ngInject*/
 // class Categories {
 //     constructor(
-//         private tournamentService: ITournamentService,
+//         private tournamentService: TournamentService,
 //         private $location: ng.ILocationService,
 //         private $window,
 //         private $rootRouter

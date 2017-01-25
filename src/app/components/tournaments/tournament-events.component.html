@@ -11,7 +11,7 @@
     <md-button
         class="md-icon-button"
         aria-label="Crear Prueba"
-        ng-link="['/EventCreate', {tournamentId:$ctrl.tournament.id}]"
+        ng-href="#!/tournaments/{{$ctrl.tournament.id}}/events/create"
     >
         <md-icon>add</md-icon>
         <md-tooltip>Crear Prueba</md-tooltip>

@@ -1,9 +1,13 @@
-<div class="page-header page-header-custom"
+<div
+    class="page-header page-header-custom"
     layout="row"
-    layout-align="start center">
-    <md-button class="md-icon-button tournament-details__go-back-btn"
+    layout-align="start center"
+>
+    <md-button
+        class="md-icon-button tournament-details__go-back-btn"
         aria-label="Volver"
-        ng-click="$ctrl.goBack()">
+        ng-click="$ctrl.goBack()"
+    >
         <md-icon>arrow_back</md-icon>
         <md-tooltip>Volver</md-tooltip>
     </md-button>
@@ -13,15 +17,19 @@
     <span flex></span>
 
     <div class="layout layout-row layout-align-start-center tournament-details__actions-menu">
-        <md-button class="md-icon-button"
+        <md-button
+            class="md-icon-button"
             aria-label="Editar"
-            ng-link="['/TournamentEdit', {id: $ctrl.tournament.id}]">
+            ng-href="#!/tournaments/edit/{{$ctrl.tournament.id}}"
+        >
             <md-icon>edit</md-icon>
             <md-tooltip>Editar</md-tooltip>
         </md-button>
-        <md-button class="md-icon-button"
+        <md-button
+            class="md-icon-button"
             aria-label="Eliminar"
-            ng-click="$ctrl.delete($event)">
+            ng-click="$ctrl.delete($event)"
+        >
             <md-icon>delete</md-icon>
             <md-tooltip>Eliminar</md-tooltip>
         </md-button>
@@ -29,36 +37,46 @@
 </div>
 
 <div layout="row">
-    <div class="md-body-2"
+    <div
+        class="md-body-2"
         flex="35"
-        flex-gt-lg="20">Fecha Comienzo</div>
+        flex-gt-lg="20"
+    >Fecha Comienzo</div>
     <div flex>{{$ctrl.tournament.startDateTime | date: 'longDate'}}</div>
 </div>
 <br>
 
-<md-tabs class="tournament-details__tabs-menu"
+<md-tabs
+    class="tournament-details__tabs-menu"
     md-dynamic-height
     md-border-bottom
-    md-selected="$ctrl.selectedTabIndex">
+    md-selected="$ctrl.selectedTabIndex"
+>
     <md-tab label="Categorias">
         <br>
 
-        <tournament-category-list tournament="$ctrl.tournament"
-            on-update="$ctrl.refresh()"></tournament-category-list>
+        <tournament-category-list
+            tournament="$ctrl.tournament"
+            on-update="$ctrl.refresh()"
+        ></tournament-category-list>
     </md-tab>
 
     <md-tab label="Nadadores">
         <br>
 
-        <tournament-swimmers2 tournament="$ctrl.tournament"
+        <tournament-swimmers2
+            tournament="$ctrl.tournament"
             on-update="$ctrl.refresh()"
-            on-delete="$ctrl.removeSwimmer($event, swimmer)"></tournament-swimmers2>
+            on-delete="$ctrl.removeSwimmer($event, swimmer)"
+        ></tournament-swimmers2>
     </md-tab>
 
     <md-tab label="Pruebas">
         <br>
-        <tournament-events tournament="$ctrl.tournament"
-            on-update="$ctrl.refresh()"></tournament-events>
+        <tournament-events
+            tournament="$ctrl.tournament"
+            on-update="$ctrl.refresh()"
+        ></tournament-events>
     </md-tab>
 
     <md-tab label="Cancheo">

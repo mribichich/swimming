@@ -3,7 +3,7 @@
 import * as _ from 'underscore';
 
 import {
-    ITournamentService
+    TournamentService
 } from 'app/services';
 import {
     Tournament,
@@ -19,7 +19,7 @@ class EventSeeds {
 /*@ngInject*/
     constructor(
         private $mdDialog,
-        private tournamentService: ITournamentService
+        private tournamentService: TournamentService
     ) { }
 
     submitted: boolean;

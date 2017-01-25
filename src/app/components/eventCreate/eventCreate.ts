@@ -1,7 +1,7 @@
 import * as angular from 'angular';
 import * as _ from 'underscore';
 
-import { ITournamentService } from 'app/services';
+import { TournamentService } from 'app/services';
 import { IHistoryService } from 'app/services/historyService';
 import { Tournament } from 'app/entities/tournament';
 import { TournamentEvent } from 'app/entities/event';
@@ -12,7 +12,7 @@ import * as FeedbackLib from 'app/libs/feedbackLib';
 class EventCreate {
     /*@ngInject*/
     constructor(
-        private tournamentService: ITournamentService,
+        private tournamentService: TournamentService,
         private $location: ng.ILocationService,
         private $window,
         private historyService: IHistoryService,
