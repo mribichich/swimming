@@ -21,10 +21,10 @@ install:
   - ps: Install-Product node 7.4.0 x64
   - choco install -i yarn
   - git reset --hard HEAD
-  - yarn global bin
-  - ps: $env:YARN_GLOBAL_BIN=(yarn global bin)
+  # - yarn global bin
+  # - ps: $env:YARN_GLOBAL_BIN=(yarn global bin)
   # - ps: $env:YARN_GLOBAL_BIN
-  - ps: $env:PATH="$env:YARN_GLOBAL_BIN;$env:PATH"
+  # - ps: $env:PATH="$env:YARN_GLOBAL_BIN;$env:PATH"
   # - ps: $env:PATH
   # - exit 1
   - yarn
@@ -37,6 +37,8 @@ build_script:
   # - node --version
   - node_modules\.bin\gulp build --production
   - npm prune
+  - ps: $env:YARN_GLOBAL_BIN=(yarn global bin)
+  - ps: $env:PATH="$env:YARN_GLOBAL_BIN;$env:PATH"
   - electron-packager . --platform=win32
 
 test: off
