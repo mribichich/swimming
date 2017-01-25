@@ -32,12 +32,10 @@ build_script:
   - npm prune
   - yarn add electron-packager --dev
   - node_modules\.bin\electron-packager . --platform=win32
-  - dir swimming.web-win32-x64
-  - dir swimming.web-win32-x64\resources
-  - dir swimming.web-win32-x64\resources\app
+  - cd swimming.web-win32-x64\resources\app && npm prune
+  - REN swimming.web-win32-x64 swimming.web-%APPVEYOR_BUILD_VERSION%-win32-x64
 
 test: off
 
 artifacts:
-  - path: swimming.web-win32-x64
-    name: app
+  - path: swimming.web-%APPVEYOR_BUILD_VERSION%-win32-x64
