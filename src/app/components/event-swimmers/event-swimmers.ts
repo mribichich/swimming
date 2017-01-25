@@ -4,7 +4,7 @@ import * as angular from 'angular';
 import * as _ from 'underscore';
 
 import {
-    ITournamentService
+    TournamentService
 } from 'app/services';
 import {
     IHistoryService,
@@ -22,7 +22,7 @@ import {
 class EventSwimmers {
 /*@ngInject*/
     constructor(
-        private tournamentService: ITournamentService,
+        private tournamentService: TournamentService,
         private $mdDialog,
         // private historyService: IHistoryService,
         private swimmerService: ISwimmerService,

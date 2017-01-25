@@ -124,7 +124,7 @@ gulp.task('build.partials', () => {
 gulp.task('ts.lint', function() {
     return gulp.src(CONFIG.src.js.app)
         .pipe(tslint({
-            // contains rules in the tslint.json format 
+            // contains rules in the tslint.json format
             configuration: "./tslint.json"
         }))
         .pipe(tslint.report({
@@ -254,7 +254,11 @@ gulp.task('watch.js', () => {
 });
 
 gulp.task('electron.start', () => {
-    electron.start();
+    electron.start([
+        '--debug=5858',
+        '--enable-logging',
+        '--remote-debugging-port=9222'
+    ]);
 
     gulp.watch('main.js', electron.restart);
 

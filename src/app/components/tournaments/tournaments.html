@@ -11,9 +11,11 @@
 
     <span class="flex"></span>
 
-    <md-button class="md-icon-button"
+    <md-button
+        class="md-icon-button"
         aria-label="Crear"
-        ng-href="#!/tournaments/create">
+        ng-href="#!/tournaments/create"
+    >
         <md-icon>add</md-icon>
         <md-tooltip>Crear</md-tooltip>
     </md-button>
@@ -23,9 +25,11 @@
 
 <md-list ng-if="$ctrl.tournaments.length > 0">
     <md-divider></md-divider>
-    <md-list-item class="md-body-1"
+    <md-list-item
+        class="md-body-1"
         ng-repeat="tournament in $ctrl.tournaments"
-        ng-click="$ctrl.navigateTo(`/tournaments/details/${tournament.id}`)">
+        ng-click="$ctrl.navigateTo('/tournaments/details/' + tournament.id)"
+    >
         <p>{{tournament.startDateTime | date: 'shortDate'}}</p>
         <p>{{tournament.name}}</p>
         <!--<md-menu class="md-secondary" md-position-mode="target-right target">

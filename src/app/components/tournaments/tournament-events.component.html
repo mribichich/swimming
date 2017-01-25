@@ -1,14 +1,18 @@
 <div layout="row">
     <span flex></span>
-    <md-button class="md-icon-button"
+    <md-button
+        class="md-icon-button"
         aria-label="Asignar Nadadores Automaticamente"
-        ng-click="$ctrl.autoAssignSwimmers($event)">
+        ng-click="$ctrl.autoAssignSwimmers($event)"
+    >
         <md-icon>swap_vertical_circle</md-icon>
         <md-tooltip>Asignar Nadadores Automaticamente</md-tooltip>
     </md-button>
-    <md-button class="md-icon-button"
+    <md-button
+        class="md-icon-button"
         aria-label="Crear Prueba"
-        ng-link="['/EventCreate', {tournamentId:$ctrl.tournament.id}]">
+        ng-href="#!/tournaments/{{$ctrl.tournament.id}}/events/create"
+    >
         <md-icon>add</md-icon>
         <md-tooltip>Crear Prueba</md-tooltip>
     </md-button>
@@ -16,9 +20,11 @@
 
 <br>
 
-<div class="layout layout-row layout-align-center-center"
+<div
+    class="layout layout-row layout-align-center-center"
     layout="row"
-    layout-align="center center">
+    layout-align="center center"
+>
     <feedback ng-model="$ctrl.feedbacks.autoAssignSwimmers"></feedback>
 </div>
 
@@ -36,8 +42,10 @@
 
     <md-divider></md-divider>
 
-    <md-list-item ng-repeat="event in $ctrl.tournament.events"
-        ng-click="$ctrl.navigateTo(['/EventDetails', {tournamentId: $ctrl.tournament.id, eventId: event.id}])">
+    <md-list-item
+        ng-repeat="event in $ctrl.tournament.events"
+        ng-click="$ctrl.navigateTo('/tournaments/' + $ctrl.tournament.id + '/events/details/' + event.id)"
+    >
         <p>{{event.number}}</p>
         <p>{{event.distance}}</p>
         <p>{{event.style}}</p>
@@ -59,9 +67,11 @@
     </span>
         </p>
 
-        <md-icon class="material-icons md-secondary"
+        <md-icon
+            class="material-icons md-secondary"
             ng-click="$ctrl.deleteEvent($event, event)"
-            aria-label="Quitar">delete
+            aria-label="Quitar"
+        >delete
             <md-tooltip>Quitar Prueba</md-tooltip>
         </md-icon>
     </md-list-item>

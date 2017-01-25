@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 // import 'humanize-duration';
 
 import {
-    ITournamentService
+    TournamentService
 } from 'app/services';
 import {
     IHistoryService,
@@ -30,7 +30,7 @@ import {
 class EventDetails {
     /*@ngInject*/
     constructor(
-        private tournamentService: ITournamentService,
+        private tournamentService: TournamentService,
         private $mdDialog,
         private historyService: IHistoryService,
         private swimmerService: ISwimmerService,

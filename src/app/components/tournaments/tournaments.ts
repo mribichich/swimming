@@ -1,10 +1,10 @@
-import { ITournamentService, IHistoryService } from 'app/services';
+import { TournamentService, IHistoryService } from 'app/services';
 import { Tournament } from 'app/entities/tournament';
 
 class Tournaments {
     /*@ngInject*/
     constructor(
-        private tournamentService: ITournamentService,
+        private tournamentService: TournamentService,
         private historyService: IHistoryService,
         private $location: ng.ILocationService,
     ) {

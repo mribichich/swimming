@@ -1,7 +1,7 @@
 // import * as angular from 'angular';
 // import * as _ from 'underscore';
 
-// import { ITournamentService } from 'app/services';
+// import { TournamentService } from 'app/services';
 // import { IHistoryService, ISwimmerService } from 'app/services';
 // import { Tournament, TournamentEvent, Swimmer, SeedTime, Heat, Lane } from 'app/entities';
 // import { CategoryFactory, SwimmerFactory, SeedTimeFactory } from 'app/factories';
@@ -20,7 +20,7 @@
 //     ];
 
 //     constructor(
-//         private tournamentService: ITournamentService,
+//         private tournamentService: TournamentService,
 //         private $rootRouter,
 //         private $mdDialog,
 //         private historyService: IHistoryService,

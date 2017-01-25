@@ -59,7 +59,7 @@ angular.module('swimming', [
     .config(function ($routeProvider, $locationProvider: ng.ILocationProvider) {
         $routeProvider
             .when('/', { redirectTo: '/tournaments' })
-            .when('/dashboard', { template: '<dashboard></dashboard>' })
+            // .when('/dashboard', { template: '<dashboard></dashboard>' })
 
             .when('/swimmers', { template: '<swimmers></swimmers>' })
             .when('/swimmers/create', { template: '<swimmer-create></swimmer-create>' })

@@ -1,7 +1,7 @@
 
 import * as angular from 'angular';
 
-import { ITournamentService } from 'app/services';
+import { TournamentService } from 'app/services';
 import { Tournament, TournamentEvent, Swimmer } from 'app/entities';
 import { Feedback } from 'app/libs/feedback/feedback';
 
@@ -9,7 +9,7 @@ class TournamentEvents {
     /*@ngInject*/
     constructor(
         private $mdDialog,
-        private tournamentService: ITournamentService,
+        private tournamentService: TournamentService,
         private $location: ng.ILocationService,
     ) { }
 

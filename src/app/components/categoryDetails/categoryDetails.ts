@@ -2,7 +2,7 @@
 import * as angular from 'angular';
 import * as _ from 'underscore';
 
-import { ITournamentService } from 'app/services';
+import { TournamentService } from 'app/services';
 import { IHistoryService } from 'app/services/historyService';
 import { Tournament } from 'app/entities/tournament';
 import { Category } from 'app/entities/category';
@@ -10,7 +10,7 @@ import { Category } from 'app/entities/category';
 class CategoryDetails {
     /*@ngInject*/
     constructor(
-        private tournamentService: ITournamentService,
+        private tournamentService: TournamentService,
         private $mdDialog,
         private $window,
         private historyService: IHistoryService,

@@ -1,0 +1,14 @@
+.listHeader {
+    font-weight: bold;
+     :first-child {
+        padding-left: 16px;
+    }
+     :last-child {
+        padding-right: 16px;
+    }
+}
+
+.listHeaderActions {
+    width: 40px;
+    max-width: 40px;
+}

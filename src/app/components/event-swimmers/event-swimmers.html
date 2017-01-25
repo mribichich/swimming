@@ -1,4 +1,4 @@
- <!--<div layout="row">
+<!--<div layout="row">
         <span flex></span>
         <md-button class="md-icon-button" aria-label="Editar" ng-link="['EventSwimmers', { tournamentId: $ctrl.tournament.id, eventId: $ctrl.event.id }]">
             <md-icon>edit</md-icon>
@@ -6,29 +6,33 @@
         </md-button>
     </div>-->
 
-    <p ng-if="!$ctrl.event.swimmers.length">No se encontraron datos</p>
-  
-    <md-list ng-if="$ctrl.event.swimmers.length">
-             <md-list-item>
-                 <p>Nadador</p>
-            <p>Equipo</p>
-                 <p>Fecha Nac.</p>
-                 <p>Edad</p>
-                 <p>Sexo</p>
-                 </md-list-item>
+<p ng-if="!$ctrl.event.swimmers.length">No se encontraron datos</p>
 
-            <md-divider></md-divider>
+<md-list ng-if="$ctrl.event.swimmers.length">
+    <md-list-item>
+        <p>Nadador</p>
+        <p>Equipo</p>
+        <p>Fecha Nac.</p>
+        <p>Edad</p>
+        <p>Sexo</p>
+    </md-list-item>
 
-        <md-list-item ng-repeat="swimmer in $ctrl.event.swimmers">
-            <p>{{swimmer.fullName}}</p>
-            <p>{{seedTime.swimmer.team}}</p>
-            <p>{{swimmer.birthDate | date: 'shortDate'}}</p>
-            <p>{{swimmer.age}}</p>
-            <p>{{swimmer.genderDescription}}</p>
+    <md-divider></md-divider>
 
-            <md-icon class="material-icons md-secondary" ng-click="$ctrl.onRemove({ $event: $event, swimmer: swimmer })" aria-label="Quitar">
-                delete
-                <md-tooltip>Quitar Nadador</md-tooltip>
-            </md-icon>
-        </md-list-item>
-    </md-list>
+    <md-list-item ng-repeat="swimmer in $ctrl.event.swimmers">
+        <p>{{swimmer.fullName}}</p>
+        <p>{{seedTime.swimmer.team}}</p>
+        <p>{{swimmer.birthDate | date: 'shortDate'}}</p>
+        <p>{{swimmer.age}}</p>
+        <p>{{swimmer.genderDescription}}</p>
+
+        <md-icon
+            class="material-icons md-secondary"
+            ng-click="$ctrl.onRemove({ $event: $event, swimmer: swimmer })"
+            aria-label="Quitar"
+        >
+            delete
+            <md-tooltip>Quitar Nadador</md-tooltip>
+        </md-icon>
+    </md-list-item>
+</md-list>
