@@ -27,13 +27,8 @@ install:
   - node_modules\.bin\jspm install
 
 build_script:
-  # - node --version
-  # - node_modules\.bin\gulp build --production
-  - node_modules\.bin\gulp build
-  # - npm prune
-  # - yarn add electron-packager --dev
+  - node_modules\.bin\gulp build --production
   - node_modules\.bin\electron-packager . --platform=win32 --app-version %APPVEYOR_BUILD_VERSION% --build-version %APPVEYOR_BUILD_VERSION% --asar=true
-  # - cd swimming.web-win32-x64\resources\app && npm prune
   - REN swimming.web-win32-x64 swimming.web-%APPVEYOR_BUILD_VERSION%-win32-x64
 
 test: off
