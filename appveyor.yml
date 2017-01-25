@@ -28,10 +28,10 @@ install:
 
 build_script:
   - node_modules\.bin\gulp build --production
-  - node_modules\.bin\electron-packager . --platform=win32 --app-version %APPVEYOR_BUILD_VERSION% --build-version %APPVEYOR_BUILD_VERSION% --asar=true
-  - REN swimming.web-win32-x64 swimming.web-%APPVEYOR_BUILD_VERSION%-win32-x64
+  - node_modules\.bin\electron-packager . --platform=win32 --app-version %APPVEYOR_BUILD_VERSION% --build-version %APPVEYOR_BUILD_VERSION% --asar=true --version 1.4.12
+  - REN swimming-win32-x64 swimming-%APPVEYOR_BUILD_VERSION%-win32-x64
 
 test: off
 
 artifacts:
-  - path: swimming.web-%APPVEYOR_BUILD_VERSION%-win32-x64
+  - path: swimming-%APPVEYOR_BUILD_VERSION%-win32-x64

@@ -115,6 +115,10 @@ angular.module('swimming', [
         });
     })
 
+    .config(function ($compileProvider) {
+        $compileProvider.preAssignBindingsEnabled(true);
+    })
+
     .service('storage', data.Storage)
     .service('tournamentRepository', data.TournamentRepository)
     .service('swimmerRepository', data.SwimmerRepository)

@@ -25,6 +25,7 @@ let useref = require('gulp-useref');
 let removeCode = require('gulp-remove-code');
 var cleanCSS = require('gulp-clean-css');
 var concat = require('gulp-concat');
+let karma = require('karma');
 
 let CONFIG = require('./gulp.config');
 

@@ -9,19 +9,18 @@ System.config({
   },
 
   map: {
-    "@angular/router": "npm:@angular/router@0.2.0",
     "angular": "github:angular/bower-angular@1.6.1",
     "angular-animate": "github:angular/bower-angular-animate@1.6.1",
     "angular-aria": "github:angular/bower-angular-aria@1.6.1",
     "angular-bootstrap": "github:angular-ui/bootstrap-bower@2.3.1",
     "angular-electron": "npm:angular-electron@0.2.1",
-    "angular-i18n": "npm:angular-i18n@1.5.5",
+    "angular-i18n": "github:angular/bower-angular-i18n@1.6.1",
     "angular-indexedDB": "github:bramski/angular-indexedDB@1.1.3",
     "angular-material": "github:angular/bower-material@1.1.1",
-    "angular-messages": "github:angular/bower-angular-messages@1.5.0-rc.0",
-    "angular-mocks": "github:angular/bower-angular-mocks@1.5.0-rc.0",
-    "angular-route": "github:angular/bower-angular-route@1.6.0",
-    "angular-sanitize": "github:angular/bower-angular-sanitize@1.6.0",
+    "angular-messages": "github:angular/bower-angular-messages@1.6.1",
+    "angular-mocks": "github:angular/bower-angular-mocks@1.6.1",
+    "angular-route": "github:angular/bower-angular-route@1.6.1",
+    "angular-sanitize": "github:angular/bower-angular-sanitize@1.6.1",
     "angular-timer": "github:siddii/angular-timer@1.3.4",
     "angular-toastr": "github:Foxandxss/angular-toastr@2.1.1",
     "bootstrap": "github:twbs/bootstrap@4.0.0-alpha.5",
@@ -48,10 +47,16 @@ System.config({
     "github:angular/bower-angular-aria@1.6.1": {
       "angular": "github:angular/bower-angular@1.6.1"
     },
-    "github:angular/bower-angular-route@1.6.0": {
+    "github:angular/bower-angular-messages@1.6.1": {
       "angular": "github:angular/bower-angular@1.6.1"
     },
-    "github:angular/bower-angular-sanitize@1.6.0": {
+    "github:angular/bower-angular-mocks@1.6.1": {
+      "angular": "github:angular/bower-angular@1.6.1"
+    },
+    "github:angular/bower-angular-route@1.6.1": {
+      "angular": "github:angular/bower-angular@1.6.1"
+    },
+    "github:angular/bower-angular-sanitize@1.6.1": {
       "angular": "github:angular/bower-angular@1.6.1"
     },
     "github:angular/bower-material@1.1.1": {
@@ -143,9 +148,6 @@ System.config({
     "github:twbs/bootstrap@4.0.0-alpha.5": {
       "jquery": "npm:jquery@2.2.4",
       "tether": "github:HubSpot/tether@1.4.0"
-    },
-    "npm:@angular/router@0.2.0": {
-      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:amdefine@1.0.0": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",

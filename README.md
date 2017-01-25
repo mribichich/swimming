@@ -10,3 +10,7 @@ Made with:
 - Bootstrap 4
 - Angular Material 1.1.1
 - Nodejs 7
+
+## Development
+
+`gulp serve`
