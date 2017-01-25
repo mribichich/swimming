@@ -21,14 +21,7 @@ install:
   - ps: Install-Product node 7.4.0 x64
   - choco install -i yarn
   - git reset --hard HEAD
-  # - yarn global bin
-  # - ps: $env:YARN_GLOBAL_BIN=(yarn global bin)
-  # - ps: $env:YARN_GLOBAL_BIN
-  # - ps: $env:PATH="$env:YARN_GLOBAL_BIN;$env:PATH"
-  # - ps: $env:PATH
-  # - exit 1
   - yarn
-  - yarn global add electron-packager
   - node_modules\.bin\jspm config registries.github.timeouts.lookup 180
   - node_modules\.bin\jspm config registries.npm.timeouts.lookup 180
   - node_modules\.bin\jspm install
@@ -37,9 +30,11 @@ build_script:
   # - node --version
   - node_modules\.bin\gulp build --production
   - npm prune
-  - ps: $env:YARN_GLOBAL_BIN=(yarn global bin)
-  - ps: $env:PATH="$env:YARN_GLOBAL_BIN;$env:PATH"
-  - electron-packager . --platform=win32
+  - yarn add electron-packager --dev
+  - node_modules\.bin\electron-packager . --platform=win32
+  - dir swimming.web-win32-x64
+  - dir swimming.web-win32-x64\resources
+  - dir swimming.web-win32-x64\resources\app
 
 test: off
 
