@@ -23,6 +23,9 @@ let electron = require('electron-connect').server.create({
 });
 let useref = require('gulp-useref');
 let removeCode = require('gulp-remove-code');
+var cleanCSS = require('gulp-clean-css');
+var concat = require('gulp-concat');
+
 let CONFIG = require('./gulp.config');
 
 var tsProject = ts.createProject('tsconfig.json', {
@@ -54,7 +57,7 @@ gulp.task('build.icons', () => {
 
 gulp.task('build.css', (done) => {
     if (argv.production) {
-        runSequence('build.css.compile', done) // , 'build.css.bundle'
+        runSequence('build.css.compile', 'build.css.bundle', done)
     } else {
         runSequence('build.css.compile', done)
     }
@@ -75,6 +78,17 @@ gulp.task('build.css.compile', () => {
         //.pipe(rename({ suffix: '.min' }))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(dest))
+});
+
+gulp.task('build.css.bundle', () => {
+    // 'node_modules/roboto-font/css/fonts.css',
+    return gulp.src([
+            path.join(CONFIG.dest.css.app, 'styles/spinner.css'),
+            path.join(CONFIG.dest.css.app, 'styles/splash.css')
+        ])
+        .pipe(cleanCSS())
+        .pipe(concat('styles.bundle.css'))
+        .pipe(gulp.dest('dist'))
 });
 
 gulp.task('build.html', () => {
@@ -168,7 +182,14 @@ gulp.task('build.js.compile', () => {
 });
 
 gulp.task('build.js.bundle', (done) => {
-    runSequence('build.js.bundle.deps', 'build.js.bundle.main', () => {
+    runSequence('build.js.bundle.deps', 'build.js.bundle.main', (err) => {
+        if (err) {
+            let exitCode = 2;
+            console.log('[ERROR] gulp build task failed', err);
+            console.log('[FAIL] gulp build task failed - exiting with code ' + exitCode);
+            return process.exit(exitCode);
+        }
+
         del(['dist/app/**', '!dist/app', '!dist/app/icons/**'])
             .then(() => done());
     })
@@ -183,11 +204,13 @@ gulp.task('build.js.bundle.deps', (done) => {
         .then(function() {
             console.log('Build complete');
         })
-        .catch(function(err) {
-            console.log(err)
-            throw err;
-        })
-        .finally(() => done());
+        .then(() => done())
+        .catch((err) => {
+            let exitCode = 2;
+            console.log('[ERROR] gulp build task failed', err);
+            console.log('[FAIL] gulp build task failed - exiting with code ' + exitCode);
+            return process.exit(exitCode);
+        });
 });
 
 gulp.task('build.js.bundle.main', (done) => {
@@ -199,11 +222,13 @@ gulp.task('build.js.bundle.main', (done) => {
         .then(function() {
             console.log('Build complete');
         })
-        .catch(function(err) {
-            console.log(err)
-            throw err;
-        })
-        .finally(() => done());
+        .then(() => done())
+        .catch((err) => {
+            let exitCode = 2;
+            console.log('[ERROR] gulp build task failed', err);
+            console.log('[FAIL] gulp build task failed - exiting with code ' + exitCode);
+            return process.exit(exitCode);
+        });
 });
 
 gulp.task('build.js.tests2e2', function() {
@@ -219,11 +244,13 @@ gulp.task('build.js.tests2e2', function() {
 gulp.task('watch', (done) => {
     runSequence(
         'clean',
-        'build',
-        'watch.css',
-        'watch.html',
-        'watch.partials',
-        'watch.js',
+        'build', [
+            'watch.test.js',
+            'watch.css',
+            'watch.html',
+            'watch.partials',
+            'watch.js',
+        ],
         done)
 });
 
@@ -247,10 +274,31 @@ gulp.task('watch.partials', () => {
 
 gulp.task('watch.js', () => {
     watch([CONFIG.src.js.app, CONFIG.src.js.tests2e2], batch(function(events, done) {
-        runSequence('build.js', 'reload', done);
+        runSequence('build.js', 'run.test.js', 'reload', done);
     }, function(err) {
         console.error(err)
     }));
+});
+
+gulp.task('watch.test.js', (done) => {
+    new karma.Server({
+        configFile: __dirname + '/karma.conf.js',
+        // singleRun: true,
+        autoWatch: false
+    }).start();
+
+    done();
+});
+
+gulp.task('run.test.js', (done) => {
+    karma.runner.run({
+            port: 9880
+        },
+        (exitCode) => {
+            // console.log('Karma has exited with ' + exitCode)
+            // process.exit(exitCode)
+            done();
+        });
 });
 
 gulp.task('electron.start', () => {

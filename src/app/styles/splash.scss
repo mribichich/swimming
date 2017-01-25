@@ -1,0 +1,19 @@
+﻿[ng-cloak] {
+    display: none;
+}
+
+[ng-cloak].splash {
+    display: flex !important;
+}
+
+.splash {
+    display: none;
+    /*display: flex;*/
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    box-sizing: border-box;
+    opacity: 0.5;
+    margin-top: 100px;
+}

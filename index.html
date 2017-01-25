@@ -3,18 +3,55 @@
 
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible"
-        content="IE=edge">
-    <meta name="description"
-        content="Natacion">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta
+        http-equiv="X-UA-Compatible"
+        content="IE=edge"
+    >
+    <meta
+        name="description"
+        content="Natacion"
+    >
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
+    >
 
     <title>Natacion</title>
+
+    <!--removeIf(development)-->
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="../dist/app/styles/splash.css"
+    >
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="../dist/app/styles/spinner.css"
+    >
+    <!--endRemoveIf(development)-->
+
+    <!--removeIf(production)-->
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="../dist/styles.bundle.css"
+    >
+    <!--endRemoveIf(production)-->
 </head>
 
 <body class="layout layout-column layout-fill">
-    <app class="flex layout layout-column"></app>
+    <div
+        class="splash"
+        ng-cloak
+    >
+        <span class="spinner-section"></span>
+    </div>
+
+    <app
+        class="flex layout layout-column"
+        ng-cloak
+    ></app>
 
     <script>
         // You can also require other files to run in this process
@@ -23,6 +60,11 @@
 
     <script src="../jspm_packages/system.js"></script>
     <script src="../jspm.config.js"></script>
+
+    <!--removeIf(production)-->
+    <script src="deps.bundle.js"></script>
+    <script src="main.bundle.js"></script>
+    <!--endRemoveIf(production)-->
 
     <script>
         System.import('app/index');
