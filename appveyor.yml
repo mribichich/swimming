@@ -22,10 +22,9 @@ install:
   - choco install -i yarn
   - git reset --hard HEAD
   - yarn global bin
-  - SET YARN_GLOBAL_BIN = (yarn global bin)
+  - SET YARN_GLOBAL_BIN=(yarn global bin)
   - "%YARN_GLOBAL_BIN%"
   - SET PATH=%YARN_GLOBAL_BIN%;%PATH%
-  - "%PATH%"
   - yarn
   - yarn global add electron-packager
   - node_modules\.bin\jspm config registries.github.timeouts.lookup 180
