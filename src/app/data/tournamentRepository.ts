@@ -1,10 +1,10 @@
-import { IStorage } from 'app/data';
+import { Storage } from 'app/data';
 import { TournamentDb } from 'app/data/entities';
 
 export class TournamentRepository {
   /*@ngInject*/
   constructor(
-    private storage: IStorage,
+    private storage: Storage,
     private $q: ng.IQService
   ) {
   }

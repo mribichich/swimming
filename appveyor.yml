@@ -28,7 +28,7 @@ install:
 
 build_script:
   - node_modules\.bin\gulp build --production
-  - node_modules\.bin\electron-packager . --platform=win32 --app-version %APPVEYOR_BUILD_VERSION% --build-version %APPVEYOR_BUILD_VERSION% --asar=true --version 1.4.12
+  - node_modules\.bin\electron-packager . --platform=win32 --app-version %APPVEYOR_BUILD_VERSION% --build-version %APPVEYOR_BUILD_VERSION% --asar=true --electron-version 1.4.12
   - REN swimming-win32-x64 swimming-%APPVEYOR_BUILD_VERSION%-win32-x64
 
 test: off

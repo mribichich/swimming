@@ -1,5 +1,7 @@
-'use strict';
+// app css
+import * as styles from './tournament-create.css!css-modules';
 
+// app js
 import { TournamentService } from 'app/services';
 import { IHistoryService } from 'app/services/historyService';
 import { Tournament } from 'app/entities/tournament';
@@ -8,6 +10,16 @@ import * as FeedbackLib from 'app/libs/feedbackLib';
 import { Category } from 'app/entities/category';
 
 class TournamentCreate {
+  styles = styles;
+
+  viewAction: string;
+  feedbacks = {
+    save: new FeedbackLib.Feedback()
+  };
+  tournament: Tournament;
+  submitted: boolean = false;
+  modelErrors;
+
   /*@ngInject*/
   constructor(
     private tournamentService: TournamentService,
@@ -18,14 +30,6 @@ class TournamentCreate {
     private $routeParams
   ) {
   }
-
-  viewAction: string;
-  feedbacks = {
-    save: new FeedbackLib.Feedback()
-  };
-  tournament: Tournament;
-  submitted: boolean = false;
-  modelErrors;
 
   $onInit() {
     if (!this.$routeParams.id) {

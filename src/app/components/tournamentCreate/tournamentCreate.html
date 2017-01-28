@@ -14,79 +14,84 @@
     <h1>{{$ctrl.viewAction === 'Create' ? 'Crear Torneo' : 'Editar Torneo'}}</h1>
 </div>
 <br>
-<form
-    class="layout layout-column"
-    name="tournamentForm"
-    ng-submit="$ctrl.saveTournament(tournamentForm.$invalid)"
-    novalidate
-    rc-disabled="$ctrl.feedbacks.save.isWorking || $ctrl.feedbacks.save.isSuccess()"
->
-    <div
-        class="alert alert-danger"
-        ng-if="$ctrl.modelErrors"
+
+<div class="md-whiteframe-2dp {{$ctrl.styles.viewContainer}}">
+    <form
+        class="layout layout-column"
+        name="tournamentForm"
+        ng-submit="$ctrl.saveTournament(tournamentForm.$invalid)"
+        novalidate
+        rc-disabled="$ctrl.feedbacks.save.isWorking || $ctrl.feedbacks.save.isSuccess()"
     >
-        <button
-            type="button"
-            class="close"
-            data-dismiss="alert"
-            aria-hidden="true"
-        >&times;</button>
-        <ul>
-            <li ng-repeat="modelError in $ctrl.modelErrors">{{modelError}}</li>
-        </ul>
-    </div>
-
-    <md-input-container>
-        <label>Nombre</label>
-        <input
-            name="tournamentName"
-            ng-model="$ctrl.tournament.name"
-            autofocus="autofocus"
-            required
-        >
         <div
-            ng-messages="tournamentForm.tournamentName.$error"
-            ng-if="tournamentForm.tournamentName.$invalid && ($ctrl.submitted || tournamentForm.tournamentName.$dirty)"
+            class="alert alert-danger"
+            ng-if="$ctrl.modelErrors"
         >
-            <div ng-message="required">Debe ingresar el nombre</div>
+            <button
+                type="button"
+                class="close"
+                data-dismiss="alert"
+                aria-hidden="true"
+            >&times;</button>
+            <ul>
+                <li ng-repeat="modelError in $ctrl.modelErrors">{{modelError}}</li>
+            </ul>
         </div>
-    </md-input-container>
 
-    <md-input-container>
-        <label>Fecha de Comienzo</label>
+        <md-input-container>
+            <label>Nombre</label>
+            <input
+                name="tournamentName"
+                ng-model="$ctrl.tournament.name"
+                autofocus="autofocus"
+                required
+            >
+            <div
+                ng-messages="tournamentForm.tournamentName.$error"
+                ng-if="tournamentForm.tournamentName.$invalid && ($ctrl.submitted || tournamentForm.tournamentName.$dirty)"
+            >
+                <div ng-message="required">Debe ingresar el nombre</div>
+            </div>
+        </md-input-container>
 
-        <!--<md-datepicker
+        <md-input-container>
+            <label>Fecha de Comienzo</label>
+
+            <!--<md-datepicker
         name="tournamentStartDateTime"
         ng-model="$ctrl.tournament.startDateTime"
         md-placeholder="Fecha"
         required
     ></md-datepicker>-->
 
-        <md-datepicker
-            name="tournamentStartDateTime"
-            ng-model="$ctrl.tournament.startDateTime"
-            md-placeholder="Fecha"
-            required
-        ></md-datepicker>
+            <md-datepicker
+                name="tournamentStartDateTime"
+                ng-model="$ctrl.tournament.startDateTime"
+                md-placeholder="Fecha"
+                required
+                md-hide-icons="calendar"
+            ></md-datepicker>
 
+            <div
+                ng-messages="tournamentForm.tournamentStartDateTime.$error"
+                ng-if="tournamentForm.tournamentStartDateTime.$invalid && ($ctrl.submitted || tournamentForm.tournamentStartDateTime.$dirty)"
+            >
+                <div ng-message="valid">La fecha ingresada no es valida</div>
+                <div ng-message="required">Debe ingresar la fecha de comienzo</div>
+            </div>
+        </md-input-container>
+
+        <br />
         <div
-            ng-messages="tournamentForm.tournamentStartDateTime.$error"
-            ng-if="tournamentForm.tournamentStartDateTime.$invalid && ($ctrl.submitted || tournamentForm.tournamentStartDateTime.$dirty)"
+            layout="row"
+            layout-align="start center"
         >
-            <div ng-message="valid">La fecha ingresada no es valida</div>
-            <div ng-message="required">Debe ingresar la fecha de comienzo</div>
+            <md-button
+                class="md-raised md-primary"
+                type="submit"
+            >Guardar Torneo</md-button>&nbsp;
+            <feedback ng-model="$ctrl.feedbacks.save"></feedback>
         </div>
-    </md-input-container>
+    </form>
 
-    <br />
-    <div
-        layout="row"
-        layout-align="start center"
-    >
-        <md-button
-            class="md-raised md-primary"
-            type="submit"
-        >Guardar Torneo</md-button>&nbsp;
-        <feedback ng-model="$ctrl.feedbacks.save"></feedback>
-    </div>
-</form>
+</div>

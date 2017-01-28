@@ -3,139 +3,193 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { Tournament, Swimmer } from 'app/entities';
 
-export interface IStorage {
-    getCollection<T>(collectionName: string): ng.IPromise<LokiCollection<T>>
+export class Storage {
+  db: Loki;
+  loaded;
 
-    // findAsync(): ng.IPromise<{}>
+  /*@ngInject*/
+  constructor(
+    private $q
+  ) {
+  }
 
-    save(): ng.IPromise<void>;
-}
-
-/*@ngInject*/
-export class Storage implements IStorage {
-    constructor(
-        private $q
-    ) {
-    }
-
-    db: Loki;
-    loaded;
-
-    fileExists(path: string) {
-        try {
-            fs.statSync(this.db.filename)
-
-            return true;
-        } catch (error) {
-            if (error.code === "ENOENT") {
-                return false;
-            }
-
-            throw error;
+  checkFileExistence(fileName: string) {
+    return this.fileExists(fileName)
+      .catch((err: NodeJS.ErrnoException) => {
+        if (err.code === 'ENOENT') {
+          return this.checkDirectory(path.dirname(fileName))
+            .then(() => this.createFile(fileName));
         }
-    }
 
-    init() {
-        var d = this.$q.defer();
+        throw err;
+      });
+  }
 
-        if (this.loaded) {
-            d.resolve();
+  fileExists(fileName: string) {
+    return new Promise((resolve, reject) => {
+      fs.stat(fileName, (err, stats) => {
+        if (err) {
+          reject(err);
         } else {
-            try {
-                this.db = new loki(path.resolve(process.cwd(), 'data', 'app.db'));
+          resolve();
+        }
+      });
+    });
+  }
 
-                if (this.fileExists(this.db.filename)) {
-                    this.db.loadDatabase({}, (error, data) => {
-                        if (error) {
-                            d.reject(error);
-                            return;
-                        }
+  createFile(fileName: string) {
+    return new Promise((resolve, reject) => {
+      fs.open(fileName, 'wx', (err, fd) => {
+        if (err) {
+          reject(err);
+        }
 
-                        this.applyVersions();
+        fs.close(fd, (err2) => {
+          if (err2) {
+            reject(err2);
+          } else {
+            resolve();
+          }
+        });
+      });
+    });
+  }
 
-                        this.loaded = true;
+  checkDirectory(directoryName: string) {
+    return this.directoryExists(directoryName)
+      .catch((err: NodeJS.ErrnoException) => {
+        if (err.code === 'ENOENT') {
+          return this.createDirectory(directoryName);
+        }
 
-                        d.resolve();
-                    });
-                } else {
-                    this.applyVersions();
-                }
-            } catch (error) {
+        throw err;
+      });
+  }
+
+  directoryExists(directoryName: string) {
+    return new Promise((resolve, reject) => {
+      fs.stat(directoryName, (err, stats) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+
+  createDirectory(directoryName) {
+    return new Promise((resolve, reject) => {
+      fs.mkdir(directoryName, (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+
+  init() {
+    const d = this.$q.defer();
+
+    if (this.loaded) {
+      d.resolve();
+    } else {
+      try {
+        this.db = new loki(path.resolve(process.cwd(), 'data', 'app.db'));
+
+        this.checkFileExistence(this.db.filename)
+          .then(() => this.db.loadDatabase({},
+            (error, data) => {
+              if (error) {
                 d.reject(error);
-            }
-        }
+                return;
+              }
 
-        return d.promise;
+              this.applyVersions();
+
+              this.loaded = true;
+
+              d.resolve();
+            }))
+          .catch(err => d.reject(err));
+      } catch (error) {
+        d.reject(error);
+      }
     }
 
-    getCollection<T>(collectionName: string): ng.IPromise<LokiCollection<T>> {
-        return this.init()
-            .then(() => this.db.getCollection<T>(collectionName));
+    return d.promise;
+  }
+
+  getCollection<T>(collectionName: string): ng.IPromise<LokiCollection<T>> {
+    return this.init()
+      .then(() => this.db.getCollection<T>(collectionName));
+  }
+
+  save(): ng.IPromise<void> {
+    return this.init()
+      .then(() => this.db.saveDatabase());
+  }
+
+  applyVersions() {
+    // let currentVersion = 0;
+
+    let dbVersionCollection = this.db.getCollection('dbVersion');
+    let dbVersionData;
+
+    if (!dbVersionCollection) {
+      dbVersionCollection = this.db.addCollection('dbVersion');
+
+      dbVersionData = dbVersionCollection.insert({ version: 1 });
+
+      this.db.saveDatabase();
+    } else {
+      dbVersionData = dbVersionCollection.find()[0];
     }
 
-    save(): ng.IPromise<void> {
-        return this.init()
-            .then(() => this.db.saveDatabase());
+    if (dbVersionData.version < 2) {
+      this.db.addCollection<Tournament>('tournaments', {
+        unique: ['id']
+      });
+
+      dbVersionData.version = 2;
+
+      dbVersionCollection.update(dbVersionData);
+
+      this.db.saveDatabase();
     }
 
-    applyVersions() {
-        // let currentVersion = 0;
+    if (dbVersionData.version < 3) {
+      this.db.addCollection<Tournament>('swimmers', {
+        unique: ['id']
+      });
 
-        let dbVersionCollection = this.db.getCollection('dbVersion');
-        let dbVersionData;
+      dbVersionData.version = 3;
 
-        if (!dbVersionCollection) {
-            dbVersionCollection = this.db.addCollection('dbVersion');
+      dbVersionCollection.update(dbVersionData);
 
-            dbVersionData = dbVersionCollection.insert({ version: 1 });
-
-            this.db.saveDatabase();
-        } else {
-            dbVersionData = dbVersionCollection.find()[0];
-        }
-
-        if (dbVersionData.version < 2) {
-            this.db.addCollection<Tournament>('tournaments', {
-                unique: ['id']
-            });
-
-            dbVersionData.version = 2;
-
-            dbVersionCollection.update(dbVersionData);
-
-            this.db.saveDatabase();
-        }
-
-        if (dbVersionData.version < 3) {
-            this.db.addCollection<Tournament>('swimmers', {
-                unique: ['id']
-            });
-
-            dbVersionData.version = 3;
-
-            dbVersionCollection.update(dbVersionData);
-
-            this.db.saveDatabase();
-        }
-
-        if (dbVersionData.version < 4) {
-            this.db.addCollection<Swimmer>('swimmers', {
-                unique: ['id']
-            });
-
-            dbVersionData.version = 4;
-
-            dbVersionCollection.update(dbVersionData);
-
-            this.db.saveDatabase();
-        }
-
-        // this.db.removeCollection('swimmers');
-
-        // this.db.addCollection('swimmers', {
-        //     unique: ['id']
-        // });
-
-        // this.db.saveDatabase();
+      this.db.saveDatabase();
     }
+
+    if (dbVersionData.version < 4) {
+      this.db.addCollection<Swimmer>('swimmers', {
+        unique: ['id']
+      });
+
+      dbVersionData.version = 4;
+
+      dbVersionCollection.update(dbVersionData);
+
+      this.db.saveDatabase();
+    }
+
+    // this.db.removeCollection('swimmers');
+
+    // this.db.addCollection('swimmers', {
+    //     unique: ['id']
+    // });
+
+    // this.db.saveDatabase();
+  }
 }
