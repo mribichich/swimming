@@ -1,5 +1,5 @@
 // app css
-import * as styles from './category-create.component.css!css-modules';
+import * as styles from './category-create.css!css-modules';
 
 // app js
 import { TournamentService } from 'app/services';

@@ -1,5 +1,7 @@
-'use strict';
+// app css
+import * as styles from './swimmer-create.css!css-modules';
 
+// app js
 import { ISwimmerService } from 'app/services';
 import { IHistoryService } from 'app/services/historyService';
 import { Swimmer } from 'app/entities/swimmer';
@@ -7,149 +9,151 @@ import { SwimmerFactory } from 'app/factories';
 import * as FeedbackLib from 'app/libs/feedbackLib';
 
 class SwimmerCreate {
-    /*@ngInject*/
-    constructor(
-        private swimmerService: ISwimmerService,
-        private $location: ng.ILocationService,
-        private $window,
-        private historyService: IHistoryService,
-        private $q: ng.IQService,
-        private $routeParams
-    ) {
+  styles = styles;
+
+  /*@ngInject*/
+  constructor(
+    private swimmerService: ISwimmerService,
+    private $location: ng.ILocationService,
+    private $window,
+    private historyService: IHistoryService,
+    private $q: ng.IQService,
+    private $routeParams
+  ) {
+  }
+
+  viewAction: string;
+
+  feedbacks = {
+    get: new FeedbackLib.Feedback(),
+    save: new FeedbackLib.Feedback()
+  };
+
+  swimmer: Swimmer;
+  submitted: boolean = false;
+  modelErrors;
+
+  $onInit() {
+    if (!this.$routeParams.id) {
+      this.viewAction = 'Create';
+
+      this.swimmer = SwimmerFactory.Create();
+    } else {
+      this.viewAction = 'Edit';
+
+      this.getSwimmer(this.$routeParams.id);
+    }
+  }
+
+  goBack() {
+    this.$location.path('/swimmers');
+  }
+
+  saveSwimmer(isFormInvalid) {
+    this.submitted = true;
+
+    if (isFormInvalid) {
+      return;
     }
 
-    viewAction: string;
-
-    feedbacks = {
-        get: new FeedbackLib.Feedback(),
-        save: new FeedbackLib.Feedback()
-    };
-
-    swimmer: Swimmer;
-    submitted: boolean = false;
-    modelErrors;
-
-    $onInit() {
-        if (!this.$routeParams.id) {
-            this.viewAction = 'Create';
-
-            this.swimmer = SwimmerFactory.Create();
-        } else {
-            this.viewAction = 'Edit';
-
-            this.getSwimmer(this.$routeParams.id);
-        }
+    if (this.viewAction === 'Create') {
+      this.createSwimmer();
+    } else {
+      this.editSwimmer();
     }
+  }
 
-    goBack() {
-        this.$location.path('/swimmers');
-    }
+  createSwimmer() {
+    this.feedbacks.save.setNone();
+    this.feedbacks.save.isWorking = true;
 
-    saveSwimmer(isFormInvalid) {
-        this.submitted = true;
+    this.swimmerService.create(this.swimmer)
+      .then((data) => this.processCreateSwimmer(data))
+      .catch((data) => this.catchCreateSwimmerError(data))
+      .finally(() => this.finallyCreateSwimmer());
+  }
 
-        if (isFormInvalid) {
-            return;
-        }
+  private processCreateSwimmer(data) {
+    this.feedbacks.save.setSuccess();
 
-        if (this.viewAction === 'Create') {
-            this.createSwimmer();
-        } else {
-            this.editSwimmer();
-        }
-    }
+    // this.alertService.add(TSS.AngularJs.AlertType.success, "El registro se ha guardado correctamente");
 
-    createSwimmer() {
-        this.feedbacks.save.setNone();
-        this.feedbacks.save.isWorking = true;
+    // this.historyService.back([{ key: 'newSwimmerId', value: this.swimmer.id }]);
+    this.goBack();
+  }
 
-        this.swimmerService.create(this.swimmer)
-            .then((data) => this.processCreateSwimmer(data))
-            .catch((data) => this.catchCreateSwimmerError(data))
-            .finally(() => this.finallyCreateSwimmer());
-    }
+  private catchCreateSwimmerError(data) {
+    console.log(data);
 
-    private processCreateSwimmer(data) {
-        this.feedbacks.save.setSuccess();
+    var msg = 'Ha ocurrido un error guardando los datos';
 
-        // this.alertService.add(TSS.AngularJs.AlertType.success, "El registro se ha guardado correctamente");
+    this.modelErrors = data.modelErrors;
 
-        // this.historyService.back([{ key: 'newSwimmerId', value: this.swimmer.id }]);
-        this.goBack();
-    }
+    this.feedbacks.save.setError(msg);
+  }
 
-    private catchCreateSwimmerError(data) {
-        console.log(data);
+  private finallyCreateSwimmer() {
+    this.feedbacks.save.isWorking = false;
+  }
 
-        var msg = 'Ha ocurrido un error guardando los datos';
+  getSwimmer(id: string) {
+    this.feedbacks.get.setNone();
+    this.feedbacks.get.isWorking = true;
 
-        this.modelErrors = data.modelErrors;
+    this.swimmerService.get(id)
+      .then((data) => this.processGetSwimmer(data))
+      .catch((data) => this.catchGetSwimmerError(data))
+      .finally(() => this.finallyGetSwimmer());
+  }
 
-        this.feedbacks.save.setError(msg);
-    }
+  private processGetSwimmer(data) {
+    this.feedbacks.get.setNone();
 
-    private finallyCreateSwimmer() {
-        this.feedbacks.save.isWorking = false;
-    }
+    this.swimmer = data;
+  }
 
-    getSwimmer(id: string) {
-        this.feedbacks.get.setNone();
-        this.feedbacks.get.isWorking = true;
+  private catchGetSwimmerError(data) {
+    var msg = 'Ha ocurrido un error guardando los datos';
 
-        this.swimmerService.get(id)
-            .then((data) => this.processGetSwimmer(data))
-            .catch((data) => this.catchGetSwimmerError(data))
-            .finally(() => this.finallyGetSwimmer());
-    }
+    this.feedbacks.get.setError(msg);
+  }
 
-    private processGetSwimmer(data) {
-        this.feedbacks.get.setNone();
+  private finallyGetSwimmer() {
+    this.feedbacks.get.isWorking = false;
+  }
 
-        this.swimmer = data;
-    }
+  editSwimmer() {
+    this.feedbacks.save.setNone();
+    this.feedbacks.save.isWorking = true;
 
-    private catchGetSwimmerError(data) {
-        var msg = 'Ha ocurrido un error guardando los datos';
+    this.swimmerService.updateInfo(this.swimmer.id, this.swimmer)
+      .then((data) => this.processEditSwimmer(data))
+      .catch((data) => this.catchEditSwimmerError(data))
+      .finally(() => this.finallyEditSwimmer());
+  }
 
-        this.feedbacks.get.setError(msg);
-    }
+  private processEditSwimmer(data) {
+    this.feedbacks.save.setSuccess();
 
-    private finallyGetSwimmer() {
-        this.feedbacks.get.isWorking = false;
-    }
+    // this.alertService.add(TSS.AngularJs.AlertType.success, "El registro se ha guardado correctamente");
 
-    editSwimmer() {
-        this.feedbacks.save.setNone();
-        this.feedbacks.save.isWorking = true;
+    this.goBack();
+  }
 
-        this.swimmerService.updateInfo(this.swimmer.id, this.swimmer)
-            .then((data) => this.processEditSwimmer(data))
-            .catch((data) => this.catchEditSwimmerError(data))
-            .finally(() => this.finallyEditSwimmer());
-    }
+  private catchEditSwimmerError(data) {
+    var msg = 'Ha ocurrido un error guardando los datos';
 
-    private processEditSwimmer(data) {
-        this.feedbacks.save.setSuccess();
+    this.modelErrors = data.modelErrors;
 
-        // this.alertService.add(TSS.AngularJs.AlertType.success, "El registro se ha guardado correctamente");
+    this.feedbacks.save.setError(msg);
+  }
 
-        this.goBack();
-    }
-
-    private catchEditSwimmerError(data) {
-        var msg = 'Ha ocurrido un error guardando los datos';
-
-        this.modelErrors = data.modelErrors;
-
-        this.feedbacks.save.setError(msg);
-    }
-
-    private finallyEditSwimmer() {
-        this.feedbacks.save.isWorking = false;
-    }
+  private finallyEditSwimmer() {
+    this.feedbacks.save.isWorking = false;
+  }
 }
 
 export let swimmerCreate = {
-    templateUrl: 'app/components/swimmer-create/swimmer-create.html',
-    controller: SwimmerCreate
+  templateUrl: 'app/components/swimmer-create/swimmer-create.html',
+  controller: SwimmerCreate
 };
